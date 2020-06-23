@@ -49,7 +49,7 @@ class ArticleController extends Controller
      */
     function Brands()
     {
-        $articles=Brandarticle::withoutGlobalScope(PublishedScope::class)->orderBy('id','desc ')->paginate(30);
+        $articles=Brandarticle::withoutGlobalScope(PublishedScope::class)->orderBy('id','desc')->paginate(30);
         return view('admin.brandarticle',compact('articles'));
     }
     /**品牌文档搜索
@@ -82,7 +82,7 @@ class ArticleController extends Controller
     function BrandCreate()
     {
         $allnavinfos=Arctype::where('is_write',1)->where('topid',0)->where('mid',1)->pluck('typename','id');
-        $provinces=Area::where('parentid','0')->pluck('name_cn','id');
+        $provinces=Area::where('parentid','0')->pluck('regionname','id');
         $investments=InvestmentType::orderBy('id','asc')->pluck('type','id');
         $acreagements=Acreagement::orderBy('id','asc')->pluck('type','id');
         return view('admin.article_brandcreate',compact('allnavinfos','investments','acreagements','provinces'));
