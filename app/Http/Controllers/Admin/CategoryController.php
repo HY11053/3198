@@ -8,6 +8,7 @@ use App\Helpers\UploadImages;
 use App\Http\Requests\StoreCategoryRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 
 class CategoryController extends Controller
 {
@@ -23,14 +24,19 @@ class CategoryController extends Controller
     }
     function Index(){
         $topnavs=Arctype::where('reid',0)->pluck('typename','id');
-        foreach ($topnavs as $key=>$topnav)
+        $recursivestypeinfo = [];
+        $recursivestypeinfos=Cache::remember('recursivestypeinfos_', 60*24, function() use($topnavs,$recursivestypeinfo)
         {
-            if(!empty(Arctype::where('reid',$key)->pluck('typename','id')->toArray()))
+            foreach ($topnavs as $key=>$topnav)
             {
-                $recursivestypeinfos[$key]=$this->GetRecursiveType($key);
+                if(!empty(Arctype::where('reid',$key)->pluck('typename','id')->toArray()))
+                {
+                    $recursivestypeinfos[$key]=$this->GetRecursiveType($key);
+                }
             }
-        }
-        return view('admin.category',compact('topnavs'));
+            return $recursivestypeinfos;
+        });
+        return view('admin.category',compact('topnavs','recursivestypeinfos'));
     }
 
 
@@ -158,7 +164,7 @@ class CategoryController extends Controller
      * @return redirect
      */
     function DeleteCategory(Request $request,$id){
-        
+
         if(empty(Arctype::where('reid',$id)->value('id')))
         {
             Arctype::findOrFail($id)->delete();

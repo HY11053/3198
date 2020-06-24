@@ -22,6 +22,9 @@ class CreateArchivesTable extends Migration
             $table->string('title');
             $table->string('shorttitle')->nullable();
             $table->string('bdname')->nullable();
+            $table->integer('like')->default(0);
+            $table->integer('unlike')->default(0);
+            $table->integer('ptypeid')->default(0);
             $table->string('flags')->nullable();
             $table->string('tags')->nullable();
             $table->integer('mid')->default(0);//文档类型

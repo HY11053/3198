@@ -21,7 +21,6 @@ class CreateBrandarticlesTable extends Migration
             $table->string('title');
             $table->string('flags')->nullable();
             $table->string('tags')->nullable();
-            $table->string('country')->nullable();
             $table->integer('mid');//文档类型
             $table->string('keywords')->nullable();
             $table->string('description')->nullable();
@@ -51,10 +50,6 @@ class CreateBrandarticlesTable extends Migration
             $table->string('brandpsp')->nullable();//品牌特色
             $table->index('brandname');
             $table->index('brandnum');
-            $table->index('brandpay');
-            $table->index('brandattch');
-            $table->index('brandapply');
-            $table->index('brandchat');
             $table->timestamp('published_at')->nullable();//预选发布时间
             $table->timestamps();
         });

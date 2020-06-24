@@ -179,6 +179,8 @@ class ArticleController extends Controller
         if($articleinfos->brandid)
         {
             $thisarticlebrandinfos=Brandarticle::withoutGlobalScope(PublishedScope::class)->where('id',$articleinfos->brandid)->first();
+        }else{
+            $thisarticlebrandinfos=null;
         }
         return view('admin.article_edit',compact('id','articleinfos','allnavinfos','pics','brandnavs','thisarticlebrandinfos'));
     }

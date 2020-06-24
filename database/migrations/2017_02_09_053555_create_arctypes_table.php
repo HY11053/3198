@@ -15,28 +15,34 @@ class CreateArctypesTable extends Migration
     {
         Schema::create('arctypes', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('reid')->default(0);
-            $table->integer('topid')->default(0);
-            $table->integer('sortrank')->nullable();
-            $table->string('typename')->nullable();
-            $table->string('typedir');
+            $table->integer('reid')->default(0)->index();
+            $table->integer('topid')->default(0)->index();
+            $table->integer('sortrank')->nullable()->index();
+            $table->string('typename')->nullable()->index();
+            $table->string('typedir')->index();
             $table->string('title');
-            $table->string('description')->nullable();
             $table->string('keywords')->nullable();
-            $table->smallInteger('dirposition')->default(1);
-            $table->integer('is_write');
-            $table->string('real_path');
-            $table->string('litpic')->nullable();
+            $table->string('description')->nullable();
+            $table->string('dianping')->nullable();
+            $table->string('ktitle');
+            $table->string('kdescription')->nullable();
+            $table->string('kkeywords')->nullable();
+            $table->string('ntitle');
+            $table->string('ndescription')->nullable();
+            $table->string('nkeywords')->nullable();
+            $table->string('ptitle');
+            $table->string('pdescription')->nullable();
+            $table->string('pkeywords')->nullable();
+            $table->smallInteger('dirposition')->default(1)->index();
+            $table->integer('is_write')->index();
+            $table->integer('is_checked')->index();
+            $table->string('real_path')->index();
+            $table->string('litpic')->nullable()->index();
             $table->text('typeimages')->nullable();
             $table->text('contents')->nullable();
-            $table->integer('mid')->default(1);
+            $table->text('link')->nullable();
+            $table->integer('mid')->default(1)->index();
             $table->timestamps();
-            $table->index('reid');
-            $table->index('topid');
-            $table->index('sortrank');
-            $table->index('typename');
-            $table->index('typedir');
-            $table->index('real_path');
         });
     }
 
