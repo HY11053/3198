@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 class Brandarticle extends Model
 {
-    protected $guarded = ['imagepic','xiongzhang','updatetime','image','indexlitpic','input-image'];
+    protected $guarded = ['imagepic','xiongzhang','updatetime','image','indexlitpic','input-image','imagepic'];
 
     /**
      * 文档入库之前的时间格式转换

@@ -28,8 +28,10 @@ class CreateBrandarticlesTable extends Migration
             $table->string('litpic')->nullable();
             $table->smallInteger('dutyadmin');
             $table->text('body')->nullable();
+            $table->text('pds')->nullable();
             $table->string('brandname')->nullable();//品牌名称
             $table->string('brandtime')->nullable();//成立时间
+            $table->string('brandmoshi')->nullable();//品牌发源地
             $table->string('brandorigin')->nullable();//品牌发源地
             $table->string('brandnum')->nullable();//门店总数
             $table->string('brandpay')->nullable();//加盟费用
@@ -42,6 +44,9 @@ class CreateBrandarticlesTable extends Migration
             $table->string('brandgroup')->nullable();//公司名称
             $table->string('brandaddr')->nullable();//公司地址
             $table->string('brandduty')->nullable();//区域授权
+            $table->integer('province_id')->nullable()->index();//所属省份
+            $table->integer('city_id')->nullable()->index();//所属城市
+            $table->integer('area_id')->nullable()->index();//所属区县
             $table->mediumText('imagepics')->nullable();//品牌图集
             $table->string('acreage')->nullable();//所需面积
             $table->string('genre')->nullable();//公司性质

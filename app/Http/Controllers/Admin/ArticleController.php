@@ -193,7 +193,7 @@ class ArticleController extends Controller
     {
         $allnavinfos=Arctype::where('is_write',1)->where('topid',0)->where('mid',1)->pluck('typename','id');
         $pics=explode(',',trim(Brandarticle::withoutGlobalScope(PublishedScope::class)->where('id',$id)->value('imagepics'),','));
-        $provinces=Area::where('parentid','0')->pluck('name_cn','id');
+        $provinces=Area::where('parentid','0')->pluck('regionname','id');
         $articleinfos=Brandarticle::withoutGlobalScope(PublishedScope::class)->findOrfail($id);
         if (auth('admin')->user()->type==5 && $articleinfos->dutyadmin!=auth('admin')->user()->id){
             dd('无权限查看');
