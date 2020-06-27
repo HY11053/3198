@@ -43,10 +43,10 @@ class HelperTools extends Command
      */
     public function handle()
     {
-        //$this->importArctype();
-        //$this->importArticle();
+        $this->importArctype();
+        $this->importArticle();
         $this->importBrandArticle();
-        //$this->importAreas();
+        $this->importAreas();
     }
 
     /**
@@ -163,14 +163,14 @@ class HelperTools extends Command
             $insertarticleinfo['brandtime'] = $extendbrands[0]->cetime;
             $insertarticleinfo['brandaddr'] = $extendbrands[0]->caddress;
             $brandinfo = $this->processContents(json_decode($extendbrands[0]->details, true)['info']);
-            //dd($brandinfo);
+            //dd(json_decode($extendbrands[0]->details));
             $tzhb = mb_strlen(strip_tags($extendbrands[0]->tzhb), 'utf-8') > 100 ? "<h2>{$article->name}投资回报</h2>" . $this->processContents($extendbrands[0]->tzhb) : '';
             $tzfa = mb_strlen(strip_tags($extendbrands[0]->tzfa), 'utf-8') > 100 ? "<h2>{$article->name}加盟优势</h2>" . $this->processContents($extendbrands[0]->tzfa) : '';
             $cgal = mb_strlen(strip_tags($extendbrands[0]->cgal), 'utf-8') > 100 ? "<h2>{$article->name}成功案例</h2>" .$this->processContents( $extendbrands[0]->cgal) : '';
             //$profit=mb_strlen(strip_tags($extendbrands[0]->profit),'utf-8')>100?"<h2>{$article->name}利润分析</h2>".$extendbrands[0]->profit:'';
-            $profit = $this->processContents(json_decode($extendbrands[0]->details, true)['profit']);
+            $profit = "<h2>{$article->name}利润分析</h2>".$this->processContents(json_decode($extendbrands[0]->details, true)['profit']);
             //$join_in=mb_strlen(strip_tags($extendbrands[0]->join_in),'utf-8')>100?"<h2>{$article->name}加盟条件流程</h2>".$extendbrands[0]->join_in:'';
-            $join_in = $this->processContents(json_decode($extendbrands[0]->details, true)['join']);
+            $join_in = "<h2>{$article->name}加盟条件流程</h2>".$this->processContents(json_decode($extendbrands[0]->details, true)['join']);
             $insertarticleinfo['body'] = $brandinfo . $tzhb . $tzfa . $cgal . $profit . $join_in;
             $insertarticleinfo['title'] = str_limit($extendnews = DB::connection('n3198')->select('select * from nx_seos where tid = ? and `type`= ?', [$article->id, 1])[0]->title, 60, '');
             $insertarticleinfo['title'] = $insertarticleinfo['title'] ? $insertarticleinfo['title'] : $insertarticleinfo['brandname'];
