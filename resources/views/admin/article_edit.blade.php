@@ -1,9 +1,7 @@
 @extends('admin.layouts.admin_app')
 @section('title')编辑普通文档@stop
 @section('head')
-    <link href="/adminlte/plugins/summernote/summernote.css" rel="stylesheet">
     <link href="/adminlte/plugins/iCheck/all.css" rel="stylesheet">
-    <link rel="stylesheet" href="/adminlte//plugins/daterangepicker/daterangepicker.css">
     <link rel="stylesheet" href="/adminlte/plugins/datepicker/datepicker3.css">
     <link href="/adminlte/plugins/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet">
     <link href="/adminlte/plugins/select2/select2.min.css" rel="stylesheet">
@@ -146,15 +144,15 @@
                                 </div>
                             @endif
                             <div class="form-group col-md-12 ">
-                                {{Form::label('typeid', '文章所属栏目', array('class' => 'col-sm-2 control-label'))}}
+                                {{Form::label('mid', '文章所属栏目', array('class' => 'col-sm-2 control-label'))}}
                                 <div class="col-md-4">
-                                    {{Form::select('typeid', $allnavinfos, null,array('class'=>'form-control select2'))}}
+                                    {{Form::select('mid', $allnavinfos, null,array('class'=>'form-control select2'))}}
                                 </div>
                             </div>
                             <div class="form-group col-md-12">
                                 {{Form::label('bdname', '所属品牌', array('class' => 'control-label col-md-2 col-sm-3 col-xs-12'))}}
                                 <div class="col-md-4 col-sm-9 col-xs-12">
-                                    {{Form::text('bdname',null, array('class' => 'form-control','id'=>'keywords','placeholder'=>'所属品牌名称'))}}
+                                    {{Form::text('bdname',null, array('class' => 'form-control','id'=>'bdname','placeholder'=>'所属品牌名称'))}}
                                 </div>
                             </div>
                             <div class="form-group col-md-12">
@@ -201,23 +199,6 @@
                             @else
                                 {{Form::hidden('ismake',1 , array('class' => 'form-control col-md-10','id'=>'ismake'))}}
                             @endif
-                            @if($articleinfos->pcshow)
-                                <div class="form-group col-md-12 ">
-                                    {{Form::label('pcshow', 'PC展示', array('class' => 'control-label col-md-2 col-sm-3 col-xs-12'))}}
-                                    <div class="radio col-md-4 col-sm-9 col-xs-12">
-                                        {{Form::radio('pcshow', '1', true,array('class'=>'flat-red','checked'=>'checked'))}} 展示
-                                        {{Form::radio('pcshow', '0', false,array('class'=>'flat-red'))}}不展示
-                                    </div>
-                                </div>
-                            @else
-                                <div class="form-group col-md-12 ">
-                                    {{Form::label('pcshow', 'PC展示', array('class' => 'control-label col-md-2 col-sm-3 col-xs-12'))}}
-                                    <div class="radio col-md-4 col-sm-9 col-xs-12">
-                                        {{Form::radio('pcshow', '1', true,array('class'=>'flat-red'))}} 展示
-                                        {{Form::radio('pcshow', '0', false,array('class'=>'flat-red','checked'=>'checked'))}}不展示
-                                    </div>
-                                </div>
-                            @endif
                         </div>
                         <div class="timeline-footer" style="clear: both"></div>
                     </div>
@@ -242,147 +223,6 @@
                         </div>
                     </div>
                 </li>
-                <!-- END timeline item -->
-      {{--          <!-- timeline item -->
-                <li>
-                    <i class="fa fa-user bg-yellow"></i>
-
-                    <div class="timeline-item">
-                        <span class="time"><i class="fa fa-clock-o"></i> 27 mins ago</span>
-
-                        <h3 class="timeline-header"><a href="#">产品信息</a> 产品信息描述</h3>
-
-                        <div class="timeline-body">
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    {{Form::label('brandname', '品牌名称', array('class' => 'control-label col-md-2 col-sm-3 col-xs-12'))}}
-                                    <div class="col-md-8 col-sm-9 col-xs-12">
-                                        {{Form::text('brandname',null, array('class' => 'form-control col-md-10','id'=>'brandname','disabled'=>'disabled','placeholder'=>'品牌名称'))}}
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-md-6">
-                                    {{Form::label('brandtime', '成立时间', array('class' => 'control-label col-md-2 col-sm-3 col-xs-12'))}}
-                                    <div class="col-md-8 col-sm-9 col-xs-12">
-                                        {{Form::text('brandtime', null, array('class' => 'form-control col-md-10','id'=>'brandtime','disabled'=>'disabled','placeholder'=>'1970-1-1'))}}
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    {{Form::label('brandorigin', '品牌发源地', array('class' => 'control-label col-md-2 col-sm-3 col-xs-12'))}}
-                                    <div class="col-md-8 col-sm-9 col-xs-12">
-                                        {{Form::text('brandorigin', null, array('class' => 'form-control col-md-10','id'=>'brandorigin','disabled'=>'disabled','placeholder'=>'品牌发源地'))}}
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    {{Form::label('brandnum', '门店总数', array('class' => 'control-label col-md-2 col-sm-3 col-xs-12'))}}
-                                    <div class="col-md-8 col-sm-9 col-xs-12">
-                                        {{Form::text('brandnum', null, array('class' => 'form-control col-md-10','id'=>'brandnum','disabled'=>'disabled','placeholder'=>'门店总数'))}}
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    {{Form::label('brandpay', '加盟费用', array('class' => 'control-label col-md-2 col-sm-3 col-xs-12'))}}
-                                    <div class="col-md-8 col-sm-9 col-xs-12">
-                                        {{Form::text('brandpay', null, array('class' => 'form-control col-md-10','id'=>'brandpay','disabled'=>'disabled','placeholder'=>'加盟费用'))}}
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    {{Form::label('brandarea', '加盟区域', array('class' => 'control-label col-md-2 col-sm-3 col-xs-12'))}}
-                                    <div class="col-md-8 col-sm-9 col-xs-12">
-                                        {{Form::text('brandarea', null, array('class' => 'form-control col-md-10','id'=>'brandarea','disabled'=>'disabled','placeholder'=>'加盟区域'))}}
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    {{Form::label('brandmap', '经营范围', array('class' => 'control-label col-md-2 col-sm-3 col-xs-12'))}}
-                                    <div class="col-md-8 col-sm-9 col-xs-12">
-                                        {{Form::text('brandmap', null, array('class' => 'form-control col-md-10','id'=>'brandmap','disabled'=>'disabled','placeholder'=>'经营范围'))}}
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    {{Form::label('brandperson', '加盟人群', array('class' => 'control-label col-md-2 col-sm-3 col-xs-12'))}}
-                                    <div class="col-md-8 col-sm-9 col-xs-12">
-                                        {{Form::text('brandperson', null, array('class' => 'form-control col-md-10','id'=>'brandmap','disabled'=>'disabled','placeholder'=>'加盟人群'))}}
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    {{Form::label('brandattch', '加盟意向人数', array('class' => 'control-label col-md-2 col-sm-3 col-xs-12'))}}
-                                    <div class="col-md-8 col-sm-9 col-xs-12">
-                                        {{Form::text('brandattch', null, array('class' => 'form-control col-md-10','id'=>'brandattch','disabled'=>'disabled','placeholder'=>'加盟意向人数'))}}
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    {{Form::label('brandapply', '项目收藏人数', array('class' => 'control-label col-md-2 col-sm-3 col-xs-12'))}}
-                                    <div class="col-md-8 col-sm-9 col-xs-12">
-                                        {{Form::text('brandapply', null, array('class' => 'form-control col-md-10','id'=>'brandapply','disabled'=>'disabled','placeholder'=>'项目收藏人数'))}}
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    {{Form::label('brandchat', '加盟意向人数', array('class' => 'control-label col-md-2 col-sm-3 col-xs-12'))}}
-                                    <div class="col-md-8 col-sm-9 col-xs-12">
-                                        {{Form::text('brandchat', null, array('class' => 'form-control col-md-10','id'=>'brandchat','disabled'=>'disabled','placeholder'=>'加盟意向人数'))}}
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    {{Form::label('brandgroup', '公司名称', array('class' => 'control-label col-md-2 col-sm-3 col-xs-12'))}}
-                                    <div class="col-md-8 col-sm-9 col-xs-12">
-                                        {{Form::text('brandgroup', null, array('class' => 'form-control col-md-10','id'=>'brandgroup','disabled'=>'disabled','placeholder'=>'公司名称'))}}
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-md-6">
-                                    {{Form::label('brandaddr', '公司地址', array('class' => 'control-label col-md-2 col-sm-3 col-xs-12'))}}
-                                    <div class="col-md-8 col-sm-9 col-xs-12">
-                                        {{Form::text('brandaddr', null, array('class' => 'form-control col-md-10','id'=>'brandaddr','disabled'=>'disabled','placeholder'=>'公司地址'))}}
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    {{Form::label('brandduty', '是否区域授权', array('class' => 'control-label col-md-2 col-sm-3 col-xs-12'))}}
-                                    <div class="col-md-8 col-sm-9 col-xs-12">
-                                        {{Form::text('brandduty', null, array('class' => 'form-control col-md-10','id'=>'brandduty','disabled'=>'disabled','placeholder'=>'是否区域授权'))}}
-                                        {{Form::hidden('mid', '0', array('class' => 'form-control col-md-10','id'=>'mid'))}}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="timeline-footer">
-                            <a class="btn btn-warning btn-flat btn-xs">View comment</a>
-                        </div>
-                    </div>
-                </li>
-                <!-- END timeline item -->
-                <!-- timeline time label -->
-                <li class="time-label">
-                  <span class="bg-green">
-                   {{date("M j, Y")}}
-                  </span>
-                </li>
-                <!-- /.timeline-label -->
-                <!-- timeline item -->
-                <li>
-                    <i class="fa fa-camera bg-purple"></i>
-
-                    <div class="timeline-item">
-                        <span class="time"><i class="fa fa-clock-o"></i> {{date('j, n,y')}}</span>
-                        <h3 class="timeline-header"><a href="#">图集处理</a> 批量上传图集</h3>
-                        <div class="timeline-body">
-                            {{Form::file('image', array('name'=>'input-image','class' => 'file-loading','id'=>'input-image-1', 'multiple','accept'=>'image/*'))}}
-                            <div id="kv-success-modal" class="modal fade">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            <h4 class="modal-title">图片上传成功</h4>
-                                        </div>
-                                        <div id="kv-success-box" class="modal-body">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {{Form::hidden('imagepics', null,array('id'=>'imagepics'))}}
-                        </div>
-                    </div>
-                </li>
-                <!-- END timeline item -->--}}
-                <!-- timeline item -->
                 <li>
                     <i class="fa fa-file-text bg-maroon"></i>
                     <div class="timeline-item">
@@ -432,12 +272,12 @@
             $('.select2').select2({language: "zh-CN"});
             @if($articleinfos->brandid && isset($thisarticlebrandinfos->id))
             $("#brandcid").select2().val({{$thisarticlebrandinfos->arctype->reid}}).trigger("change");
-            getThissonTypes("/admin/getsontypes",{"topid":$("#brandcid").select2("val")},"#brandtypeid");
-            $("#brandcid").on("change",function(){getsonTypes("/admin/getsontypes",{"topid":$("#brandcid").select2("val")},"#brandtypeid")});
+            getThissonTypes("/admin/getsontypes",{"reid":$("#brandcid").select2("val")},"#brandtypeid");
+            $("#brandcid").on("change",function(){getsonTypes("/admin/getsontypes",{"reid":$("#brandcid").select2("val")},"#brandtypeid")});
             $("#brandtypeid").on("change",function(){getBdname('/admin/getbdname',{"typeid":$("#brandtypeid").select2("val")},"#brandid")});
             @else
-            getsonTypes("/admin/getsontypes",{"topid":$("#brandcid").select2("val")},"#brandtypeid");
-            $("#brandcid").on("change",function(){getsonTypes("/admin/getsontypes",{"topid":$("#brandcid").select2("val")},"#brandtypeid")});
+            getsonTypes("/admin/getsontypes",{"reid":$("#brandcid").select2("val")},"#brandtypeid");
+            $("#brandcid").on("change",function(){getsonTypes("/admin/getsontypes",{"reid":$("#brandcid").select2("val")},"#brandtypeid")});
             $("#brandtypeid").on("change",function(){getBdname('/admin/getbdname',{"typeid":$("#brandtypeid").select2("val")},"#brandid")});
             @endif
             $('#datepicker').datepicker({autoclose: true,language: 'zh-CN',todayHighlight: true });

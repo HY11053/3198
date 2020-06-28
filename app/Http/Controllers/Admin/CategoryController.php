@@ -217,5 +217,15 @@ class CategoryController extends Controller
         }
         return $relapath;
     }
+
+    /**获取当前栏目子栏目
+     * @param Request $request
+     * @return mixed
+     */
+    public function GetSontypes(Request $request)
+    {
+        $sontypes=Arctype::where('reid',$request->reid)->pluck('typename','id');
+        return $sontypes;
+    }
 }
 

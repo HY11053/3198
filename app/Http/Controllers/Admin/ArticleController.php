@@ -9,12 +9,12 @@ use App\AdminModel\Arctype;
 use App\AdminModel\Area;
 use App\AdminModel\Brandarticle;
 use App\AdminModel\InvestmentType;
+use App\AdminModel\KnowedgeNew;
 use App\Events\ArticleCacheCreateEvent;
 use App\Events\ArticleCacheDeleteEvent;
 use App\Events\BaiduCurlLinkSubmitEvent;
 use App\Events\BrandArticleCacheCreateEvent;
 use App\Events\BrandArticleCacheDeleteEvent;
-use App\Events\BrandPatmentEvent;
 use App\Events\BrandProvinceEvent;
 use App\Http\Requests\CreateArticleRequest;
 use App\Helpers\UploadImages;
@@ -52,6 +52,11 @@ class ArticleController extends Controller
         $articles=Brandarticle::withoutGlobalScope(PublishedScope::class)->orderBy('id','desc')->paginate(30);
         return view('admin.brandarticle',compact('articles'));
     }
+
+    public function KnowLedges(){
+        $articles = KnowedgeNew::withoutGlobalScope(PublishedScope::class)->orderBy('id','desc')->paginate(30);
+        return view('admin.knowledges',compact('articles'));
+    }
     /**品牌文档搜索
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -71,17 +76,24 @@ class ArticleController extends Controller
      */
     function Create()
     {
-        $brandnavs=Arctype::where('is_write',1)->where('topid',0)->where('mid',1)->pluck('typename','id');
-        $allnavinfos=Arctype::where('is_write',1)->where('mid',0)->pluck('typename','id');
+        $brandnavs=Arctype::where('is_write',1)->where('reid',0)->where('mid',1)->pluck('typename','id');
+        $allnavinfos=[1=>'新闻',2=>'问答'];
         return view('admin.article_create',compact('allnavinfos','brandnavs'));
     }
-
+    /**普通文档创建
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    function KnowLedgeCreate()
+    {
+        $brandnavs=Arctype::where('is_write',1)->where('reid',0)->where('mid',1)->pluck('typename','id');
+        return view('admin.Knowledge_create',compact('brandnavs'));
+    }
     /**品牌文档创建
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     function BrandCreate()
     {
-        $allnavinfos=Arctype::where('is_write',1)->where('topid',0)->where('mid',1)->pluck('typename','id');
+        $allnavinfos=Arctype::where('is_write',1)->where('reid',0)->where('mid',1)->pluck('typename','id');
         $provinces=Area::where('parentid','0')->pluck('regionname','id');
         $investments=InvestmentType::orderBy('id','asc')->pluck('type','id');
         $acreagements=Acreagement::orderBy('id','asc')->pluck('type','id');
@@ -127,6 +139,45 @@ class ArticleController extends Controller
         }
     }
 
+    /**知识文档创建提交数据处理
+     * @param CreateArticleRequest $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    function PostKnowLedgeCreate(CreateArticleRequest $request)
+    {
+        if(KnowedgeNew::withoutGlobalScope(PublishedScope::class)->where('title',$request->title)->value('id'))
+        {
+            exit('标题重复，禁止发布');
+        }
+        if ($request->brandid)
+        {
+            $brandinfo=Brandarticle::withoutGlobalScope(PublishedScope::class)->where('id',$request->brandid)->first(['brandname','id','published_at']);
+            if (isset($brandinfo->brandname))
+            {
+                $request['bdname']=$brandinfo->brandname;
+                if (isset($brandinfo->published_at) && Carbon::parse($brandinfo->published_at)>Carbon::now())
+                {
+                    $request['published_at']=Carbon::parse($brandinfo->published_at)->addMinutes(rand(1,300))->addSeconds(rand(1,59));
+                }
+            }
+        }
+        $request['origin_time']= Carbon::now();
+        $this->RequestProcess($request);
+        if (KnowedgeNew::create($request->all())->wasRecentlyCreated)
+        {
+            Log::info($request['write'].'=>'.$request['title'].'=>'.Carbon::now());
+            $thisarticle=KnowedgeNew::withoutGlobalScope(PublishedScope::class)->orderBy('id','desc')->first();
+            //已审核，预选发布时间小于当前时间
+            if ($thisarticle->published_at<Carbon::now() && $thisarticle->ismake ==1)
+            {
+                /*$thisarticleurl=config('app.url').'/article/'.$thisarticle->id.'.html';
+                event(new ArticleCacheCreateEvent($thisarticle));
+                event(new BaiduCurlLinkSubmitEvent($thisarticleurl,'实时发布',$thisarticle->xiongzhang,$thisarticle->id));*/
+            }
+            return redirect(action('Admin\ArticleController@KnowLedges'));
+        }
+    }
+
     /**
      * 品牌文档提交处理
      * @param CreateBrandArticleRequest $request
@@ -150,8 +201,6 @@ class ArticleController extends Controller
         {
             Log::info($request['write'].'=>'.$request['title'].'=>'.Carbon::now());
             $thisarticle=Brandarticle::withoutGlobalScope(PublishedScope::class)->orderBy('id','desc')->first();
-            event(new BrandProvinceEvent($thisarticle));
-            event(new BrandPatmentEvent($thisarticle));
             //已审核并且预选发布时间小于当前时间
             if ($thisarticle->published_at<Carbon::now() && $thisarticle->ismake ==1)
             {
@@ -173,8 +222,8 @@ class ArticleController extends Controller
         if (auth('admin')->user()->type==5 && $articleinfos->dutyadmin!=auth('admin')->user()->id){
             dd('无权限查看');
         }
-        $allnavinfos=Arctype::where('is_write',1)->where('mid',0)->pluck('typename','id');
-        $brandnavs=Arctype::where('is_write',1)->where('topid',0)->where('mid',1)->pluck('typename','id');
+        $allnavinfos=[1=>'新闻',2=>'问答'];
+        $brandnavs=Arctype::where('is_write',1)->where('reid',0)->where('mid',1)->pluck('typename','id');
         $pics=explode(',',trim(Archive::withoutGlobalScope(PublishedScope::class)->where('id',$id)->value('imagepics'),','));
         if($articleinfos->brandid)
         {
@@ -185,25 +234,38 @@ class ArticleController extends Controller
         return view('admin.article_edit',compact('id','articleinfos','allnavinfos','pics','brandnavs','thisarticlebrandinfos'));
     }
 
+
+
+    /**知识文档文档编辑
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    function KnowLedgeEdit($id)
+    {
+        $articleinfos=KnowedgeNew::withoutGlobalScope(PublishedScope::class)->findOrfail($id);
+        if (auth('admin')->user()->type==5 && $articleinfos->dutyadmin!=auth('admin')->user()->id){
+            dd('无权限查看');
+        }
+        $brandnavs=Arctype::where('is_write',1)->where('reid',0)->where('mid',1)->pluck('typename','id');
+        $pics=explode(',',trim(Archive::withoutGlobalScope(PublishedScope::class)->where('id',$id)->value('imagepics'),','));
+        if($articleinfos->brandid)
+        {
+            $thisarticlebrandinfos=Brandarticle::withoutGlobalScope(PublishedScope::class)->where('id',$articleinfos->brandid)->first();
+        }else{
+            $thisarticlebrandinfos=null;
+        }
+        return view('admin.knowledge_edit',compact('id','articleinfos','pics','brandnavs','thisarticlebrandinfos'));
+    }
     /**品牌文档更新
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function BrandEdit($id)
     {
-        $allnavinfos=Arctype::where('is_write',1)->where('topid',0)->where('mid',1)->pluck('typename','id');
+        $allnavinfos=Arctype::where('is_write',1)->where('reid',0)->where('mid',1)->pluck('typename','id');
         $pics=explode(',',trim(Brandarticle::withoutGlobalScope(PublishedScope::class)->where('id',$id)->value('imagepics'),','));
         $provinces=Area::where('parentid','0')->pluck('regionname','id');
         $articleinfos=Brandarticle::withoutGlobalScope(PublishedScope::class)->findOrfail($id);
-        if (auth('admin')->user()->type==5 && $articleinfos->dutyadmin!=auth('admin')->user()->id){
-            dd('无权限查看');
-        }
-        /**
-         * if ($articleinfos->dutyadmin==1 && $articleinfos->editor_id==0 &&  Admin::where('id',auth('admin')->id())->value('type')==0)
-        {
-        exit('文档未领取,不能直接编辑');
-        }
-         */
         if ($articleinfos->editor_id!=0 && $articleinfos->editor_id !=auth('admin')->id() &&  Admin::where('id',auth('admin')->id())->value('type')==0)
         {
             exit('文档不属于当前用户或您不是管理员，不能编辑');
@@ -271,6 +333,64 @@ class ArticleController extends Controller
         return redirect(action('Admin\ArticleController@Index'));
     }
 
+
+    /**知识文档编辑提交处理
+     * @param CreateArticleRequest $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    function PostKnowLedgeEdit(CreateArticleRequest $request,$id)
+    {
+        if ($request->brandid)
+        {
+            $brandinfo=Brandarticle::withoutGlobalScope(PublishedScope::class)->where('id',$request->brandid)->first(['brandname','id','published_at']);
+            if (isset($brandinfo->brandname))
+            {
+                $request['bdname']=$brandinfo->brandname;
+                /*if (isset($brandinfo->published_at) && Carbon::parse($brandinfo->published_at)>Carbon::now())
+                {
+                    $request['published_at']=Carbon::parse($brandinfo->published_at)->addMinutes(rand(1,300))->addSeconds(rand(1,59));
+                }*/
+            }
+        }
+        $this->RequestProcess($request);
+        $thisarticleinfos=KnowedgeNew::withoutGlobalScope(PublishedScope::class)->findOrFail($id);
+        $request['write']=$thisarticleinfos->write;
+        $request['dutyadmin']=$thisarticleinfos->dutyadmin;
+        //未审核状态转已审核状态 发布时间小于当前时间
+        if ($thisarticleinfos->ismake!=1 && $request->ismake==1 && Carbon::parse($request->published_at) < Carbon::now()){
+            $request['created_at']=Carbon::now();
+            $request['published_at']=Carbon::now();
+            $request['origin_time']= Carbon::now();
+            KnowedgeNew::withoutGlobalScope(PublishedScope::class)->findOrFail($id)->update($request->all());
+            /*$thisarticle=KnowedgeNew::withoutGlobalScope(PublishedScope::class)->where('id',$thisarticleinfos->id)->first();
+            $thisarticleurl=config('app.url').'/article/'.$thisarticle->id.'.html';
+            event(new ArticleCacheCreateEvent($thisarticle));
+            event(new BaiduCurlLinkSubmitEvent($thisarticleurl,'编辑审核后发布',$thisarticle->xiongzhang,$thisarticle->id));*/
+        }
+        //未审核状态转已审核状态 发布时间大于当前时间
+        elseif ($thisarticleinfos->ismake!=1 && $request->ismake==1 && Carbon::parse($request->published_at) > Carbon::now()){
+            if (strpos($request->published_at,':')==false){
+                $request['published_at']=Carbon::parse($request->published_at)->addHours(Carbon::now()->hour)->addMinutes(Carbon::now()->minute)->addSeconds(Carbon::now()->second);
+            }
+            $request['created_at']= Carbon::parse($request->published_at);
+            $request['origin_time']= Carbon::now();
+            KnowedgeNew::withoutGlobalScope(PublishedScope::class)->findOrFail($id)->update($request->all());
+        }
+        //已审核状态，发布时间大于当前时间
+        elseif($thisarticleinfos->ismake ==1 && $request->ismake==1 && Carbon::parse($request->published_at) > Carbon::now()){
+            if (strpos($request->published_at,':')==false){
+                $request['published_at']=Carbon::parse($request->published_at)->addHours(Carbon::now()->hour)->addMinutes(Carbon::now()->minute)->addSeconds(Carbon::now()->second);
+            }
+            $request['created_at']= Carbon::parse($request->published_at);
+            KnowedgeNew::withoutGlobalScope(PublishedScope::class)->findOrFail($id)->update($request->all());
+        }else{
+            KnowedgeNew::withoutGlobalScope(PublishedScope::class)->findOrFail($id)->update($request->all());
+            /*$thisarticle=Archive::withoutGlobalScope(PublishedScope::class)->where('id',$thisarticleinfos->id)->first();
+            event(new ArticleCacheCreateEvent($thisarticle));*/
+        }
+        return redirect(action('Admin\ArticleController@KnowLedges'));
+    }
     /**品牌文档编辑提交处理
      * @param CreateBrandArticleRequest $request
      * @param $id
@@ -296,9 +416,7 @@ class ArticleController extends Controller
             $thisarticle=Brandarticle::withoutGlobalScope(PublishedScope::class)->where('id',$thisarticleinfos->id)->first();
             $thisarticleurl=config('app.url').'/xiangmu/'.$thisarticle->id.'.html';
             event(new BrandArticleCacheCreateEvent($thisarticle));
-            event(new BrandPatmentEvent($thisarticle));
             event(new BaiduCurlLinkSubmitEvent($thisarticleurl,'品牌编辑审核后发布',$thisarticle->xiongzhang,$thisarticle->id));
-            event(new BrandProvinceEvent($thisarticleinfos));
         }
         //未审核状态转已审核状态 发布时间大于当前时间
         elseif ($thisarticleinfos->ismake!=1 && $request->ismake==1 && Carbon::parse($request->published_at) > Carbon::now()){
@@ -321,7 +439,6 @@ class ArticleController extends Controller
             Brandarticle::withoutGlobalScope(PublishedScope::class)->findOrFail($id)->update($request->all());
             $thisarticle=Brandarticle::withoutGlobalScope(PublishedScope::class)->where('id',$thisarticleinfos->id)->first();
             event(new BrandArticleCacheCreateEvent($thisarticle));
-            event(new BrandPatmentEvent($thisarticle));
         }
         return redirect(action('Admin\ArticleController@Brands'));
     }
@@ -431,7 +548,14 @@ class ArticleController extends Controller
         return view('admin.brandarticle',compact('articles'));
     }
 
-
+    /**当前用户发布的知识文档
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    function OwnerKnowledgeShip()
+    {
+        $articles = KnowedgeNew::withoutGlobalScope(PublishedScope::class)->where('dutyadmin',auth('admin')->user()->id)->latest()->paginate(30);
+        return view('admin.knowledges',compact('articles'));
+    }
     /**等待审核的文档
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -448,7 +572,14 @@ class ArticleController extends Controller
         $articles = Brandarticle::withoutGlobalScope(PublishedScope::class)->where('ismake','<>',1)->latest()->paginate(30);
         return view('admin.brandarticle',compact('articles'));
     }
-
+    /**等待审核的知识文档
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    function PendingAuditKnowledge()
+    {
+        $articles = KnowedgeNew::withoutGlobalScope(PublishedScope::class)->where('ismake','<>',1)->latest()->paginate(30);
+        return view('admin.knowledges',compact('articles'));
+    }
 
     /**等待发布的文档
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -476,6 +607,14 @@ class ArticleController extends Controller
         return view('admin.brandarticle',compact('articles'));
     }
 
+    /**待发布的品牌
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function PedingKnowledges()
+    {
+        $articles = KnowedgeNew::withoutGlobalScope(PublishedScope::class)->where('published_at','>',Carbon::now())->paginate(30);
+        return view('admin.knowledges',compact('articles'));
+    }
     /**普通文档删除
      * @param $id
      * @return string
@@ -495,6 +634,24 @@ class ArticleController extends Controller
         }
     }
 
+    /**知识文档删除
+     * @param $id
+     * @return string
+     */
+    function DeleteKnowLedgeArticle($id)
+    {
+        if (Admin::where('id',auth('admin')->id())->value('type')==5){
+            exit('禁止删除');
+        }
+        if(auth('admin')->user()->id)
+        {
+            //event(new ArticleCacheDeleteEvent(Archive::withoutGlobalScope(PublishedScope::class)->where('id',$id)->first()));
+            KnowedgeNew::withoutGlobalScope(PublishedScope::class)->where('id',$id)->delete();
+            return '删除成功 跳转中 请稍后';
+        }else{
+            return '无权限执行此操作！跳转中 请稍后';
+        }
+    }
     /**品牌文档删除
      * @param $id
      * @return string
@@ -573,9 +730,14 @@ class ArticleController extends Controller
      */
     public function GetAreas(Request $request)
     {
-        $citys=Area::where('parentid',$request->province_id)->pluck('name_cn','id');
+        $citys=Area::where('parentid',$request->province_id)->pluck('regionname','id');
         return $citys;
     }
+
+    /**获取品牌分类
+     * @param Request $request
+     * @return mixed
+     */
     public function GetBdnames(Request $request)
     {
         $brandnames=Brandarticle::withoutGlobalScope(PublishedScope::class)->where('ismake',1)->where('typeid',$request->typeid)->pluck('brandname','id')->toArray();
@@ -607,4 +769,5 @@ class ArticleController extends Controller
         }
         return $title;
     }
+
 }

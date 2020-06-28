@@ -2,7 +2,6 @@
 @section('title')品牌文档编辑@stop
 @section('head')
     <link href="/adminlte/plugins/iCheck/all.css" rel="stylesheet">
-    <link rel="stylesheet" href="/adminlte//plugins/daterangepicker/daterangepicker.css">
     <link rel="stylesheet" href="/adminlte/plugins/datepicker/datepicker3.css">
     <link href="/adminlte/plugins/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet">
     <link href="/adminlte/plugins/select2/select2.min.css" rel="stylesheet">
@@ -98,7 +97,7 @@
                                 </div>
                             </div>
                             <div class="form-group col-md-12">
-                                {{Form::label('topid', '品牌所属大类', array('class' => 'col-sm-2 control-label'))}}
+                                {{Form::label('topid', '品牌所属父类', array('class' => 'col-sm-2 control-label'))}}
                                 <div class="col-md-4">
                                     {{Form::select('topid', $allnavinfos, null,array('class'=>'form-control select2' ,'id'=>'topid'))}}
                                 </div>
@@ -109,7 +108,7 @@
                                     {{Form::select('typeid', [], null,array('class'=>'form-control select2'))}}
                                 </div>
                             </div>
-                            <div class="form-group col-md-12 ">
+                            {{--<div class="form-group col-md-12 ">
                                 {{Form::label('isedit', '修改状态', array('class' => 'control-label col-md-2 col-sm-3 col-xs-12'))}}
                                 <div class="radio col-md-4 col-sm-9 col-xs-12">
                                     @if($articleinfos->isedit)
@@ -120,7 +119,7 @@
                                         {{Form::radio('isedit', '0', false,array('class'=>'flat-red','checked'=>'checked'))}}未修改
                                     @endif
                                 </div>
-                            </div>
+                            </div>--}}
                             <div class="form-group col-md-12">
                                 {{Form::label('description', '文档描述', array('class' => 'control-label col-md-2 col-sm-3 col-xs-12'))}}
                                 <div class="col-md-4 col-sm-9 col-xs-12">
@@ -169,11 +168,11 @@
                             <div class="form-group col-md-12">
                                 {{Form::label('click', '排序权重', array('class' => 'control-label col-md-2 col-sm-3 col-xs-12'))}}
                                 <div class="col-md-4 col-sm-9 col-xs-12">
-                                    {{Form::text('click',null, array('class' => 'form-control','id'=>'keywords','placeholder'=>'排序权重'))}}
+                                    {{Form::text('click',null, array('class' => 'form-control','id'=>'click','placeholder'=>'排序权重'))}}
                                     <span class="help-block" style="color: yellowgreen" ><i class="fa fa-bell-o"></i> 排序权重数据指数取自点击量click。如需对列表分页内容中品牌调用排序调整，请调整此数值，越大排序越靠前</span>
                                 </div>
                             </div>
-                            @if($articleinfos->pcshow)
+                            {{--@if($articleinfos->pcshow)
                                 <div class="form-group col-md-12 ">
                                     {{Form::label('pcshow', 'PC展示', array('class' => 'control-label col-md-2 col-sm-3 col-xs-12'))}}
                                     <div class="radio col-md-4 col-sm-9 col-xs-12">
@@ -189,7 +188,7 @@
                                         {{Form::radio('pcshow', '0', false,array('class'=>'flat-red','checked'=>'checked'))}}不展示
                                     </div>
                                 </div>
-                            @endif
+                            @endif--}}
                         </div>
                         <div class="timeline-footer" style="clear: both"></div>
                     </div>
@@ -226,7 +225,7 @@
                             </div>
                             <div class="col-md-8 col-sm-12 col-xs-12">
                                 {{Form::file('indexlitpic', array('class' => 'file col-md-10','id'=>'input-3','data-show-upload'=>"false",'data-show-caption'=>"true",'accept'=>'image/*'))}}
-                                {{Form::hidden('indexpic',null , array('class' => 'form-control col-md-10','id'=>'litpic'))}}
+                                {{Form::hidden('indexpic',null , array('class' => 'form-control col-md-10','id'=>'indexpic'))}}
                             </div>
                             <div style="clear: both"></div>
                         </div>
@@ -317,7 +316,7 @@
                                 <div class="form-group col-md-6">
                                     {{Form::label('brandperson', '加盟人群', array('class' => 'control-label col-md-2 col-sm-3 col-xs-12'))}}
                                     <div class="col-md-8 col-sm-9 col-xs-12">
-                                        {{Form::text('brandperson', null, array('class' => 'form-control col-md-10','id'=>'brandmap','placeholder'=>'加盟人群', 'autocomplete'=>"off"))}}
+                                        {{Form::text('brandperson', null, array('class' => 'form-control col-md-10','id'=>'brandperson','placeholder'=>'加盟人群', 'autocomplete'=>"off"))}}
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
@@ -441,10 +440,10 @@
     <script>
         $(function () {
             $('.select2').select2({language: "zh-CN"});
-            $("#topid").select2().val({{$articleinfos->arctype->topid}}).trigger("change");
-            getsonTypes("/admin/getsontypes",{"topid":$("#topid").select2("val")},"#typeid",{{$articleinfos->typeid}});
+            $("#topid").select2().val({{$articleinfos->arctype->reid}}).trigger("change");
+            getsonTypes("/admin/getsontypes",{"reid":$("#topid").select2("val")},"#typeid",{{$articleinfos->typeid}});
             getsonTypes("/admin/getareas",{"province_id":$("#province_id").select2("val")},"#city_id",{{$articleinfos->city_id}});
-            $("#topid").on("change",function(){getsonTypes("/admin/getsontypes",{"topid":$("#topid").select2("val")},"#typeid")});
+            $("#topid").on("change",function(){getsonTypes("/admin/getsontypes",{"reid":$("#topid").select2("val")},"#typeid")});
             $("#province_id").on("change",function(){getsonTypes("/admin/getareas",{"province_id":$("#province_id").select2("val")},"#city_id")});
             $('#datepicker').datepicker({ autoclose: true, language: 'zh-CN',todayHighlight: true});
             //Flat red color scheme for iCheck

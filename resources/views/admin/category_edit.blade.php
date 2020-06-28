@@ -2,7 +2,6 @@
 @section('title')  网站栏目管理_更改栏目 @stop
 @section('head')
     <link href="/adminlte/plugins/iCheck/all.css" rel="stylesheet">
-    <link href="/adminlte/plugins/summernote/summernote.css" rel="stylesheet">
     <link href="/adminlte/plugins/iCheck/all.css" rel="stylesheet">
     <link href="/adminlte/plugins/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet">
 @stop
@@ -111,6 +110,62 @@
                                 {{Form::radio('is_write', '1', true,array('class'=>"flat-red"))}} 允许
                                 {{Form::radio('is_write', '0',false,array('class'=>"flat-red",'checked'=>'checked'))}} 不允许
                                 @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            {{Form::label('ktitle', '知识分类标题', array('class' => 'col-sm-2 control-label'))}}
+                            <div class="col-sm-5">
+                                {{Form::text('ktitle', null, array('class' => 'form-control','id'=>'ktitle','placeholder'=>'知识分类标题'))}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('kkeywords', '知识分类关键字', array('class' => 'col-sm-2 control-label'))}}
+                            <div class="col-sm-5">
+                                {{Form::text('kkeywords', null, array('class' => 'form-control','id'=>'kkeywords','placeholder'=>'知识分类关键字'))}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('kdescription', '知识分类描述', array('class' => 'col-sm-2 control-label'))}}
+                            <div class="col-sm-5">
+                                {{Form::textarea('kdescription',null, array('class' => 'form-control','id'=>'kdescription','placeholder'=>'知识分类描述','cols'=>'','rows'=>''))}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('ntitle', '新闻分类标题', array('class' => 'col-sm-2 control-label'))}}
+                            <div class="col-sm-5">
+                                {{Form::text('ntitle', null, array('class' => 'form-control','id'=>'ntitle','placeholder'=>'新闻分类标题'))}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('nkeywords', '新闻分类关键字', array('class' => 'col-sm-2 control-label'))}}
+                            <div class="col-sm-5">
+                                {{Form::text('nkeywords', null, array('class' => 'form-control','id'=>'nkeywords','placeholder'=>'新闻分类关键字'))}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('ndescription', '新闻分类描述', array('class' => 'col-sm-2 control-label'))}}
+                            <div class="col-sm-5">
+                                {{Form::textarea('ndescription', null, array('class' => 'form-control','id'=>'ndescription','placeholder'=>'新闻分类描述','cols'=>'','rows'=>''))}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('ptitle', '排行分类标题', array('class' => 'col-sm-2 control-label'))}}
+                            <div class="col-sm-5">
+                                {{Form::text('ptitle', null, array('class' => 'form-control','id'=>'ntitle','placeholder'=>'排行分类标题'))}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('pkeywords', '新闻分类关键字', array('class' => 'col-sm-2 control-label'))}}
+                            <div class="col-sm-5">
+                                {{Form::text('pkeywords',null, array('class' => 'form-control','id'=>'pkeywords','placeholder'=>'排行分类关键字'))}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('pdescription', '新闻分类描述', array('class' => 'col-sm-2 control-label'))}}
+                            <div class="col-sm-5">
+                                {{Form::textarea('pdescription', null, array('class' => 'form-control','id'=>'pdescription','placeholder'=>'排行分类描述','cols'=>'','rows'=>''))}}
+
                             </div>
                         </div>
 
@@ -239,6 +294,7 @@
             uploadUrl: "/admin/upload/images",
             uploadAsync: true,
             minFileCount: 1,
+            language: 'zh',
             maxFileCount: 6,
             overwriteInitial: false,
             initialPreview: [
@@ -247,8 +303,6 @@
                     "{{$pic}}",
                 // IMAGE DATA
                 @endforeach
-
-
             ],
             initialPreviewAsData: true, // identify if you are sending preview data only and not the raw markup
             initialPreviewFileType: 'image', // image is the default and can be overridden in config below

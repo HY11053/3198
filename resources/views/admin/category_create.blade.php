@@ -56,14 +56,14 @@
                         <div class="form-group">
                             {{Form::label('sortrank', '栏目排序', array('class' => 'col-sm-2 control-label'))}}
                             <div class="col-sm-5">
-                                {{Form::text('sortrank', '', array('class' => 'form-control','id'=>'sortrank','placeholder'=>'栏目排序'))}}
+                                {{Form::text('sortrank', null, array('class' => 'form-control','id'=>'sortrank','placeholder'=>'栏目排序'))}}
                             </div>
                         </div>
 
                         <div class="form-group">
                             {{Form::label('description', '栏目描述', array('class' => 'col-sm-2 control-label'))}}
                             <div class="col-sm-5">
-                                {{Form::textarea('description', '', array('class' => 'form-control','id'=>'description','placeholder'=>'栏目描述','cols'=>'','rows'=>''))}}
+                                {{Form::textarea('description', null, array('class' => 'form-control','id'=>'description','placeholder'=>'栏目描述','cols'=>'','rows'=>''))}}
 
                             </div>
                         </div>
@@ -80,14 +80,14 @@
                         <div class="form-group">
                             {{Form::label('title', '栏目标题', array('class' => 'col-sm-2 control-label'))}}
                             <div class="col-sm-5">
-                                {{Form::text('title', '', array('class' => 'form-control','id'=>'title','placeholder'=>'栏目标题'))}}
+                                {{Form::text('title', null, array('class' => 'form-control','id'=>'title','placeholder'=>'栏目标题'))}}
                             </div>
                         </div>
 
                         <div class="form-group">
                             {{Form::label('keywords', '栏目关键字', array('class' => 'col-sm-2 control-label'))}}
                             <div class="col-sm-5">
-                                {{Form::text('keywords', '', array('class' => 'form-control','id'=>'keywords','placeholder'=>'栏目关键字'))}}
+                                {{Form::text('keywords', null, array('class' => 'form-control','id'=>'keywords','placeholder'=>'栏目关键字'))}}
                             </div>
                         </div>
 
@@ -98,8 +98,62 @@
                                 {{Form::radio('is_write', '0',false,array('class'=>"flat-red"))}} 不允许
                             </div>
                         </div>
+                        <div class="form-group">
+                            {{Form::label('ktitle', '知识分类标题', array('class' => 'col-sm-2 control-label'))}}
+                            <div class="col-sm-5">
+                                {{Form::text('ktitle', null, array('class' => 'form-control','id'=>'ktitle','placeholder'=>'知识分类标题'))}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('kkeywords', '知识分类关键字', array('class' => 'col-sm-2 control-label'))}}
+                            <div class="col-sm-5">
+                                {{Form::text('kkeywords', null, array('class' => 'form-control','id'=>'kkeywords','placeholder'=>'知识分类关键字'))}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('kdescription', '知识分类描述', array('class' => 'col-sm-2 control-label'))}}
+                            <div class="col-sm-5">
+                                {{Form::textarea('kdescription', null, array('class' => 'form-control','id'=>'kdescription','placeholder'=>'知识分类描述','cols'=>'','rows'=>''))}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('ntitle', '新闻分类标题', array('class' => 'col-sm-2 control-label'))}}
+                            <div class="col-sm-5">
+                                {{Form::text('ntitle', null, array('class' => 'form-control','id'=>'ntitle','placeholder'=>'新闻分类标题'))}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('nkeywords', '新闻分类关键字', array('class' => 'col-sm-2 control-label'))}}
+                            <div class="col-sm-5">
+                                {{Form::text('nkeywords',null, array('class' => 'form-control','id'=>'nkeywords','placeholder'=>'新闻分类关键字'))}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('ndescription', '新闻分类描述', array('class' => 'col-sm-2 control-label'))}}
+                            <div class="col-sm-5">
+                                {{Form::textarea('ndescription', null, array('class' => 'form-control','id'=>'ndescription','placeholder'=>'新闻分类描述','cols'=>'','rows'=>''))}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('ptitle', '排行分类标题', array('class' => 'col-sm-2 control-label'))}}
+                            <div class="col-sm-5">
+                                {{Form::text('ptitle', null, array('class' => 'form-control','id'=>'ntitle','placeholder'=>'排行分类标题'))}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('pkeywords', '新闻分类关键字', array('class' => 'col-sm-2 control-label'))}}
+                            <div class="col-sm-5">
+                                {{Form::text('pkeywords',null, array('class' => 'form-control','id'=>'pkeywords','placeholder'=>'排行分类关键字'))}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{Form::label('pdescription', '新闻分类描述', array('class' => 'col-sm-2 control-label'))}}
+                            <div class="col-sm-5">
+                                {{Form::textarea('pdescription', null, array('class' => 'form-control','id'=>'pdescription','placeholder'=>'排行分类描述','cols'=>'','rows'=>''))}}
 
-                    </div>
+                            </div>
+                        </div>
+                </div>
                     <!-- /.tab-pane -->
                     <div class="tab-pane" id="timeline">
                         <!-- The timeline -->

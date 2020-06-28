@@ -47,19 +47,17 @@
             </li>
             <li class="treeview">
                 <a href="#">
-                    <i class="fa  fa-database"></i> <span>品牌文档操作</span>
+                    <i class="fa  fa-database"></i> <span>知识内容管理</span>
                     <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li @if(Request::getRequestUri()=='/admin/brandarticle/brandname')class="active" @endif><a href="/admin/brandarticle/brandname"><i class="fa fa-circle-o"></i> 品牌标题处理</a></li>
-                    <li @if(Request::getRequestUri()=='/admin/brandarticle/receive')class="active"@endif><a href="/admin/brandarticle/receive" ><i class="fa fa-circle-o"></i> 品牌文档领取</a></li>
-                    <li @if(Request::getRequestUri()=='/admin/article/ownbrandarticlereceived')class="active" @endif><a href="/admin/article/ownbrandarticlereceived"><i class="fa fa-circle-o"></i> 我领取的品牌</a></li>
-                    <li @if(Request::getRequestUri()=='/admin/article/brandreceives')class="active" @endif><a href="/admin/article/brandreceives"><i class="fa fa-circle-o"></i> 领取品牌汇总</a></li>
-                    <li @if(Request::getRequestUri()=='/admin/article/receivednomod')class="active" @endif><a href="/admin/article/receivednomod"><i class="fa fa-circle-o"></i> 已领取未修改</a></li>
-                    <li @if(Request::getRequestUri()=='/admin/article/modednomake')class="active" @endif><a href="/admin/article/modednomake"><i class="fa fa-circle-o"></i> 已领取已修改</a></li>
-                  </ul>
+                    <li @if(Request::getRequestUri()=='/admin/article/knowledges')class="active"@endif><a href="/admin/article/knowledges" ><i class="fa fa-circle-o"></i> 知识文档列表</a></li>
+                    <li @if(Request::getRequestUri()=='/admin/article/knowledges/ownership')class="active" @endif><a href="/admin/article/knowledges/ownership"><i class="fa fa-circle-o"></i> 我发布的知识</a></li>
+                    <li @if(Request::getRequestUri()=='/admin/article/knowledges/pendingaudit')class="active" @endif><a href="/admin/article/knowledges/pendingaudit"><i class="fa fa-circle-o"></i> 等待审核知识</a></li>
+                    <li @if(Request::getRequestUri()=='/admin/article/knowledges/pedingpublished')class="active" @endif><a href="/admin/article/knowledges/pedingpublished"><i class="fa fa-circle-o"></i> 待发布的知识</a></li>
+                </ul>
             </li>
             <li class="treeview">
                 <a href="#">

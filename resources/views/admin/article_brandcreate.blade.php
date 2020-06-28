@@ -2,7 +2,7 @@
 @section('title')添加品牌文档@stop
 @section('head')
     <link href="/adminlte/plugins/iCheck/all.css" rel="stylesheet">
-    <link rel="stylesheet" href="/adminlte//plugins/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="/adminlte/plugins/datepicker/datepicker3.css">
     <link href="/adminlte/plugins/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet">
     <link href="/adminlte/plugins/select2/select2.min.css" rel="stylesheet">
     <style>
@@ -72,7 +72,7 @@
                                 </div>
                             </div>
                             <div class="form-group col-md-12">
-                                {{Form::label('topid', '品牌所属大类', array('class' => 'col-sm-2 control-label'))}}
+                                {{Form::label('topid', '品牌所属父类', array('class' => 'col-sm-2 control-label'))}}
                                 <div class="col-md-4">
                                     {{Form::select('topid', $allnavinfos, null,array('class'=>'form-control select2' ,'id'=>'topid'))}}
                                 </div>
@@ -87,7 +87,7 @@
                                 {{Form::label('xiongzhang', '资源提交', array('class' => 'control-label col-md-2 col-sm-3 col-xs-12'))}}
                                 <div class="radio col-md-4 col-sm-9 col-xs-12">
                                     {{Form::radio('xiongzhang', '1', false,array('class'=>'flat-red'))}} 快速收录
-                                    {{Form::radio('xiongzhang', '2', true,array('class'=>'flat-red'))}} 普通收录
+                                    {{Form::radio('xiongzhang', '2', true,array('class'=>'flat-red','id'=>'xiongzhang2'))}} 普通收录
                                     <span class="help-block" ><i class="fa fa-bell-o"></i>  快速收录工具可以向百度搜索主动推送资源，缩短爬虫发现网站链接的时间，对于高实效性内容推荐使用快速收录工具，实时向搜索推送资源。普通收录接口，每天可提交最多500万条有价值内容。提交的内容会进入百度搜索统一管理，请耐心等待。</span>
                                 </div>
                             </div>
@@ -101,7 +101,7 @@
                                 {{Form::label('ismake', '文章状态', array('class' => 'control-label col-md-2 col-sm-3 col-xs-12'))}}
                                 <div class="radio col-md-4 col-sm-9 col-xs-12">
                                     {{Form::radio('ismake', '1', true,array('class'=>'flat-red'))}} 已审核
-                                    {{Form::radio('ismake', '0', false,array('class'=>'flat-red'))}}未审核
+                                    {{Form::radio('ismake', '0', false,array('class'=>'flat-red','id'=>'ismake2'))}}未审核
                                 </div>
                             </div>
                             <div class="form-group col-md-12 ">
@@ -227,7 +227,7 @@
                                 <div class="form-group col-md-6">
                                     {{Form::label('brandperson', '加盟人群', array('class' => 'control-label col-md-2 col-sm-3 col-xs-12'))}}
                                     <div class="col-md-8 col-sm-9 col-xs-12">
-                                        {{Form::text('brandperson', null, array('class' => 'form-control col-md-10','id'=>'brandmap','placeholder'=>'加盟人群'))}}
+                                        {{Form::text('brandperson', null, array('class' => 'form-control col-md-10','id'=>'brandperson','placeholder'=>'加盟人群'))}}
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
@@ -359,9 +359,9 @@
     <script>
         $(function () {
             $('.select2').select2({language: "zh-CN"});
-            getsonTypes("/admin/getsontypes",{"topid":$("#topid").select2("val")},"#typeid");
+            getsonTypes("/admin/getsontypes",{"reid":$("#topid").select2("val")},"#typeid");
             getsonTypes("/admin/getareas",{"province_id":$("#province_id").select2("val")},"#city_id");
-            $("#topid").on("change",function(){getsonTypes("/admin/getsontypes",{"topid":$("#topid").select2("val")},"#typeid")});
+            $("#topid").on("change",function(){getsonTypes("/admin/getsontypes",{"reid":$("#topid").select2("val")},"#typeid")});
             $("#province_id").on("change",function(){getsonTypes("/admin/getareas",{"province_id":$("#province_id").select2("val")},"#city_id")});
             $('#datepicker').datepicker({autoclose: true,  language: 'zh-CN', todayHighlight: true});
             $('.basic_info input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({checkboxClass: 'icheckbox_flat-green', radioClass: 'iradio_flat-green' });

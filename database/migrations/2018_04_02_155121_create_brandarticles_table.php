@@ -57,6 +57,7 @@ class CreateBrandarticlesTable extends Migration
             $table->index('brandnum');
             $table->timestamp('published_at')->nullable();//预选发布时间
             $table->timestamps();
+            $table->timestamp('origin_time')->nullable()->index();//原始发布时间
         });
     }
 

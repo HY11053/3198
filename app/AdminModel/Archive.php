@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 class Archive extends Model
 {
-    protected $guarded = ['image','updatetime','input-image','brandcid','brandtypeid','webname','xiongzhang','origin_time'];
+    protected $guarded = ['image','updatetime','input-image','brandcid','brandtypeid','webname','xiongzhang','origin_time','brandname'];
     protected $dates = ['published_at'];
     /**
      * 全局scope定义
