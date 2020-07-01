@@ -14,3 +14,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/','Frontend\IndexController@Index');
+Route::get('{path}','Frontend\ListController@TopbrandList');
