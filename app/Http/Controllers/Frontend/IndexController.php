@@ -21,6 +21,7 @@ class IndexController extends Controller
         $knowledges=Cache::remember('index_knowledges', 60, function(){
             return KnowedgeNew::take(12)->orderBy('click','desc')->get(['id','title']);
         });
+
         $brandcounts=Cache::remember('index_brandcount', 60*24*365+rand(1,100), function(){
             return Brandarticle::count();
         });
@@ -37,7 +38,7 @@ class IndexController extends Controller
             return Brandarticle::take(27)->orderBy('click','desc')->get(['id','brandname','litpic']);
         });
         $zhishilists=Cache::remember('index_zhishilists', 60, function(){
-            return Archive::where('mid','>',1)->take(13)->orderBy('id','desc')->get(['id','title','typeid']);
+            return KnowedgeNew::take(13)->orderBy('id','desc')->get(['id','title','typeid']);
         });
         $newslist2s=Cache::remember('index_newslist2s', 60, function(){
             return Archive::where('mid',1)->skip(12)->take(13)->orderBy('id','desc')->get(['id','title','typeid']);
