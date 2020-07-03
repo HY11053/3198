@@ -18,8 +18,8 @@ class IndexController extends Controller
         $latestbrandlists=Cache::remember('index_latestbrands', 60, function(){
             return Brandarticle::take(12)->orderBy('id','desc')->get(['id','brandname']);
         });
-        $knowledges=Cache::remember('index_knowledges', 60, function(){
-            return KnowedgeNew::take(12)->orderBy('click','desc')->get(['id','title']);
+        $asklists=Cache::remember('index_asklists', 60, function(){
+            return Archive::where('mid','>',1)->take(12)->orderBy('click','desc')->get(['id','title']);
         });
 
         $brandcounts=Cache::remember('index_brandcount', 60*24*365+rand(1,100), function(){
@@ -43,6 +43,6 @@ class IndexController extends Controller
         $newslist2s=Cache::remember('index_newslist2s', 60, function(){
             return Archive::where('mid',1)->skip(12)->take(13)->orderBy('id','desc')->get(['id','title','typeid']);
         });
-        return view('frontend.index',compact('latestnewslists','latestbrandlists','knowledges','brandcounts','newscounts','latestbrandlist2s','paihangbangs','latestbrandlist3s','newslist2s','zhishilists'));
+        return view('frontend.index',compact('latestnewslists','latestbrandlists','asklists','brandcounts','newscounts','latestbrandlist2s','paihangbangs','latestbrandlist3s','newslist2s','zhishilists'));
     }
 }

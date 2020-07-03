@@ -60,9 +60,9 @@
                 <span><strong><i>创业知识</i></strong><em>189150</em>条</span></div>
             <div class="index_r_pinming">
                 <ul>
-                    @foreach($knowledges as $knowledge)
+                    @foreach($asklists as $asklist)
                     <li @if($loop->iteration<4) class="top" @endif>
-                        <i class="num">{{$loop->iteration}}</i><a href="/wenda/{{$knowledge->id}}"target="_blank" title="{{$knowledge->title}}">{{str_limit($knowledge->title,30,'...')}}</a>
+                        <i class="num">{{$loop->iteration}}</i><a href="/wenda/{{$asklist->id}}"target="_blank" title="{{$asklist->title}}">{{str_limit($asklist->title,30,'...')}}</a>
                     </li>
                     @endforeach
                 </ul>

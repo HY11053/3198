@@ -28,14 +28,14 @@
                 <ul class="ny-list">
                     @foreach($brandasks as $brandask)
                         <li>
-                            <div class="ny-list1"> <strong><a href="/news/{{$brandask->id}}">{{$brandask->title}}</a></strong>
+                            <div class="ny-list1"> <strong><a href="/wenda/{{$brandask->id}}">{{$brandask->title}}</a></strong>
                                 <i>{{date('Y-m-d',strtotime($brandask->created_at))}}</i>
                             </div>
                             <div class="ny-list2">
                                 {{$brandask->description}}
                             </div>
                             <div class="ny-list3">
-                                <i><a href="/news/{{$brandask->id}}">阅读全文</a></i>
+                                <i><a href="/wenda/{{$brandask->id}}">阅读全文</a></i>
                             </div>
                         </li>
                     @endforeach
