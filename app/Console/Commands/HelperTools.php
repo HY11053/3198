@@ -100,7 +100,7 @@ class HelperTools extends Command
                 $insertarticleinfo['id'] = $article->id;
                 $insertarticleinfo['title'] = $article->name;
                 $insertarticleinfo['mid'] = $article->typeid;
-                $insertarticleinfo['typeid'] = $article->sid ? $article->sid : '1';
+                $insertarticleinfo['typeid'] = $article->sid;
                 $insertarticleinfo['brandid'] = $article->pid;
                 $insertarticleinfo['ismake'] = $article->status;
                 $insertarticleinfo['click'] = $article->count;
@@ -206,7 +206,7 @@ class HelperTools extends Command
                 $insertarticleinfo = [];
                 $insertarticleinfo['id'] = $know->id;
                 $insertarticleinfo['title'] = $know->name;
-                $insertarticleinfo['typeid'] = $know->sid ? $know->sid : 1;
+                $insertarticleinfo['typeid'] = $know->sid;
                 $insertarticleinfo['brandid'] = $know->pid;
                 $insertarticleinfo['ismake'] = $know->status;
                 $insertarticleinfo['click'] = $know->count;

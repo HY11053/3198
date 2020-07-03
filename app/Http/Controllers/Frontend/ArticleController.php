@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\Cache;
 
 class ArticleController extends Controller
 {
+    /**品牌文档
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function BrandArticle(Request $request,$id){
         $thisArticleInfos=Cache::remember('thisBrandArticleInfos'.$id,  config('app.cachetime')+rand(60,60*24), function() use ($id){
             return Brandarticle::findOrFail($id);
@@ -30,7 +35,8 @@ class ArticleController extends Controller
         $arealists=Cache::remember('arealists',  config('app.cachetime')+rand(60,60*24), function(){
             return Area::where('parentid',1)->orderBy('id','asc')->pluck('regionname','id');
         });
-        $brandnews=Cache::remember('thisArticlebrandnews'.$thisArticleInfos->id,  config('app.cachetime')+rand(60,60*24), function() use ($thisArticleInfos){
+        //&&&&&&&&&&&&&&&&&
+        $brandnews=Cache::remember('thisBrandArticlebrandnews'.$thisArticleInfos->id,  config('app.cachetime')+rand(60,60*24), function() use ($thisArticleInfos){
             return Archive::where('brandid',$thisArticleInfos->id)->where('mid',1)->take(5)->orderBy('id','desc')->get(['id','title']);
         });
         $brandasks=Cache::remember('thisArticlebrandasks'.$thisArticleInfos->id,  config('app.cachetime')+rand(60,60*24), function() use ($thisArticleInfos){
@@ -51,7 +57,7 @@ class ArticleController extends Controller
         return view('frontend.brandarticle',compact('thisArticleInfos','investmentlists','thisArticleTypeInfo','thisArticleTopTypeInfo','arealists','brandnews','brandasks','hotbrsnds','paihangbangs','tongleibrands','latestBrands'));
     }
 
-    /**品牌新闻
+    /**品牌文档品牌新闻
      * @param Request $request
      * @param $id
      */
@@ -72,8 +78,8 @@ class ArticleController extends Controller
             return Area::where('parentid',1)->orderBy('id','asc')->pluck('regionname','id');
         });
         //&&&&&&&&&&&&&&&&&&
-        $brandasks=Cache::remember('thisArticlebrandListasks'.$thisArticleInfos->id,  config('app.cachetime')+rand(60,60*24), function() use ($thisArticleInfos){
-            return KnowedgeNew::where('brandid',$thisArticleInfos->id)->take(10)->orderBy('id','desc')->get(['id','title','description','created_at']);
+        $brandnews=Cache::remember('thisArticlebrandListnews'.$thisArticleInfos->id,  config('app.cachetime')+rand(60,60*24), function() use ($thisArticleInfos){
+            return Archive::where('brandid',$thisArticleInfos->id)->where('mid',1)->take(10)->orderBy('id','desc')->get(['id','title','description','created_at']);
         });
         $hotbrsnds=Cache::remember('hotbrsnds',  config('app.cachetime')+rand(60,60*24), function() {
             return Brandarticle::take(6)->orderBy('click','desc')->get(['id','litpic','brandname']);
@@ -87,10 +93,10 @@ class ArticleController extends Controller
         $latestBrands=Cache::remember('article_latestbrands',  config('app.cachetime')+rand(60,60*24), function(){
             return Brandarticle::take(6)->orderBy('id','desc')->get(['id','litpic','brandname']);
         });
-        return view('frontend.brandarticle_asks',compact('thisArticleInfos','investmentlists','thisArticleTypeInfo','thisArticleTopTypeInfo','arealists','brandasks','hotbrsnds','paihangbangs','tongleibrands','latestBrands'));
+        return view('frontend.brandarticle_news',compact('thisArticleInfos','investmentlists','thisArticleTypeInfo','thisArticleTopTypeInfo','arealists','brandnews','hotbrsnds','paihangbangs','tongleibrands','latestBrands'));
     }
 
-    /**品牌文档
+    /**品牌文档问答页面
      * @param Request $request
      * @param $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -111,11 +117,10 @@ class ArticleController extends Controller
         $arealists=Cache::remember('arealists',  config('app.cachetime')+rand(60,60*24), function(){
             return Area::where('parentid',1)->orderBy('id','asc')->pluck('regionname','id');
         });
-        //&&&&&&&&&&&&&&&&&&
+        //&&&&&&&&&&&&&&&&&&★★★★★★★★★★★★★★★★★★
         $brandasks=Cache::remember('thisArticlebrandListask'.$thisArticleInfos->id,  config('app.cachetime')+rand(60,60*24), function() use ($thisArticleInfos){
             return KnowedgeNew::where('brandid',$thisArticleInfos->id)->take(10)->orderBy('id','desc')->get(['id','title','description','created_at']);
         });
-
         $hotbrsnds=Cache::remember('hotbrsnds',  config('app.cachetime')+rand(60,60*24), function() {
             return Brandarticle::take(6)->orderBy('click','desc')->get(['id','litpic','brandname']);
         });
@@ -143,7 +148,7 @@ class ArticleController extends Controller
             });
             $path='news';
         }elseif(str_contains($request->path(),'zhishi')){
-            $thisArticleInfos=Cache::remember('thisNewsArticleInfos'.$id,  config('app.cachetime')+rand(60,60*24), function() use ($id){
+            $thisArticleInfos=Cache::remember('thisKnownsArticleInfos'.$id,  config('app.cachetime')+rand(60,60*24), function() use ($id){
                 return KnowedgeNew::findOrFail($id);
             });
             $path='zhishi';
@@ -198,10 +203,10 @@ class ArticleController extends Controller
             return Area::where('parentid',1)->orderBy('id','asc')->pluck('regionname','id');
         });
         $knowledgelists=Cache::remember('knowledgelists'.$thisArticleTypeInfo->id,  config('app.cachetime')+rand(60,60*24), function() use($thisArticleTypeInfo) {
-            return KnowedgeNew::where('typeid',$thisArticleTypeInfo->id)->take(10)->orderBy('click','desc')->get(['id','title']);
+            return KnowedgeNew::where('typeid',$thisArticleTypeInfo->id)->take(10)->orderBy('id','desc')->get(['id','title']);
         });
         $thisarticlelatestnewslists=Cache::remember('thisarticlelatestnewslists'.$thisArticleTypeInfo->id,  config('app.cachetime')+rand(60,60*24), function() use($thisArticleTypeInfo) {
-            return Archive::where('mid',1)->where('typeid',$thisArticleTypeInfo->id)->take(10)->orderBy('click','desc')->get(['id','title']);
+            return Archive::where('mid',1)->where('typeid',$thisArticleTypeInfo->id)->take(10)->orderBy('id','desc')->get(['id','title']);
         });
         $hotbrsnds=Cache::remember('hotbrsnds',  config('app.cachetime')+rand(60,60*24), function() {
             return Brandarticle::take(6)->orderBy('click','desc')->get(['id','litpic','brandname']);
@@ -209,6 +214,6 @@ class ArticleController extends Controller
         $latestBrands=Cache::remember('article_latestbrands',  config('app.cachetime')+rand(60,60*24), function(){
             return Brandarticle::take(6)->orderBy('id','desc')->get(['id','litpic','brandname']);
         });
-        return view('frontend.news_article',compact('thisArticleInfos','thisBrandArticleInfos','thisArticleTypeInfo','thisArticleTopTypeInfo','investmentlists','arealists','hotbrsnds','tongleibrands','paihangbangs','latestBrands','thisTypeSonsInfos','thisTypeSonids','knowledgelists','thisarticlelatestnewslists','path'));
+        return view('frontend.article_article',compact('thisArticleInfos','thisBrandArticleInfos','thisArticleTypeInfo','thisArticleTopTypeInfo','investmentlists','arealists','hotbrsnds','tongleibrands','paihangbangs','latestBrands','thisTypeSonsInfos','thisTypeSonids','knowledgelists','thisarticlelatestnewslists','path'));
     }
 }

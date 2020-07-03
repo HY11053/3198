@@ -14,6 +14,57 @@ use Illuminate\Support\Facades\Cache;
 
 class ListController extends Controller
 {
+
+    public function XmLists(Request $request){
+        $thisTypeinfos=collect(['typename'=>'加盟项目',
+            'title'=>'最新创业加盟好项目，全国连锁投资项目加盟',
+            'keywords'=>'最新创业加盟好项目,全国连锁投资项目加盟',
+            'description'=>'3198商机网提供最新、最好的全国连锁加盟项目，只为您呈现最赚钱的项目，让您投资获得巨额回报。好的加盟项目就在这里，点击开始赚钱吧',
+            'real_path'=>'xm']);
+        $thisTypeSonsInfos=Cache::remember('thisXmTypeSonsInfos',  config('app.cachetime')+rand(60,60*24), function(){
+            return Arctype::where('reid',0)->get(['id','typename','real_path']);
+        });
+
+        $thisTypeSonids=Cache::remember('thisXmTypeSonids',  config('app.cachetime')+rand(60,60*24), function(){
+            return Arctype::where('reid',0)->pluck('id');
+        });
+
+        $investmentlists=Cache::remember('investmentlists',  config('app.cachetime')+rand(60,60*24), function(){
+            return InvestmentType::orderBy('id','asc')->pluck('type','id');
+        });
+        $arealists=Cache::remember('arealists',  config('app.cachetime')+rand(60,60*24), function(){
+            return Area::where('parentid',1)->orderBy('id','asc')->pluck('regionname','id');
+        });
+        $brands=Brandarticle::when($request->level, function ($query) use ($request) {
+
+            return $query->where('tzid', $request->level);
+
+        })->when($request->province, function ($query) use ($request) {
+
+            return $query->where('province_id',$request->province);
+
+        })->orderBy('id','desc')->paginate(10);
+        if ($brands->total()<1){
+            $tuijianbrands=Brandarticle::orderBy('id','desc')->paginate(10);
+        }else{
+            $tuijianbrands=null;
+        }
+        $thisTypeKnowledges=Cache::remember('thisXmTypeKnowledges',  config('app.cachetime')+rand(60,60*24), function(){
+            return KnowedgeNew::take(6)->orderBy('id','desc')->get(['id','title']);
+        });
+        $thisTypeNews=Cache::remember('thisXmTypeNews',  config('app.cachetime')+rand(60,60*24), function() {
+            return Archive::where('mid',1)->take(6)->orderBy('id','desc')->get(['id','title']);
+        });
+        $thisTypelatestbrands=Cache::remember('thisXmTypelatestbrands',  config('app.cachetime')+rand(60,60*24), function(){
+            return Brandarticle::where('mid',1)->skip(10)->take(6)->orderBy('id','desc')->get(['id','brandname','litpic']);
+        });
+        $thisTypepaihangbangs=Cache::remember('thisXmTypepaihangbangs',  config('app.cachetime')+rand(60,60*24), function() {
+            return Brandarticle::where('mid',1)->take(10)->orderBy('click','desc')->get(['id','brandname','litpic','click','tzid']);
+        });
+        $province=Area::where('id',$request->province)->value('regionname');
+        $level=isset($investmentlists[$request->level])?$investmentlists[$request->level]:'';
+        return view('frontend.xmbrands',compact('thisTypeinfos','thisTypeSonsInfos','brands','tuijianbrands','investmentlists','arealists','thisTypeKnowledges','thisTypeNews','thisTypelatestbrands','thisTypepaihangbangs','province','level'));
+    }
     /**顶级栏目品牌分类
      * @param Request $request
      * @param $path
@@ -69,6 +120,12 @@ class ListController extends Controller
         return view('frontend.brands',compact('thisTypeinfos','thisTypeSonsInfos','brands','tuijianbrands','investmentlists','arealists','thisTypeKnowledges','thisTypeNews','thisTypelatestbrands','thisTypepaihangbangs','province','level'));
     }
 
+    /**二级品牌行业分类
+     * @param Request $request
+     * @param $path
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function BrandList(Request $request,$path,$id){
         $thisTypeinfos=Arctype::where('id',$id)->first();
         if (empty($thisTypeinfos)){
@@ -105,13 +162,14 @@ class ListController extends Controller
             return KnowedgeNew::where('typeid',$thisTypeinfos->id)->take(6)->orderBy('id','desc')->get(['id','title']);
         });
         $thisTypeNews=Cache::remember('thisTypeNews'.$thisTypeinfos->id,  config('app.cachetime')+rand(60,60*24), function() use ($thisTypeinfos){
-            return Archive::where('mid',1)->whereIn('typeid',$thisTypeinfos)->take(6)->orderBy('id','desc')->get(['id','title']);
+            return Archive::where('mid',1)->where('typeid',$thisTypeinfos->id)->take(6)->orderBy('id','desc')->get(['id','title']);
         });
+
         $thisTypelatestbrands=Cache::remember('thisTypelatestbrands'.$thisTypeinfos->id,  config('app.cachetime')+rand(60,60*24), function() use ($thisTypeinfos){
-            return Brandarticle::where('mid',1)->whereIn('typeid',$thisTypeinfos)->skip(10)->take(6)->orderBy('id','desc')->get(['id','brandname','litpic']);
+            return Brandarticle::where('mid',1)->where('typeid',$thisTypeinfos->id)->skip(10)->take(6)->orderBy('id','desc')->get(['id','brandname','litpic']);
         });
         $thisTypepaihangbangs=Cache::remember('thisTypepaihangbangs'.$thisTypeinfos->id,  config('app.cachetime')+rand(60,60*24), function() use ($thisTypeinfos){
-            return Brandarticle::where('mid',1)->whereIn('typeid',$thisTypeinfos)->take(10)->orderBy('click','desc')->get(['id','brandname','litpic','click','tzid']);
+            return Brandarticle::where('mid',1)->where('typeid',$thisTypeinfos->id)->take(10)->orderBy('click','desc')->get(['id','brandname','litpic','click','tzid']);
         });
         $province=Area::where('id',$request->province)->value('regionname');
         $level=isset($investmentlists[$request->level])?$investmentlists[$request->level]:'';
@@ -177,6 +235,7 @@ class ListController extends Controller
                 }
                 return $carticlelists;
             });
+            //******************
             $listcollections=Cache::remember('thisTypeIndexNewsArticles'.$thisTypeinfos->id,  config('app.cachetime')+rand(60,60*24), function() use ($thisTypeSonsInfos){
                 $listcollections=[];
                 foreach ($thisTypeSonsInfos as $thisTypeSonsInfo){

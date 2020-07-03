@@ -7,12 +7,11 @@
     <script type="text/javascript" src="/public/js/jquery.SuperSlide.2.1.1.js"></script>
     <script type="text/javascript" src="/public/js/jquery.flexslider-min.js"></script>
     <script type="text/javascript" src="/public/js/MSClass.js"></script>
-    <!--[if lte IE 6]>
-    <script type="text/javascript" src="/public/js/DD_belatedPNG_0.0.7a.js"></script>
-    <script>
-        DD_belatedPNG.fix('.png_bg,.png_bg a:hover,.all_sort_all ul li a span');
-    </script>
-    <![endif]-->
+    <meta http-equiv="mobile-agent" content="format=wml; url={{str_replace('http://www.','http://m.',config('app.url'))}}{!! Request::getrequesturi() !!}" />
+    <meta http-equiv="mobile-agent" content="format=xhtml; url={{str_replace('http://www.','http://m.',config('app.url'))}}{!! Request::getrequesturi() !!}" />
+    <meta http-equiv="mobile-agent" content="format=html5; url={{str_replace('http://www.','http://m.',config('app.url'))}}{!! Request::getrequesturi() !!}" />
+    <link rel="alternate" media="only screen and(max-width: 640px)" href="{{str_replace('http://www.','http://m.',config('app.url'))}}{!! Request::getrequesturi() !!}" >
+    <link rel="canonical" href="{{config('app.url')}}/{{Request::path()}}"/>
 @stop
 @section('main')
     <!--主体开始-->
@@ -28,14 +27,14 @@
                 <ul class="ny-list">
                     @foreach($brandasks as $brandask)
                         <li>
-                            <div class="ny-list1"> <strong><a href="/wenda/{{$brandask->id}}">{{$brandask->title}}</a></strong>
+                            <div class="ny-list1"> <strong><a href="/zhishi/{{$brandask->id}}">{{$brandask->title}}</a></strong>
                                 <i>{{date('Y-m-d',strtotime($brandask->created_at))}}</i>
                             </div>
                             <div class="ny-list2">
                                 {{$brandask->description}}
                             </div>
                             <div class="ny-list3">
-                                <i><a href="/wenda/{{$brandask->id}}">阅读全文</a></i>
+                                <i><a href="/zhishi/{{$brandask->id}}">阅读全文</a></i>
                             </div>
                         </li>
                     @endforeach

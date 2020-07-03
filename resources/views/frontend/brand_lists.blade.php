@@ -14,28 +14,25 @@
 @endif
 
 @section('headlibs')
-    <meta property="article:author" content="3198创业致富网" />
     <link href="/public/css/list.css" rel="stylesheet" type="text/css" />
     <script src="/public/js/lanrenzhijia.js" type="text/javascript"></script>
-    <!--[if lte IE 6]>
-    <script type="text/javascript" src="/public/js/DD_belatedPNG_0.0.7a.js"></script>
-    <script>
-        DD_belatedPNG.fix('.png_bg,.png_bg a:hover,.all_sort_all ul li a span');
-    </script>
-    <![endif]-->
+    <meta http-equiv="mobile-agent" content="format=wml; url={{str_replace('http://www.','http://m.',config('app.url'))}}{!! Request::getrequesturi() !!}" />
+    <meta http-equiv="mobile-agent" content="format=xhtml; url={{str_replace('http://www.','http://m.',config('app.url'))}}{!! Request::getrequesturi() !!}" />
+    <meta http-equiv="mobile-agent" content="format=html5; url={{str_replace('http://www.','http://m.',config('app.url'))}}{!! Request::getrequesturi() !!}" />
+    <link rel="alternate" media="only screen and(max-width: 640px)" href="{{str_replace('http://www.','http://m.',config('app.url'))}}{!! Request::getrequesturi() !!}" >
+    <link rel="canonical" href="{{config('app.url')}}/{{Request::path()}}"/>
 @stop
 
 @section('main')
     <div class="box">
-        <div class="bk weizhi" style="margin-top:4px;"><span><a href="/">3198创业致富网</a>&gt;<a class="dq">{{$thisTypeinfos->typename}}</a></span></div>
+        <div class="bk weizhi" style="margin-top:4px;"><span><a href="/">{{config('app.indexname')}}</a>&gt;<a class="dq">{{$thisTypeinfos->typename}}</a></span></div>
         <div class="search_k">
             <div class="xuanze clearfix">
                 <div class="h3">加盟行业：</div>
-                <span   @if(str_contains($thisTypeTopInfo->real_path.'/'.$thisTypeTopInfo->id,trim(Request::getrequesturi(),'/')))  class="dq" @endif  ><a href="/{{$thisTypeTopInfo->real_path}}">全部</a></span>
+                <span   @if($thisTypeTopInfo->real_path==Request::path())  class="dq" @endif  ><a href="/{{$thisTypeTopInfo->real_path}}">全部</a></span>
                 <ul>
-
                     @foreach($thisTypeSonsInfos as $thisTypeSonsInfo)
-                        <li @if(trim(Request::getrequesturi(),'/') == $thisTypeTopInfo->real_path.'/'.$thisTypeSonsInfo->id)  class="dq" @endif  ><a href="/{{$thisTypeTopInfo->real_path}}/{{$thisTypeSonsInfo->id}}">{{$thisTypeSonsInfo->typename}}</a></li>
+                        <li @if(Request::path() == $thisTypeTopInfo->real_path.'/'.$thisTypeSonsInfo->id)  class="dq" @endif  ><a href="/{{$thisTypeTopInfo->real_path}}/{{$thisTypeSonsInfo->id}}">{{$thisTypeSonsInfo->typename}}</a></li>
                     @endforeach
                 </ul>
             </div>
@@ -189,7 +186,7 @@
 
 
             <div class="bk r_paihang">
-                <div class="h2">餐饮美食同类型品牌排行</div>
+                <div class="h2">{{$thisTypeinfos->typename}}同类型品牌排行</div>
                 <ul class="zc_text1">
                     @foreach($thisTypepaihangbangs as $thisTypepaihangbang)
                         <li>

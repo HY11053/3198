@@ -7,12 +7,11 @@
     <script type="text/javascript" src="/public/js/jquery.SuperSlide.2.1.1.js"></script>
     <script type="text/javascript" src="/public/js/jquery.flexslider-min.js"></script>
     <script type="text/javascript" src="/public/js/MSClass.js"></script>
-    <!--[if lte IE 6]>
-    <script type="text/javascript" src="/public/js/DD_belatedPNG_0.0.7a.js"></script>
-    <script>
-        DD_belatedPNG.fix('.png_bg,.png_bg a:hover,.all_sort_all ul li a span');
-    </script>
-    <![endif]-->
+    <meta http-equiv="mobile-agent" content="format=wml; url={{str_replace('http://www.','http://m.',config('app.url'))}}{!! Request::getrequesturi() !!}" />
+    <meta http-equiv="mobile-agent" content="format=xhtml; url={{str_replace('http://www.','http://m.',config('app.url'))}}{!! Request::getrequesturi() !!}" />
+    <meta http-equiv="mobile-agent" content="format=html5; url={{str_replace('http://www.','http://m.',config('app.url'))}}{!! Request::getrequesturi() !!}" />
+    <link rel="alternate" media="only screen and(max-width: 640px)" href="{{str_replace('http://www.','http://m.',config('app.url'))}}{!! Request::getrequesturi() !!}" >
+    <link rel="canonical" href="{{config('app.url')}}/{{Request::path()}}"/>
 @stop
 @section('main')
     <div class="main">
@@ -204,7 +203,7 @@
                 <div class="ny_l-js-w326 ny_l-js-w326-wu"><div class="ny_l-t1"><strong>加盟问答</strong><span><a href="/xm/{{$thisArticleInfos->id}}/wenda">更多>></a> </span></div>
                     <ul class="ny_l-js-ul">
                         @foreach($brandasks as $brandask)
-                            <li><a href="/ask/{{$brandask->id}}">{{$brandask->title}}</a></li>
+                            <li><a href="/zhishi/{{$brandask->id}}">{{$brandask->title}}</a></li>
                         @endforeach
                     </ul>
                 </div>

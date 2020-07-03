@@ -1,17 +1,21 @@
 @extends('frontend.frontend')
-@section('title'){{config('app.webname')}}@stop
-@section('keywords'){{config('app.keywords')}}@stop
-@section('description'){{config('app.description')}}@stop
+@if($catepath=='news')
+@section('title'){{$thisTypeinfos->ntitle}} - {{config('app.indexname')}}@stop
+@section('keywords'){{$thisTypeinfos->nkeywords}}@stop
+@section('description'){{$thisTypeinfos->ndescription}}@stop
+@elseif($catepath=='zhishi')
+@section('title'){{$thisTypeinfos->ktitle}} - {{config('app.indexname')}}@stop
+@section('keywords'){{$thisTypeinfos->kkeywords}}@stop
+@section('description'){{$thisTypeinfos->kdescription}}@stop
+@endif
 @section('headlibs')
     <script src="/public/js/lanrenzhijia.js" type="text/javascript"></script>
-    <script type="text/javascript" src="/public/js/index.js"></script>
     <link href="/public/css/news1.css" rel="stylesheet" type="text/css" />
-    <!--[if lte IE 6]>
-    <script type="text/javascript" src="/public/js/DD_belatedPNG_0.0.7a.js"></script>
-    <script>
-        DD_belatedPNG.fix('.png_bg,.png_bg a:hover,.all_sort_all ul li a span');
-    </script>
-    <![endif]-->
+    <meta http-equiv="mobile-agent" content="format=wml; url={{str_replace('http://www.','http://m.',config('app.url'))}}{!! Request::getrequesturi() !!}" />
+    <meta http-equiv="mobile-agent" content="format=xhtml; url={{str_replace('http://www.','http://m.',config('app.url'))}}{!! Request::getrequesturi() !!}" />
+    <meta http-equiv="mobile-agent" content="format=html5; url={{str_replace('http://www.','http://m.',config('app.url'))}}{!! Request::getrequesturi() !!}" />
+    <link rel="alternate" media="only screen and(max-width: 640px)" href="{{str_replace('http://www.','http://m.',config('app.url'))}}{!! Request::getrequesturi() !!}" >
+    <link rel="canonical" href="{{config('app.url')}}/{{Request::path()}}"/>
 @stop
 @section('main')
     <div class="box clearfix" style="position:relative;">

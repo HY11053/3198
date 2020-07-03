@@ -31,128 +31,51 @@ class ArticleCacheDeleteEventListener
     public function handle(ArticleCacheDeleteEvent $event)
     {
         $id=$event->archive->id;
+        $mid=$event->arcvhive->mid;
+        $typeid=$event->arcvhive->typeid;
+        $brandid=$event->arcvhive->brandid;
         //清除当前缓存
-        Cache::forget('thisarticleinfos_'.$id);
-        //获取当前栏目信息并缓存
-        $thistypeinfo=Cache::remember('thistypeinfos_'.$event->archive->typeid, config('app.cachetime')+rand(60,60*24), function() use($event){
-            return Arctype::where('id',$event->archive->typeid)->first();
-        });
-        //清除上一篇文档和下一篇文档的上下篇缓存
-        $prev_id=$this->getPrevArticleId($event->archive->id);
-        $next_id=$this->getNextArticleId($event->archive->id);
-        Cache::forget('thisarticleinfos_prev'.$prev_id);
-        Cache::forget('thisarticleinfos_next'.$prev_id);
-        Cache::forget('thisarticleinfos_prev'.$next_id);
-        Cache::forget('thisarticleinfos_next'.$next_id);
-        //获取当前文档所属品牌并缓存
-        if($event->archive->brandid && Brandarticle::where('id',$event->archive->brandid)->orderBy('id','desc')->value('id'))
-        {
-            //清除当前缓存
-            Cache::forget('thisbrandarticleinfos_'.$event->archive->brandid);
-            $thisarticlebrandinfos = Cache::remember('thisbrandarticleinfos_'.$event->archive->brandid, config('app.cachetime')+rand(60,60*24), function() use($id,$event){
-                return Brandarticle::where('id',$event->archive->brandid)->first();
-            });
-        }
-        //获取当前文档所属品牌分类
-        if (isset($thisarticlebrandinfos) && !empty($thisarticlebrandinfos))
-        {
-            //清除当前缓存 重新写入 兼容Update
-            Cache::forget('thistypeinfos_'.$thisarticlebrandinfos->typeid);
-            //当前文档所属品牌所属分类
-            $thisbrandtypeinfo=Cache::remember('thistypeinfos_'.$thisarticlebrandinfos->typeid, config('app.cachetime')+rand(60,60*24), function() use($thisarticlebrandinfos){
-                return  Arctype::where('id',$thisarticlebrandinfos->typeid)->first();
-            });
-            //品牌新闻
-            Cache::forget('thisarticleinfos_brandnews'.$thisarticlebrandinfos->id);
-            $latestbrandnews=Cache::remember('thisarticleinfos_brandnews'.$thisarticlebrandinfos->id, config('app.cachetime')+rand(60,60*24), function() use($event,$thisarticlebrandinfos){
-                $brandnews=Archive::where('brandid',$event->archive->brandid)->where('id','<>',$event->archive->id)->take(10)->latest()->get(['id','title','created_at','litpic']);
-                if ($brandnews->count()<10)
-                {
-                    $completionnews=Archive::whereIn('brandid',Brandarticle::where('typeid',$thisarticlebrandinfos->typeid)->pluck('id'))->whereNotIn('id',Archive::where('brandid',$event->archive->brandid)->pluck('id'))->where('id','<>',$event->archive->id)->take(10-($brandnews->count()))->latest()->get(['id','title','created_at','litpic']);
-                }else{
-                    $completionnews=collect([]);
-                }
-                $latestbrandnews=collect([$brandnews,$completionnews])->collapse();
-                return $latestbrandnews;
-            });
-            //品牌新闻右侧
-            Cache::forget('brandtypenews'.$event->archive->brandid);
-            Cache::remember('brandtypenews'.$event->archive->brandid, config('app.cachetime')+rand(60,60*24), function() use($event,$latestbrandnews,$thisarticlebrandinfos){
-                $notids=[];
-                foreach ($latestbrandnews as $latestbrandnew)
-                {
-                    $notids[]=$latestbrandnew->id;
-                }
-                return Archive::whereIn('brandid',Brandarticle::where('typeid',$thisarticlebrandinfos->typeid)->pluck('id'))->whereNotIn('id',$notids)->where('id','<>',$event->archive->id)->take(5)->latest('created_at')->get(['id', 'title','litpic','created_at']);
-            });
+        if ($mid==1){
+            //清除当前普通文档缓存 重新写入 兼容Update
+            Cache::forget('thisNewsArticleInfos'.$id);
 
-        }else{
-            Cache::forget('thisarticleinfos_typebrandnews'.$event->archive->typeid);
-            Cache::remember('thisarticleinfos_typebrandnews'.$event->archive->typeid, config('app.cachetime')+rand(60,60*24), function() use($event) {
-                return Archive::where('typeid', $event->archive->typeid)->where('id','<>',$event->archive->id)->take(10)->latest()->get(['id', 'title', 'created_at','litpic']);
-            });
-            Cache::forget('typenews'.$event->archive->typeid);
-            Cache::remember('typenews'.$event->archive->typeid,  config('app.cachetime')+rand(60,60*24), function() use($event) {
-                return  Archive::where('typeid', $event->archive->typeid)->where('id','<>',$event->archive->id)->take(5)->latest('created_at')->get(['id', 'title','litpic','created_at']);
-            });
+        }elseif($mid>1){
+            //清除当前问答文档缓存 重新写入 兼容Update
+            Cache::forget('thisAskArticleInfos'.$id);
         }
-        //首页缓存
-        Cache::forget('index_asknews');
-        Cache::remember('index_asknews', config('app.cachetime')+rand(60,60*24), function() use($event){
-            return Archive::orderBy('id','desc')->where('id','<>',$event->archive->id)->inRandomOrder()->take(4)->get(['id','title','description']);
+        //当前文档所属行业分类
+        $thisArticleTypeInfo=Cache::remember('thisArticleTypeInfo'.$typeid,  config('app.cachetime')+rand(60,60*24), function() use ($typeid){
+            return Arctype::where('id',$typeid)->first(['id','typename','reid']);
         });
-        Cache::forget('index_latestnews');
-        Cache::remember('index_latestnews', config('app.cachetime')+rand(60,60*24), function() use($event){
-            return Archive::orderBy('id','desc')->where('typeid',3)->where('id','<>',$event->archive->id)->latest()->take(14)->get(['id','title','description','litpic']);
+
+        //当前文档所属行业父分类
+        $thisArticleTopTypeInfo=Cache::remember('thisArticleTopTypeInfo'.$thisArticleTypeInfo->reid,  config('app.cachetime')+rand(60,60*24), function() use ($thisArticleTypeInfo){
+            return Arctype::where('id',$thisArticleTypeInfo->reid)->first(['id','typename','real_path']);
         });
-        Cache::forget('index_jmfnews');
-        Cache::remember('index_jmfnews', config('app.cachetime')+rand(60,60*24), function()  use($event){
-            return Archive::orderBy('id','desc')->where('typeid',8)->where('id','<>',$event->archive->id)->latest()->take(10)->get(['id','title','created_at']);
-        });
-        Cache::forget('index_cynews');
-        Cache::remember('index_cynews', config('app.cachetime')+rand(60,60*24), function()  use($event){
-            return Archive::orderBy('id','desc')->where('typeid',10)->where('id','<>',$event->archive->id)->latest()->take(8)->get(['id','title','created_at','litpic']);
-        });
-        Cache::forget('index_touzinews');
-        Cache::remember('index_touzinews', config('app.cachetime')+rand(60,60*24), function()  use($event){
-            return Archive::orderBy('id','desc')->where('typeid',9)->where('id','<>',$event->archive->id)->latest()->take(9)->get(['id','title','created_at','litpic']);
-        });
-        //移动端首页
-        Cache::forget('mobile_index_latestnews');
-        Cache::remember('mobile_index_latestnews', config('app.cachetime')+rand(60,60*24), function()  use($event){
-            return Archive::orderBy('id','desc')->take(7)->where('id','<>',$event->archive->id)->get(['id','title','litpic','created_at']);
-        });
-        //列表页
-        Cache::forget('platestnews'.$thistypeinfo->id);
-        Cache::remember('platestnews'.$thistypeinfo->id, config('app.cachetime')+rand(60,60*24), function() use($thistypeinfo,$event){
-            return Archive::where('typeid','<>',$thistypeinfo->id)->where('id','<>',$event->archive->id)->take(10)->latest()->get();
-        });
-        Cache::forget('cnewslists'.$thistypeinfo->id);
-        Cache::remember('cnewslists'.$thistypeinfo->id,  rand(10,60), function() use($thistypeinfo,$event){
-            return Archive::whereIn('brandid',Brandarticle::where('typeid',$thistypeinfo->id)->where('id','<>',$event->archive->id)->latest()->pluck('id'))->take(13)->latest()->get(['id','title']);
-        });
-        //移动端列表页
-        Cache::forget('mtype_latestnews'.$thistypeinfo->id);
-        Cache::remember('mtype_latestnews'.$thistypeinfo->id, config('app.cachetime')+rand(60,60*24), function() use($thistypeinfo,$event){
-            return Archive::where('typeid','<>',$thistypeinfo->id)->take(7)->where('id','<>',$event->archive->id)->latest()->get();
-        });
-        Cache::forget('m_cnewslists'.$thistypeinfo->id);
-        //#############
-        Cache::remember('m_cnewslists'.$thistypeinfo->id,  rand(10,60), function() use($thistypeinfo,$event){
-            return Archive::whereIn('brandid',Brandarticle::where('typeid',$thistypeinfo->id)->latest()->pluck('id'))->where('id','<>',$event->archive->id)->take(7)->latest()->get(['id','title','litpic']);
-        });
-        //移动端杂项
-        Cache::remember('m_cnewslists'.$thistypeinfo->id,  rand(10,60), function() use($thistypeinfo,$event){
-            return Archive::whereIn('brandid',Brandarticle::where('typeid',$thistypeinfo->id)->latest()->pluck('id'))->where('id','<>',$event->archive->id)->take(7)->latest()->get(['id','title','litpic']);
-        });
+        //当前文档所属行业最新文档
+        Cache::forget('thisarticlelatestnewslists'.$thisArticleTypeInfo->typeid);
+        //品牌文档页面=>品牌相关文档缓存处理
+        if ($brandid && Brandarticle::where('id',$brandid)->value('id')){
+            $thisBrandArticleInfos=Cache::remember('thisBrandArticleInfos'.$id,  config('app.cachetime')+rand(60,60*24), function() use ($brandid){
+                return Brandarticle::where('id',$brandid)->first();
+            });
+            //品牌文档底部相关品牌资讯
+            Cache::forget('thisBrandArticlebrandnews'.$thisBrandArticleInfos->id);
+            //品牌文档=>品牌新闻下相关品牌资讯
+            Cache::forget('thisArticlebrandListnews'.$thisBrandArticleInfos->id);
+        }
+        //xm下最新相关资讯
+        Cache::forget('thisXmTypeNews');
+        //顶级分类下所属分类最新资讯
+        Cache::forget('thisTypeNews'.$thisArticleTopTypeInfo->id);
+        //品牌分类列表页下当前分类下相关资讯
+        Cache::forget('thisTypeNews'.$thisArticleTypeInfo->id);
+        //新闻封面列表页缓存清理
+        Cache::forget('newscarticles'.$thisArticleTopTypeInfo->id);
+        Cache::forget('topsnewscarticles');
+        //首页缓存清理
+        Cache::forget('index_latestnewslists');
+        Cache::forget('index_newslist2s');
     }
 
-    protected function getPrevArticleId($id)
-    {
-        return Archive::where('id', '<', $id)->orderBy('id','desc')->value('id');
-    }
-    protected function getNextArticleId($id)
-    {
-        return Archive::where('id', '>', $id)->orderBy('id','asc')->value('id');
-    }
 }
