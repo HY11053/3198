@@ -12,7 +12,25 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::group(['domain' => 'm.3198.net'], function () {
+    Route::get('/','Mobile\IndexController@Index');
+    Route::get('xm','Mobile\ListController@XmLists');
+    Route::get('xm/{id}','Mobile\ArticleController@BrandArticle')->where(['id'=>'[0-9]+']);
+    Route::get('xm/{id}/news','Mobile\ArticleController@BrandArticleNews')->where(['id'=>'[0-9]+']);
+    Route::get('xm/{id}/wenda','Mobile\ArticleController@BrandArticleAsks')->where(['id'=>'[0-9]+']);
+    Route::get('wenda/{id}','Mobile\ArticleController@NewsArticle')->where(['id'=>'[0-9]+']);
+    Route::get('news','Mobile\ListController@TopIndexArticleList');
+    Route::get('news/{id}','Mobile\ArticleController@NewsArticle')->where(['id'=>'[0-9]+']);
+    Route::get('news/{path}','Mobile\ListController@IndexArticleList')->where(['path'=>'[a-z]+']);;
+    Route::get('news/{path}/{id}','Mobile\ListController@NewsArticleList')->where(['path'=>'[a-z]+','id'=>'[0-9]+']);;
+    Route::get('zhishi','Mobile\ListController@TopIndexArticleList');
+    Route::get('zhishi/{id}','Mobile\ArticleController@NewsArticle')->where(['id'=>'[0-9]+']);
+    Route::get('zhishi/{path}','Mobile\ListController@IndexArticleList')->where(['path'=>'[a-z]+']);
+    Route::get('zhishi/{path}/{id}','Mobile\ListController@NewsArticleList')->where(['path'=>'[a-z]+','id'=>'[0-9]+']);
+    Route::get('search','Mobile\SearchController@Search');
+    Route::get('{path}','Mobile\ListController@TopbrandList')->where(['path'=>'[a-z]+']);;
+    Route::get('{path}/{id}','Mobile\ListController@BrandList')->where(['path'=>'[a-zA-Z]+','id'=>'[0-9]+']);
+});
 Route::get('/','Frontend\IndexController@Index');
 Route::get('xm','Frontend\ListController@XmLists');
 Route::get('xm/{id}','Frontend\ArticleController@BrandArticle')->where(['id'=>'[0-9]+']);

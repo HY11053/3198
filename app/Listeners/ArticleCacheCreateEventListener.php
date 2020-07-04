@@ -105,6 +105,7 @@ class ArticleCacheCreateEventListener
             });
             //新闻封面列表页缓存清理
             Cache::forget('newscarticles'.$thisArticleTopTypeInfo->id);
+            Cache::forget('thisTypeIndexNewsArticles'.$thisArticleTopTypeInfo->id);
             Cache::forget('topsnewscarticles');
             //首页缓存清理
             Cache::forget('index_latestnewslists');
