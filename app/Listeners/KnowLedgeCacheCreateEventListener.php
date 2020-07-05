@@ -81,12 +81,12 @@ class KnowLedgeCacheCreateEventListener
             //顶级分类下知识
             Cache::forget('thisTypeKnowledges'.$thisArticleTopTypeInfo->id);
             Cache::remember('thisTypeKnowledges'.$thisArticleTopTypeInfo->id,  config('app.cachetime')+rand(60,60*24), function() use ($thisTypeSonids){
-                return KnowedgeNew::whereIn('typeid',$thisTypeSonids)->take(6)->orderBy('id','desc')->get(['id','title']);
+                return KnowedgeNew::whereIn('typeid',$thisTypeSonids)->take(6)->orderBy('id','desc')->get(['id','title','litpic']);
             });
             //当前品牌分类下知识
             Cache::forget('thisTypeKnowledges'.$thisArticleTypeInfo->id);
             Cache::remember('thisTypeKnowledges'.$thisArticleTypeInfo->id,  config('app.cachetime')+rand(60,60*24), function() use ($thisArticleTypeInfo){
-                return KnowedgeNew::where('typeid',$thisArticleTypeInfo->id)->take(6)->orderBy('id','desc')->get(['id','title']);
+                return KnowedgeNew::where('typeid',$thisArticleTypeInfo->id)->take(6)->orderBy('id','desc')->get(['id','title','litpic']);
             });
             //新闻列表下分类知识
             Cache::forget('latestknowledges'.$thisArticleTypeInfo->id);

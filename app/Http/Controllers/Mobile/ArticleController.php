@@ -54,7 +54,7 @@ class ArticleController extends Controller
         $latestBrands=Cache::remember('article_latestbrands',  config('app.cachetime')+rand(60,60*24), function(){
             return Brandarticle::take(6)->orderBy('id','desc')->get(['id','litpic','brandname']);
         });
-        return view('frontend.brandarticle',compact('thisArticleInfos','investmentlists','thisArticleTypeInfo','thisArticleTopTypeInfo','arealists','brandnews','brandasks','hotbrsnds','paihangbangs','tongleibrands','latestBrands'));
+        return view('mobile.brandarticle',compact('thisArticleInfos','investmentlists','thisArticleTypeInfo','thisArticleTopTypeInfo','arealists','brandnews','brandasks','hotbrsnds','paihangbangs','tongleibrands','latestBrands'));
     }
 
     /**品牌文档品牌新闻
@@ -93,7 +93,7 @@ class ArticleController extends Controller
         $latestBrands=Cache::remember('article_latestbrands',  config('app.cachetime')+rand(60,60*24), function(){
             return Brandarticle::take(6)->orderBy('id','desc')->get(['id','litpic','brandname']);
         });
-        return view('frontend.brandarticle_news',compact('thisArticleInfos','investmentlists','thisArticleTypeInfo','thisArticleTopTypeInfo','arealists','brandnews','hotbrsnds','paihangbangs','tongleibrands','latestBrands'));
+        return view('mobile.brandarticle_news',compact('thisArticleInfos','investmentlists','thisArticleTypeInfo','thisArticleTopTypeInfo','arealists','brandnews','hotbrsnds','paihangbangs','tongleibrands','latestBrands'));
     }
 
     /**品牌文档问答页面
@@ -133,7 +133,7 @@ class ArticleController extends Controller
         $latestBrands=Cache::remember('article_latestbrands',  config('app.cachetime')+rand(60,60*24), function(){
             return Brandarticle::take(6)->orderBy('id','desc')->get(['id','litpic','brandname']);
         });
-        return view('frontend.brandarticle_asks',compact('thisArticleInfos','investmentlists','thisArticleTypeInfo','thisArticleTopTypeInfo','arealists','brandasks','hotbrsnds','paihangbangs','tongleibrands','latestBrands'));
+        return view('mobile.brandarticle_asks',compact('thisArticleInfos','investmentlists','thisArticleTypeInfo','thisArticleTopTypeInfo','arealists','brandasks','hotbrsnds','paihangbangs','tongleibrands','latestBrands'));
     }
 
     /**普通新闻
@@ -214,6 +214,6 @@ class ArticleController extends Controller
         $latestBrands=Cache::remember('article_latestbrands',  config('app.cachetime')+rand(60,60*24), function(){
             return Brandarticle::take(6)->orderBy('id','desc')->get(['id','litpic','brandname']);
         });
-        return view('frontend.article_article',compact('thisArticleInfos','thisBrandArticleInfos','thisArticleTypeInfo','thisArticleTopTypeInfo','investmentlists','arealists','hotbrsnds','tongleibrands','paihangbangs','latestBrands','thisTypeSonsInfos','thisTypeSonids','knowledgelists','thisarticlelatestnewslists','path'));
+        return view('mobile.article_article',compact('thisArticleInfos','thisBrandArticleInfos','thisArticleTypeInfo','thisArticleTopTypeInfo','investmentlists','arealists','hotbrsnds','tongleibrands','paihangbangs','latestBrands','thisTypeSonsInfos','thisTypeSonids','knowledgelists','thisarticlelatestnewslists','path'));
     }
 }

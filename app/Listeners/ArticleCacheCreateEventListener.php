@@ -91,17 +91,17 @@ class ArticleCacheCreateEventListener
             //xm下最新相关资讯
             Cache::forget('thisXmTypeNews');
             Cache::remember('thisXmTypeNews',  config('app.cachetime')+rand(60,60*24), function() {
-                return Archive::where('mid',1)->take(6)->orderBy('id','desc')->get(['id','title']);
+                return Archive::where('mid',1)->take(6)->orderBy('id','desc')->get(['id','title','litpic']);
             });
             //顶级分类下所属分类最新资讯
             Cache::forget('thisTypeNews'.$thisArticleTopTypeInfo->id);
             Cache::remember('thisTypeNews'.$thisArticleTopTypeInfo->id,  config('app.cachetime')+rand(60,60*24), function() use ($thisTypeSonids){
-                return Archive::where('mid',1)->whereIn('typeid',$thisTypeSonids)->take(6)->orderBy('id','desc')->get(['id','title']);
+                return Archive::where('mid',1)->whereIn('typeid',$thisTypeSonids)->take(6)->orderBy('id','desc')->get(['id','title','litpic']);
             });
             //品牌分类列表页下当前分类下相关资讯
             Cache::forget('thisTypeNews'.$thisArticleTypeInfo->id);
             Cache::remember('thisTypeNews'.$thisArticleTypeInfo->id,  config('app.cachetime')+rand(60,60*24), function() use ($thisArticleTypeInfo){
-                return Archive::where('mid',1)->where('typeid',$thisArticleTypeInfo->id)->take(6)->orderBy('id','desc')->get(['id','title']);
+                return Archive::where('mid',1)->where('typeid',$thisArticleTypeInfo->id)->take(6)->orderBy('id','desc')->get(['id','title','litpic']);
             });
             //新闻封面列表页缓存清理
             Cache::forget('newscarticles'.$thisArticleTopTypeInfo->id);

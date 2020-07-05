@@ -104,10 +104,10 @@ class ListController extends Controller
             $tuijianbrands=null;
         }
         $thisTypeKnowledges=Cache::remember('thisTypeKnowledges'.$thisTypeinfos->id,  config('app.cachetime')+rand(60,60*24), function() use ($thisTypeinfos,$thisTypeSonids){
-            return KnowedgeNew::whereIn('typeid',$thisTypeSonids)->take(6)->orderBy('id','desc')->get(['id','title']);
+            return KnowedgeNew::whereIn('typeid',$thisTypeSonids)->take(6)->orderBy('id','desc')->get(['id','title','litpic']);
         });
         $thisTypeNews=Cache::remember('thisTypeNews'.$thisTypeinfos->id,  config('app.cachetime')+rand(60,60*24), function() use ($thisTypeinfos,$thisTypeSonids){
-            return Archive::where('mid',1)->whereIn('typeid',$thisTypeSonids)->take(6)->orderBy('id','desc')->get(['id','title']);
+            return Archive::where('mid',1)->whereIn('typeid',$thisTypeSonids)->take(6)->orderBy('id','desc')->get(['id','title','litpic']);
         });
         $thisTypelatestbrands=Cache::remember('thisTypelatestbrands'.$thisTypeinfos->id,  config('app.cachetime')+rand(60,60*24), function() use ($thisTypeinfos,$thisTypeSonids){
             return Brandarticle::where('mid',1)->whereIn('typeid',$thisTypeSonids)->skip(10)->take(6)->orderBy('id','desc')->get(['id','brandname','litpic']);
@@ -117,7 +117,7 @@ class ListController extends Controller
         });
         $province=Area::where('id',$request->province)->value('regionname');
         $level=isset($investmentlists[$request->level])?$investmentlists[$request->level]:'';
-        return view('frontend.brands',compact('thisTypeinfos','thisTypeSonsInfos','brands','tuijianbrands','investmentlists','arealists','thisTypeKnowledges','thisTypeNews','thisTypelatestbrands','thisTypepaihangbangs','province','level'));
+        return view('mobile.brands',compact('thisTypeinfos','thisTypeSonsInfos','brands','tuijianbrands','investmentlists','arealists','thisTypeKnowledges','thisTypeNews','thisTypelatestbrands','thisTypepaihangbangs','province','level'));
     }
 
     /**二级品牌行业分类

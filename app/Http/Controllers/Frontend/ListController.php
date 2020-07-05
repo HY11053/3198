@@ -50,10 +50,10 @@ class ListController extends Controller
             $tuijianbrands=null;
         }
         $thisTypeKnowledges=Cache::remember('thisXmTypeKnowledges',  config('app.cachetime')+rand(60,60*24), function(){
-            return KnowedgeNew::take(6)->orderBy('id','desc')->get(['id','title']);
+            return KnowedgeNew::take(6)->orderBy('id','desc')->get(['id','title','litpic']);
         });
         $thisTypeNews=Cache::remember('thisXmTypeNews',  config('app.cachetime')+rand(60,60*24), function() {
-            return Archive::where('mid',1)->take(6)->orderBy('id','desc')->get(['id','title']);
+            return Archive::where('mid',1)->take(6)->orderBy('id','desc')->get(['id','title','litpic']);
         });
         $thisTypelatestbrands=Cache::remember('thisXmTypelatestbrands',  config('app.cachetime')+rand(60,60*24), function(){
             return Brandarticle::where('mid',1)->skip(10)->take(6)->orderBy('id','desc')->get(['id','brandname','litpic']);
@@ -104,10 +104,10 @@ class ListController extends Controller
             $tuijianbrands=null;
         }
         $thisTypeKnowledges=Cache::remember('thisTypeKnowledges'.$thisTypeinfos->id,  config('app.cachetime')+rand(60,60*24), function() use ($thisTypeinfos,$thisTypeSonids){
-            return KnowedgeNew::whereIn('typeid',$thisTypeSonids)->take(6)->orderBy('id','desc')->get(['id','title']);
+            return KnowedgeNew::whereIn('typeid',$thisTypeSonids)->take(6)->orderBy('id','desc')->get(['id','title','litpic']);
         });
         $thisTypeNews=Cache::remember('thisTypeNews'.$thisTypeinfos->id,  config('app.cachetime')+rand(60,60*24), function() use ($thisTypeinfos,$thisTypeSonids){
-            return Archive::where('mid',1)->whereIn('typeid',$thisTypeSonids)->take(6)->orderBy('id','desc')->get(['id','title']);
+            return Archive::where('mid',1)->whereIn('typeid',$thisTypeSonids)->take(6)->orderBy('id','desc')->get(['id','title','litpic']);
         });
         $thisTypelatestbrands=Cache::remember('thisTypelatestbrands'.$thisTypeinfos->id,  config('app.cachetime')+rand(60,60*24), function() use ($thisTypeinfos,$thisTypeSonids){
             return Brandarticle::where('mid',1)->whereIn('typeid',$thisTypeSonids)->skip(10)->take(6)->orderBy('id','desc')->get(['id','brandname','litpic']);
@@ -159,10 +159,10 @@ class ListController extends Controller
             $tuijianbrands=null;
         }
         $thisTypeKnowledges=Cache::remember('thisTypeKnowledges'.$thisTypeinfos->id,  config('app.cachetime')+rand(60,60*24), function() use ($thisTypeinfos){
-            return KnowedgeNew::where('typeid',$thisTypeinfos->id)->take(6)->orderBy('id','desc')->get(['id','title']);
+            return KnowedgeNew::where('typeid',$thisTypeinfos->id)->take(6)->orderBy('id','desc')->get(['id','title','litpic']);
         });
         $thisTypeNews=Cache::remember('thisTypeNews'.$thisTypeinfos->id,  config('app.cachetime')+rand(60,60*24), function() use ($thisTypeinfos){
-            return Archive::where('mid',1)->where('typeid',$thisTypeinfos->id)->take(6)->orderBy('id','desc')->get(['id','title']);
+            return Archive::where('mid',1)->where('typeid',$thisTypeinfos->id)->take(6)->orderBy('id','desc')->get(['id','title','litpic']);
         });
 
         $thisTypelatestbrands=Cache::remember('thisTypelatestbrands'.$thisTypeinfos->id,  config('app.cachetime')+rand(60,60*24), function() use ($thisTypeinfos){

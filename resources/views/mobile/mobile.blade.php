@@ -38,37 +38,28 @@
         <div class="d_nav">
             <ul>
                 <li><a href="/" target="_self"><span>首页</span></a></li>
-                <li><a href="/search/" target="_self"><span>项目大全</span></a></li>
-                <li><a href="/ms/" target="_self"><span>美食</span></a></li>
-                <li><a href="/fz/" target="_self"><span>服装</span></a></li>
-                <li><a href="/sj/" target="_self"><span>内衣</span></a></li>
-                <li><a href="/jf/" target="_self"><span>家纺</span></a></li>
-                <li><a href="/jj/" target="_self"><span>家居</span></a></li>
+                <li><a href="/xm" target="_self"><span>项目大全</span></a></li>
+                <li><a href="/cyms" target="_self"><span>餐饮</span></a></li>
+                <li><a href="/fzxb" target="_self"><span>服装</span></a></li>
+                <li><a href="/mrbj" target="_self"><span>美容</span></a></li>
+                <li><a href="/shfw" target="_self"><span>服务</span></a></li>
+                <li><a href="/jjyp/" target="_self"><span>家居</span></a></li>
                 <li>热门行业</li>
-                <li><a href="/jc/" target="_self"><span>建材</span></a></li>
-                <li><a href="/zb/" target="_self"><span>珠宝</span></a></li>
-                <li><a href="/jy/" target="_self"><span>教育</span></a></li>
-                <li><a href="/mr/" target="_self"><span>美容</span></a></li>
-                <li><a href="/sp/" target="_self"><span>饰品</span></a></li>
-                <li><a href="/gx/" target="_self"><span>干洗</span></a></li>
-                <li><a href="/ye/" target="_self"><span>幼儿</span></a></li>
-                <li><a href="/fw/" target="_self"><span>服务</span></a></li>
-                <li><a href="/qc/" target="_self"><span>汽车</span></a></li>
-                <li><a href="/ls/" target="_self"><span>零售</span></a></li>
+                <li><a href="/jczs/" target="_self"><span>建材</span></a></li>
+                <li><a href="/lpsp" target="_self"><span>礼品</span></a></li>
+                <li><a href="/qcfw" target="_self"><span>汽车</span></a></li>
+                <li><a href="/jywl" target="_self"><span>教育</span></a></li>
+                <li><a href="/myyp" target="_self"><span>母婴</span></a></li>
+                <li><a href="/shfw/179" target="_self"><span>干洗</span></a></li>
+                <li><a href="/cyms" target="_self"><span>火锅</span></a></li>
+                <li><a href="/fcyms/3" target="_self"><span>饮品</span></a></li>
+                <li><a href="/cyms/204" target="_self"><span>烧烤</span></a></li>
+                <li><a href="/cyms/2" target="_self"><span>小吃</span></a></li>
             </ul>
         </div>
     </div>
 </div>
-<div class="lunbo">
-    <div class="swiper-container">
-        <div class="swiper-wrapper">
-            <li class="swiper-slide"><a href="/busInfo/31402.html"><img src="/mobile/images/dongfangruili.jpg" alt="东方瑞丽洗衣" /></a></li>
-            <li class="swiper-slide"><a href="/busInfo/41353.html"><img src="/storage/uploads/image/2020/06/19/2fa0f43766777722f68183215b9ac5b3.jpg" alt="希望美术加盟" /></a></li>
-            <li class="swiper-slide"><a href="/busInfo/20582.html"><img src="/mobile/images/juneng.png" alt="聚能教育加盟" /></a></li>
-        </div>
-        <div class="swiper-pagination"></div>
-    </div>
-</div>
+
 @yield('main_content')
 
 <div class="clearfix">
