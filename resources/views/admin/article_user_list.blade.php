@@ -33,7 +33,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-location-arrow" style="width:10px;"></i>
                                 </div>
-                                {{Form::select('advertisement', ['普通文档','品牌文档'], null,array('class'=>'form-control select2 pull-right','style'=>'width: 150px;','data-placeholder'=>"文章类型",'multiple'=>"multiple"))}}
+                                {{Form::select('advertisement', ['普通文档','知识文档','品牌文档'], null,array('class'=>'form-control select2 pull-right','style'=>'width: 150px;','data-placeholder'=>"文章类型",'multiple'=>"multiple"))}}
                             </div>
                         </div>
                         <div class="form-group">
@@ -62,8 +62,7 @@
                             </div>
                         </div>
                         <button type="submit" class="btn btn-danger">筛选数据</button>
-                    </form>
-
+                    {!! Form::close() !!}
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -81,16 +80,16 @@
                         @foreach($articles as $article)
                             <tr>
                                 <td>{{$article->id}}</td>
-                                <td>{{$article->title}}@if($article->mid==1) <span class="fa fa-flag" style="color: red"></span> @elseif($article->mid==2) <span class="fa fa-product-hunt"></span>@endif</td>
+                                <td>{{$article->title}}@if($article->mid==1) <span class="fa fa-flag" style="color: red"></span> @elseif($article->mid>1) <span class="fa fa-product-hunt"></span>@endif</td>
                                 <td>{{\App\AdminModel\Arctype::where('id',$article->typeid)->value('typename')}}</td>
                                 <td>{{$article->created_at}}</td>
                                 <td>@if($article->editor) {{$article->editor}} @else {{$article->write}} @endif</td>
                                 <td>{{$article->click}}</td>
                                 <td>@if($article->ismake) 已审核 @else 未审核 @endif</td>
-                              @if($article->mid==0)
-                                    <td class="astyle"><span class="label label-success"><a href="/news/{{$article->id}}.shtml" target="_blank">预览</a></span><span class="label label-warning"></span></td>
-                                @elseif($article->mid==1)
-                                    <td class="astyle"><span class="label label-success"><a href="/xm/{{$article->id}}.shtml" target="_blank">预览</a></span><span class="label label-warning"></span></td>
+                              @if($article->brandname)
+                                    <td class="astyle"><span class="label label-success"><a href="/xm/{{$article->id}}" target="_blank">预览</a></span><span class="label label-warning"></span></td>
+                                   @else
+                                    <td class="astyle"><span class="label label-success"><a @if($article->mid==1) href="/news/{{$article->id}}" @else href="/wenda/{{$article->id}}" @endif  target="_blank">预览</a></span><span class="label label-warning"></span></td>
                                 @endif
                             </tr>
                         @endforeach

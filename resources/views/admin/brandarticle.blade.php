@@ -1,5 +1,5 @@
 @extends('admin.layouts.admin_app')
-@section('title')网站文档列表@stop
+@section('title')网站品牌文档列表@stop
 @section('head')
     <style>.red{color: red;}</style>
 @stop
@@ -49,7 +49,7 @@
                                 <td>{{$article->write}}</td>
                                 <td>{{$article->click}}</td>
                                 <td>@if($article->ismake) 已审核 @else <s class="red">未审核</s> @endif</td>
-                                <td class="astyle"><span class="label label-success"><a href="/xm/{{$article->id}}.shtml" target="_blank">预览</a></span><span class="label label-warning"><a href="/admin/article/brandedit/{{$article->id}}">编辑</a></span><span class="label label-danger"><a data-toggle="modal" data-target=".modal-sm{{$article->id}}" >删除</a></span>
+                                <td class="astyle"><span class="label label-success"><a href="/xm/{{$article->id}}" target="_blank">预览</a></span><span class="label label-warning"><a href="/admin/article/brandedit/{{$article->id}}">编辑</a></span><span class="label label-danger"><a data-toggle="modal" data-target=".modal-sm{{$article->id}}" >删除</a></span>
                                     <div class="modal fade modal-sm{{$article->id}}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel{{$article->id}}">
                                         <div class="modal-dialog modal-sm modal-s-m{{$article->id}}" role="document">
                                             <div class="modal-content">
