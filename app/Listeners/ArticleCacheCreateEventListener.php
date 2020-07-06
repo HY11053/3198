@@ -110,7 +110,20 @@ class ArticleCacheCreateEventListener
             //首页缓存清理
             Cache::forget('index_latestnewslists');
             Cache::forget('index_newslist2s');
-
+            Cache::forget('mobile_latestnewslist2s');
+            //移动端品牌文档
+            Cache::forget('mobile_thisBrandArticlebrandnews');
+            Cache::remember('mobile_thisBrandArticlebrandnews'.$thisBrandArticleInfos->id,  config('app.cachetime')+rand(3600,3600*24), function() use ($thisBrandArticleInfos){
+                return Archive::where('brandid',$thisBrandArticleInfos->id)->where('mid',1)->take(5)->orderBy('id','desc')->get(['id','title','litpic']);
+            });
+            Cache::forget('mobile_thisArticlebrandListnews');
+            Cache::remember('mobile_thisArticlebrandListnews'.$thisBrandArticleInfos->id,  config('app.cachetime')+rand(3600,3600*24), function() use ($thisBrandArticleInfos){
+                return Archive::where('brandid',$thisBrandArticleInfos->id)->where('mid',1)->take(10)->orderBy('id','desc')->get(['id','title','description','created_at','litpic']);
+            });
+            Cache::forget('mobile_thisarticlelatestnewslists'.$thisArticleTypeInfo->id);
+            Cache::remember('mobile_thisarticlelatestnewslists'.$thisArticleTypeInfo->id,  config('app.cachetime')+rand(3600,3600*24), function() use($thisArticleTypeInfo) {
+                return Archive::where('mid',1)->where('typeid',$thisArticleTypeInfo->id)->take(5)->orderBy('id','desc')->get(['id','title','litpic']);
+            });
         }
 
     }

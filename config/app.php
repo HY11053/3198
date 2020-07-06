@@ -106,8 +106,9 @@ return [
     'indexname'=>'3198创业致富网',
     'keywords'=>'3198创业致富网,创业致富网,商机查询网',
     'description'=>'3198商机网是专业的商机创业网站,每天提供最新商机好项目,涵盖餐饮加盟、服饰加盟、美容加盟等热门行业小本创业商机,创业找项目就上3198商机网。',
-    'api'=>'http://data.zz.baidu.com/urls?site=https://www.u88.com&token=UleBrGP1036QHkAr',
-    'm_api'=>'http://data.zz.baidu.com/urls?site=https://m.u88.com&token=QeSFIvl5RWRgU3BT',
+    'api'=>'http://data.zz.baidu.com/urls?site=https://www.3198.com&token=UleBrGP1036QHkAr',
+    'm_api'=>'http://data.zz.baidu.com/urls?site=https://m.3198.com&token=QeSFIvl5RWRgU3BT',
+    'cachetime'=>30*24*60*60,
     /*
 
     /*

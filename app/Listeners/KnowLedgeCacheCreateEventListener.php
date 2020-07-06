@@ -104,6 +104,17 @@ class KnowLedgeCacheCreateEventListener
             Cache::forget('topszhishicarticles');
             Cache::forget('topsTypeIndexZhishiArticles');
             Cache::forget('index_zhishilists');
+            Cache::forget('mobile_zhishilists');
+            Cache::forget('mobile_thisArticlebrandListask');
+            Cache::remember('mobile_thisArticlebrandListask'.$thisArticleInfos->id,  config('app.cachetime')+rand(3600,3600*24), function() use ($thisArticleInfos){
+                return KnowedgeNew::where('brandid',$thisArticleInfos->id)->take(10)->orderBy('id','desc')->get(['id','title','description','created_at','litpic']);
+            });
+            Cache::forget('mobile_knowledgelists'.$thisArticleTypeInfo->id);
+            Cache::remember('mobile_knowledgelists'.$thisArticleTypeInfo->id,  config('app.cachetime')+rand(3600,3600*24), function() use($thisArticleTypeInfo) {
+                return KnowedgeNew::where('typeid',$thisArticleTypeInfo->id)->take(5)->orderBy('id','desc')->get(['id','title','litpic']);
+            });
+            Cache::forget('mobile_latestknowledges'.$thisArticleTypeInfo->id);
+            Cache::forget('mobile_latestknowledges');
         }
 
     }

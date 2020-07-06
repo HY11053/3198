@@ -1,7 +1,7 @@
 @extends('frontend.frontend')
-@section('title'){{$thisArticleInfos->title}}- {{config('app.indexname')}}@stop
-@section('keywords'){{$thisArticleInfos->keywords}}@stop
-@section('description'){{$thisArticleInfos->description}}@stop
+@section('title'){{$thisArticleInfos->brandname}}问答- {{config('app.indexname')}}@stop
+@section('keywords'){{$thisArticleInfos->brandname}}@stop
+@section('description'){{$thisArticleInfos->brandname}}问答提供关于{{$thisArticleInfos->brandname}}的各种问题和解答@stop
 @section('headlibs')
     <script src="/public/js/lanrenzhijia.js" type="text/javascript"></script>
     <script type="text/javascript" src="/public/js/jquery.SuperSlide.2.1.1.js"></script>

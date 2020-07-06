@@ -8,12 +8,11 @@
     <meta name="applicable-device" content="mobile">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta http-equiv="Cache-Control" content="no-cache"/>
-    <meta name="csrf-token" content=" hO8kIAMLmXLsAK11HppSh7bOZGGEDiw5qtm20Ijq">
-    <title>安心加盟网-真实性连锁招商加盟项目综合服务平台</title>
-    <meta name="keywords" content="安心加盟网，招商加盟网，加盟网"/>
-    <meta name="description" content="安心加盟网站审核真实性连锁加盟好项目加盟网站,提供好的加盟项目加盟店,最新加盟项目,创业加盟项目加盟店,免费项目加盟网站承诺加盟店加盟真实项目加盟网站"/>
-    <link rel="canonical" href="https://www.anxjm.com/" >
-    <link rel="miphtml" href="https://mip.anxjm.com/">
+    <meta name="csrf-token" content=" {{ csrf_token() }}">
+    <title>@yield('title')</title>
+    <meta name="keywords" content="@yield('keywords')"/>
+    <meta name="description" content="@yield('description')"/>
+    <link rel="canonical" href="{{config('app.url')}}{{Request::getrequesturi()}}" >
     <link href="/mobile/css/common.css" rel="stylesheet" type="text/css"/>
     <link href="/mobile/css/iconfont.css" rel="stylesheet" type="text/css"/>
     <link href="/mobile/css/swiper.min.css" rel="stylesheet" type="text/css"/>
@@ -22,13 +21,14 @@
 <div class="clearfix anxjm-mtop84">
     <div class="search clearfix">
         <div class="logo fl">
-            <a href="/"><img src="/mobile/images/nav-logo2.png" alt="安心加盟网"/></a>
+            <a href="/"><img src="/mobile/images/logo.png" alt="3198创业致富网"/></a>
         </div>
         <div class="searchCon fl">
-            <form action="/search/" method="post">
-                <input type="hidden" name="_token" value="hO8kIAMLmXLsAK11HppSh7bOZGGEDiw5qtm20Ijq">
+            <form action="/search" method="get">
+                {{csrf_field()}}
                 <div class="ipt-box"></div>
-                <input class="ipt-placeholder" name="keywords" placeholder="输入您想找的项目" />
+                <input class="ipt-placeholder" name="key" placeholder="输入您想找的项目" />
+                <input type="hidden" name="type" value="1">
                 <button type="submit" class="search_btn"></button>
             </form>
         </div>
@@ -98,49 +98,6 @@
 <script type="text/javascript" src="/mobile/js/jquery.min.js"></script>
 <script type="text/javascript" src="/mobile/js/swiper.min.js"></script>
 <script type="text/javascript" src="/mobile/js/index.js"></script>
-<script>
-    $(function () {
-        iliHeight = $("#moocBox").height();
-        setTimeout(startScroll, delay);
-    });
-    //滚动
-    var iliHeight;
-    var area = document.getElementById('moocBox');
-    var speed = 2;
-    var time;
-    var delay = 3000;
-    area.scrollTop = 0;
-    area.innerHTML += area.innerHTML;
-
-    function startScroll() {
-        time = setInterval("scrollUp()", speed);
-        area.scrollTop++;
-    }
-
-    function scrollUp() {
-        if (area.scrollTop % (iliHeight) == 0) {
-            clearInterval(time);
-            setTimeout(startScroll, delay);
-        } else {
-            area.scrollTop++;
-            if (area.scrollTop >= area.scrollHeight / 2) {
-                area.scrollTop = 0;
-            }
-        }
-    }
-    $(".tab-box-flex span").click(function () {
-        $(".catering-list").hide().eq($(this).index()).show();
-        $(this).addClass("cur").siblings().removeClass("cur");
-    });
-</script>
-<script>
-    var _hmt = _hmt || [];
-    (function() {
-        var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?9a43ec4773ca112549f6ce2cf435f5c4";
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(hm, s);
-    })();
-</script>
+@yield('footer_libs')
 </body>
 </html>

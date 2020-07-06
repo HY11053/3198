@@ -71,6 +71,13 @@ class BrandArticleCacheDeleteEventListener
         Cache::forget('index_latestbrands');
         Cache::forget('index_latestbrand2s');
         Cache::forget('index_latestbrand3s');
+        Cache::forget('mobile_latestbrands');
+        Cache::forget('mobile_canyinbrands');
+        Cache::forget('mobile_jiaoyubrands');
+        Cache::forget('mobile_muyingbrands');
+        Cache::forget('mobile_tongleibrands'.$id);
+        Cache::forget('mobile_types_tongleibrands'.$typeid);
+        Cache::remember('mobile_article_latestbrands');
 
     }
 }

@@ -76,6 +76,10 @@ class ArticleCacheDeleteEventListener
         //首页缓存清理
         Cache::forget('index_latestnewslists');
         Cache::forget('index_newslist2s');
+        Cache::forget('mobile_latestnewslist2s');
+        Cache::forget('mobile_thisBrandArticlebrandnews');
+        Cache::forget('mobile_thisArticlebrandListnews');
+        Cache::forget('mobile_thisarticlelatestnewslists'.$thisArticleTypeInfo->id);
     }
 
 }

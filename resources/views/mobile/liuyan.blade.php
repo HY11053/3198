@@ -55,7 +55,7 @@
                 <img src="/mobile/images/hdimg2.jpg">
             </div>
             <div class="zxHdName">
-                <div class="zxHdName-peo">安心加盟网</div>
+                <div class="zxHdName-peo">3198创业致富网</div>
                 <p>招商经理  <span>联系她</span></p>
             </div>
         </button>

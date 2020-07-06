@@ -1,18 +1,28 @@
 @extends('mobile.mobile')
-@section('title'){{$thisArticleInfos->title}}- {{config('app.indexname')}}@stop
-@section('keywords'){{$thisArticleInfos->keywords}}@stop
-@section('description'){{$thisArticleInfos->description}}@stop
+@section('title'){{$thisArticleInfos->brandname}}新闻- {{config('app.indexname')}}@stop
+@section('keywords'){{$thisArticleInfos->brandname}}新闻@stop
+@section('description'){{$thisArticleInfos->brandname}}新闻提供最新{{$thisArticleInfos->brandname}}动态信息。@stop
 @section('main_content')
     <div class="weizhi">
         <span> <a href="/"><i class="iconfont icon-dingwei"></i>   首页</a>&gt;<a href="/{{$thisArticleTopTypeInfo->real_path}}/{{$thisArticleTypeInfo->id}}">{{$thisArticleTypeInfo->typename}}</a> &gt;<a class="dq">{{$thisArticleInfos->brandname}}连锁</span>
     </div>
     @include('mobile.brand_header')
-    <div class="content-main" id="b-info">
-        <div class="jm_xq_con on linear-gradient">
-            {!! $thisArticleInfos->body !!}
+    <div class="list_middle">
+        <div class="text_centre">
+            <ul>
+                @foreach($brandnews as $brandnew)
+                    <li>
+                        <a href="/news/{{$brandnew->id}}">
+                            <div class="img_show"><img src="{{$brandnew->litpic}}" class="img_list"></div>
+                            <div class="cont">
+                                <p class="tit_1">{{$brandnew->title}}</p>
+                                <p class="info">{{$brandnew->description}}</p>
+                            </div>
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
         </div>
-        <div class="display" style="display: block;"><span>展开全文 <i class="iconfont icon-jiantou-xia"></i></span></div>
-        <div class="hidden" style="display: none;"><span>收起全文 <i class="iconfont icon-jiantou-shang"></i></span></div>
     </div>
     @include('mobile.liuyan')
     <div id="brandlist-model">

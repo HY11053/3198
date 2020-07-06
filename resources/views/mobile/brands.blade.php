@@ -17,6 +17,42 @@
     <div class="weizhi">
         <span><a href="/"><i class="iconfont icon-dingwei"></i>   首页</a> &gt;   <a href="/{{$thisTypeinfos->real_path}}">{{$thisTypeinfos->typename}}</a></span>
     </div>
+    <div class="brand-filters">
+        <div class="brand-filter-item">
+            <h5>加盟行业 <i class="iconfont iconfont icon-xiala"></i></h5>
+        </div>
+        <div class="brand-filter-item">
+            <h5>投资金额 <i class="iconfont iconfont icon-xiala"></i></h5>
+        </div>
+        <div class="brand-filter-item">
+            <h5>加盟地区 <i class="iconfont iconfont icon-xiala"></i></h5>
+        </div>
+    </div>
+    <div class="bg-fff mg-section">
+        <ul class="filter-list-types none">
+            @foreach($thisTypeSonsInfos as $thisTypeSonsInfo)
+                <li @if(trim(Request::getrequesturi(),'/') == $thisTypeSonsInfo->real_path)  class="dq" @endif  ><a href="/{{$thisTypeinfos->real_path}}/{{$thisTypeSonsInfo->id}}">{{$thisTypeSonsInfo->typename}}</a></li>
+            @endforeach
+        </ul>
+        <ul class="filter-list-types none">
+            @foreach($investmentlists as $id=>$investmentlist)
+                @if($province)
+                    <li @if(array_search($level,$investmentlists->toArray())==$id ) class="dq" @endif><a href="/{{$thisTypeinfos->real_path}}?level={{$id}}&province={{array_search($province,$arealists->toArray())}}">{{$investmentlist}}</a></li>
+                @else
+                    <li @if(array_search($level,$investmentlists->toArray())==$id ) class="dq" @endif><a href="/{{$thisTypeinfos->real_path}}?level={{$id}}">{{$investmentlist}}</a></li>
+                @endif
+            @endforeach
+        </ul>
+        <ul class="filter-list-types none">
+            @foreach($arealists as $areaid=>$arealist)
+                @if($level)
+                    <li @if(array_search($province,$arealists->toArray())==$areaid ) class="dq" @endif><a href="/{{$thisTypeinfos->real_path}}?level={{array_search($level,$investmentlists->toArray())}}&province={{$areaid}}">{{$arealist}}</a></li>
+                @else
+                    <li @if(array_search($province,$arealists->toArray())==$areaid ) class="dq" @endif><a href="/{{$thisTypeinfos->real_path}}?province={{$areaid}}">{{$arealist}}</a></li>
+                @endif
+            @endforeach
+        </ul>
+    </div>
     <div class="brand_list">
         @foreach($brands as $brand)
         <div class="brandlists">
@@ -70,7 +106,7 @@
             </div>
         </div>
     </div>
-<div id="newslist-model">
+    <div id="newslist-model">
     <div class="newslist-modelbox clearfix">
         <i></i>
         <div class="title">{{$thisTypeinfos->typename}}知识</div>
@@ -93,4 +129,12 @@
         </div>
     </div>
 </div>
+@stop
+@section('footer_libs')
+    <script>
+        $(".brand-filters .brand-filter-item").click(function () {
+            $(".filter-list-types").hide().eq($(this).index()).show();
+            $(this).addClass("cur").siblings().removeClass("cur");
+        });
+    </script>
 @stop

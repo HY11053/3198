@@ -25,7 +25,7 @@
 
 @section('main')
     <div class="box">
-        <div class="bk weizhi" style="margin-top:4px;"><span><a href="/">3198创业致富网</a>&gt;<a class="dq">{{$thisTypeinfos["typename"]}}</a></span></div>
+        <div class="bk weizhi" style="margin-top:4px;"><span><a href="/">3198创业致富网</a>&gt;<a class="dq" href="/xm">{{$thisTypeinfos["typename"]}}</a></span></div>
         <div class="search_k">
             <div class="xuanze clearfix">
                 <div class="h3">加盟行业：</div>

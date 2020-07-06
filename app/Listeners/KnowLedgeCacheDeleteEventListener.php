@@ -75,5 +75,9 @@ class KnowLedgeCacheDeleteEventListener
         Cache::forget('topszhishicarticles');
         Cache::forget('topsTypeIndexZhishiArticles');
         Cache::forget('index_zhishilists');
+        Cache::forget('mobile_zhishilists');
+        Cache::forget('mobile_thisArticlebrandListask');
+        Cache::forget('mobile_knowledgelists'.$thisArticleTypeInfo->id);
+        Cache::forget('mobile_latestknowledges');
     }
 }

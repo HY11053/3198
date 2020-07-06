@@ -341,5 +341,6 @@
     </div>
 </div>
 <!--footer结束--><!--footer结束-->
+@yield('footer_libs')
 </body>
 </html>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Mobile;
 
 use App\AdminModel\Archive;
 use App\AdminModel\Brandarticle;
+use App\AdminModel\InvestmentType;
 use App\AdminModel\KnowedgeNew;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -24,9 +25,9 @@ class SearchController extends Controller
             $path='zhishi';
         }
         $key=$request->key;
-        $latestbrands=Cache::remember('search_latestbrands',  config('app.cachetime')+rand(60,60*24), function(){
-            return Brandarticle::take(20)->orderBy('id','desc')->get(['id','litpic','brandname']);
+        $investmentlists=Cache::remember('investmentlists',  config('app.cachetime')+rand(60,60*24), function(){
+            return InvestmentType::orderBy('id','asc')->pluck('type','id');
         });
-        return view('frontend.search',compact('articles','path','key','latestbrands'));
+        return view('mobile.search',compact('articles','path','key','investmentlists'));
     }
 }

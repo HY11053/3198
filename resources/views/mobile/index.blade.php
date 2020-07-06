@@ -192,3 +192,40 @@
         </div>
     </div>
 @stop
+@section('footer_libs')
+    <script>
+        $(function () {
+            iliHeight = $("#moocBox").height();
+            setTimeout(startScroll, delay);
+        });
+        //滚动
+        var iliHeight;
+        var area = document.getElementById('moocBox');
+        var speed = 2;
+        var time;
+        var delay = 3000;
+        area.scrollTop = 0;
+        area.innerHTML += area.innerHTML;
+
+        function startScroll() {
+            time = setInterval("scrollUp()", speed);
+            area.scrollTop++;
+        }
+
+        function scrollUp() {
+            if (area.scrollTop % (iliHeight) == 0) {
+                clearInterval(time);
+                setTimeout(startScroll, delay);
+            } else {
+                area.scrollTop++;
+                if (area.scrollTop >= area.scrollHeight / 2) {
+                    area.scrollTop = 0;
+                }
+            }
+        }
+        $(".tab-box-flex span").click(function () {
+            $(".catering-list").hide().eq($(this).index()).show();
+            $(this).addClass("cur").siblings().removeClass("cur");
+        });
+    </script>
+@stop

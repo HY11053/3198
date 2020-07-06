@@ -128,6 +128,59 @@ class BrandArticleCacheCreateEventListener
             $latestbrandlist3s=Cache::remember('index_latestbrand3s', 60, function(){
                 return Brandarticle::take(27)->orderBy('click','desc')->get(['id','brandname','litpic']);
             });
+            Cache::forget('mobile_latestbrands');
+            Cache::remember('mobile_latestbrands',config('app.cachetime')+rand(3600,3600*24),function(){
+                $brands= Brandarticle::take(4)->orderBy('id','desc')->get(['id','brandname','litpic','tzid','typeid'])->toArray();
+                foreach ($brands as $key=>$brand) {
+                    $brands[$key]['typename']=Arctype::where('id',$brand['typeid'])->value('typename');
+                    $brands[$key]['topreal_path']=Arctype::where('id',Arctype::where('id',$brand['typeid'])->value('reid'))->value('real_path');
+                }
+                return $brands;
+            });
+            Cache::forget('mobile_canyinbrands');
+            Cache::remember('mobile_canyinbrands',config('app.cachetime')+rand(3600,3600*24),function(){
+                $brands= Brandarticle::whereIn('typeid',Arctype::where('reid',1)->pluck('id'))->take(4)->orderBy('id','desc')->get(['id','brandname','litpic','tzid','typeid'])->toArray();
+                foreach ($brands as $key=>$brand) {
+                    $brands[$key]['typename']=Arctype::where('id',$brand['typeid'])->value('typename');
+                    $brands[$key]['topreal_path']=Arctype::where('id',Arctype::where('id',$brand['typeid'])->value('reid'))->value('real_path');
+                }
+                return $brands;
+            });
+            Cache::forget('mobile_jiaoyubrands');
+            Cache::remember('mobile_jiaoyubrands',config('app.cachetime')+rand(3600,3600*24),function(){
+                $brands= Brandarticle::whereIn('typeid',Arctype::where('reid',130)->pluck('id'))->take(4)->orderBy('id','desc')->get(['id','brandname','litpic','tzid','typeid'])->toArray();
+                foreach ($brands as $key=>$brand) {
+                    $brands[$key]['typename']=Arctype::where('id',$brand['typeid'])->value('typename');
+                    $brands[$key]['topreal_path']=Arctype::where('id',Arctype::where('id',$brand['typeid'])->value('reid'))->value('real_path');
+                }
+                return $brands;
+            });
+            Cache::forget('mobile_muyingbrands');
+            Cache::remember('mobile_muyingbrands',config('app.cachetime')+rand(3600,3600*24),function(){
+                $brands= Brandarticle::whereIn('typeid',Arctype::where('reid',141)->pluck('id'))->take(4)->orderBy('id','desc')->get(['id','brandname','litpic','tzid','typeid'])->toArray();
+                foreach ($brands as $key=>$brand) {
+                    $brands[$key]['typename']=Arctype::where('id',$brand['typeid'])->value('typename');
+                    $brands[$key]['topreal_path']=Arctype::where('id',Arctype::where('id',$brand['typeid'])->value('reid'))->value('real_path');
+                }
+                return $brands;
+            });
+            Cache::forget('mobile_tongleibrands'.$thisArticleInfos->id);
+            Cache::remember('mobile_tongleibrands'.$thisArticleInfos->id,  config('app.cachetime')+rand(3600,3600*24), function() use ($thisArticleInfos){
+                $brandarticlekey=array_search($thisArticleInfos->id,Brandarticle::where('typeid',$thisArticleInfos->typeid)->orderBy('id','asc')->pluck('id')->toArray());
+                $brandarticles=Brandarticle::where('typeid',$thisArticleInfos->typeid)->skip($brandarticlekey*4)->take(4)->get(['id','brandname','created_at','litpic','tzid']);
+                if (!count($brandarticles))
+                {
+                    $brandarticles=Brandarticle::where('typeid',$thisArticleInfos->typeid)->skip($brandarticlekey-4)->orderBy('id','asc')->take(4)->get(['id','brandname','litpic','brandpay','tzid']);
+                }
+                return $brandarticles;
+            });
+            //无关联品牌同类品牌推荐
+            Cache::forget('mobile_types_tongleibrands'.$thisArticleInfos->typeid);
+            Cache::remember('mobile_types_tongleibrands'.$thisArticleInfos->typeid,  config('app.cachetime')+rand(3600,3600*24), function() use ($thisArticleInfos){
+                return Brandarticle::where('typeid',$thisArticleInfos->typeid)->take(4)->orderBy('click','desc')->get(['id','litpic','brandname','tzid']);
+            });
+            //移动端资讯列表页
+            Cache::remember('mobile_article_latestbrands');
         }
 
     }
