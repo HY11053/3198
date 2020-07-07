@@ -3,8 +3,8 @@
 @section('keywords')联系我们@stop
 @section('description')联系我们@stop
 @section('main_content')
-    <div class="weizhi"><span><a href="/"><i class="iconfont icon-dingwei"></i>   首页</a> > 联系我们</span> </div>
-    <div class="list_middle">
+    <div class="weizhi_locations"><span><a href="/"><i class="iconfont icon-dingwei"></i>   首页</a> > 联系我们</span> </div>
+    <div class="list_middle_models">
         <div class="a_content_brand">
             <div class="a_content">
                 <h1>联系我们</h1>

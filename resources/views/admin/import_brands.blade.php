@@ -8,7 +8,7 @@
     <div class="col-md-12">
         {{Form::open(array('route' => 'importbrands','method'=>'put'))}}
         <div class="form-group col-md-12">
-            {{Form::select('type', $brandtypes, null,array('class'=>'form-control select2'))}}
+            {{Form::select('type', $brand_types_model, null,array('class'=>'form-control select2'))}}
         </div>
         <div class="col-md-12">
             <p class="timeline-header">数据导入区域 一条一行</p>

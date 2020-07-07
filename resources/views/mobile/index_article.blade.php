@@ -9,13 +9,13 @@
 @section('description'){{$thisTypeinfos->kdescription}}@stop
 @endif
 @section('main_content')
-    <div class="weizhi">
-        <span><a href="/"><i class="iconfont icon-dingwei"></i>   首页</a> &nbsp;&gt; <a href="/{{$catepath}}/{{$thisTypeinfos->real_path}}">{{$thisTypeinfos->typename}}</a>&gt;&nbsp;{{$thisTypeinfos->typename}}</span>
+    <div class="weizhi_locations">
+        <span><a href="/"><i class="iconfont icon-dingwei"></i>   首页</a> &nbsp;&gt; <a href="/{{$catepath}}">@if($catepath=='news')加盟资讯 @else 加盟知识 @endif</a> > <a href="/{{$catepath}}/{{$thisTypeinfos->real_path}}">{{$thisTypeinfos->typename}}</a></span>
     </div>
-    <div class="list_middle">
-        <div class="text_centre">
+    <div class="list_middle_models">
+        <div class="list_middle_text_centre">
             @foreach($listcollections as $typename=>$listcollection)
-                <div class="zx_ullb1">
+                <div class="zx_3198ullb1">
                     <div class="h2"><a href="/{{$catepath}}/{{$thisTypeinfos->real_path}}/{{\App\AdminModel\Arctype::where('typename',$typename)->value('id')}}">{{$typename}}</a></div>
                     <ul>
                         @foreach($listcollection as $articlecollection)
@@ -31,13 +31,13 @@
             @endforeach
         </div>
     </div>
-    <div id="newslist-model">
-        <div class="newslist-modelbox clearfix">
+    <div id="newslist-cmodels">
+        <div class="newslist-3198modelboxs clearfix">
             <i></i>
             <div class="title">项目资讯</div>
-            <div class="newslist-modelcontent">
+            <div class="newslist-3198_models">
                 @foreach($latestKnowledges as $latestKnowledge)
-                    <div class="newslist-modellist">
+                    <div class="newslist-cmodelslist">
                         <a href="/zhishi/{{$latestKnowledge->id}}">
                             <div class="left fl">
                                 <div class="lefttitle">{{$latestKnowledge->title}}</div>
@@ -54,18 +54,18 @@
             </div>
         </div>
     </div>
-    <div id="brandlist-model">
-        <div class="brandlist-modelbox clearfix">
+    <div id="brandlist-cmodel">
+        <div class="brandlist-cmodelbox clearfix">
             <i></i>
             <div class="title">最新上线项目</div>
-            <div class="brandlist-modelcontent">
+            <div class="brandlist-cmodelcontent">
                 @foreach($latestBrands as $latestBrand)
-                    <div class="brandlist-modellist  @if($loop->iteration %2==0) fl @else fr @endif ">
+                    <div class="brandlist-cmodellist  @if($loop->iteration %2==0) fl @else fr @endif ">
                         <a href="/xm/{{$latestBrand->id}}">
                             <img src="{{$latestBrand->litpic}}" alt="{{$latestBrand->brandname}}">
-                            <div class="brandlist-modellistcontent">
-                                <div class="listtitle">{{$latestBrand->brandname}}</div>
-                                <div class="listtext">
+                            <div class="brandlist-cmodellistcontent">
+                                <div class="model-listtitle">{{$latestBrand->brandname}}</div>
+                                <div class="model-listtext">
                                     <p></p>
                                 </div>
                                 <div class="textleft fl">￥{{$investmentlists[$latestBrand->tzid]}}

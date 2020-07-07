@@ -17,7 +17,7 @@
 @section('main')
     <div class="box clearfix" style="position:relative;">
 
-        <div class="weizhi1">
+        <div class="weizhi_locations1">
             <span><a href="/" target="_blank">3198创业商机网</a>&gt;<a target="_blank">法律声明</a></span>
         </div>
         <div style="border-top:2px solid #d81f13;margin-top:10px;"></div>

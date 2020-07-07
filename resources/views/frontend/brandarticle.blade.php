@@ -15,7 +15,7 @@
 @stop
 @section('main')
     <div class="main">
-        <div class="bk weizhi" style="margin-top:4px;">
+        <div class="bk weizhi_locations" style="margin-top:4px;">
 		<span>
 			<a href="/">{{config('app.indexname')}}</a> &gt;<a href="/{{$thisArticleTopTypeInfo->real_path}}/{{$thisArticleTypeInfo->id}}">{{$thisArticleTypeInfo->typename}}</a> &gt;<a class="dq">{{$thisArticleInfos->brandname}}连锁</a>
         </span>
@@ -169,7 +169,38 @@
                 <div class="ny_l-t"> <strong>项目介绍</strong>
                 </div>
                 <div class="ny_l-body">
-                    {!! $thisArticleInfos->body !!}</div>
+                    @php
+                        $content=preg_replace(["/style=.+?['|\"]/i","/width=.+?['|\"]/i","/height=.+?['|\"]/i"],'',$thisArticleInfos->body);
+                        $content=str_replace(PHP_EOL,'',$content);
+                        $content=str_replace(['<p >','<strong >','<br >','<br />'],['<p>','<strong>','<br>','<br/>'],$content);
+                        $content=str_replace(
+                        [
+                        '<p><strong><br/></strong></p>',
+                        '<p><strong><br></strong></p>',
+                        '<p><br></p>',
+                        '<p><br/></p>',
+                        '　　'
+                        ],'',$content
+                        );
+                        $content=str_replace(["\r","\t",'<span >　　</span>','&nbsp;','　','bgcolor="#FFFFFF"'],'',$content);
+                        $content=str_replace(["<br  /><br  />"],'<br/>',$content);
+                        $content=str_replace(["<br/><br/>"],'<br/>',$content);
+                        $content=str_replace(["<br/> <br/>"],'<br/>',$content);
+                        $content=str_replace(["<br />　　<br />"],'<br/>',$content);
+                        $content=str_replace(["<br/>　　<br/>"],'<br/>',$content);
+                        $content=str_replace(["<br /><br />"],'<br/>',$content);
+                        $pattens=array(
+                        "#<p>[\s| |　]?<strong>[\s| |　]?</strong></p>#",
+                        "#<p>[\s| |　]?<strong>[\s| |　]+</strong></p>#",
+                        "#<p>[\s| |　]+<strong>[\s| |　]+</strong></p>#",
+                        "#<p>[\s| |　]?</p>#",
+                        "#<p>[\s| |　]+</p>#"
+                        );
+                        $content=preg_replace($pattens,'',$content);
+                        echo $content;
+                    @endphp
+
+                </div>
             </div>
             @if($thisArticleInfos->pds)
             <div class="ny_l-js">

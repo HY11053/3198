@@ -57,7 +57,7 @@ class ListController extends Controller
         });
         $province=Area::where('id',$request->province)->value('regionname');
         $level=isset($investmentlists[$request->level])?$investmentlists[$request->level]:'';
-        return view('mobile.xmbrands',compact('thisTypeinfos','thisTypeSonsInfos','brands','tuijianbrands','investmentlists','arealists','thisTypeKnowledges','thisTypeNews','thisTypelatestbrands','thisTypepaihangbangs','province','level'));
+        return view('mobile.xmbrands',compact('thisTypeinfos','thisTypeSonsInfos','brands','tuijianbrands','investmentlists','arealists','thisTypeKnowledges','thisTypeNews','province','level'));
     }
     /**顶级栏目品牌分类
      * @param Request $request

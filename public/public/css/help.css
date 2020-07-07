@@ -7,9 +7,9 @@ html,body{ height:100%;}
 select{ border:1px solid #ccc;}
 li{ list-style:none;}
 .left{ float:left;}
-.right{ float:right;} 
+.right{ float:right;}
 /* ----- clear fix for floats ----- */
-/* these styles instruct non-IE browsers to render container elements so that they fully enclose floats */		
+/* these styles instruct non-IE browsers to render container elements so that they fully enclose floats */
 /* without this class applied, a float might hang over the bottom border of it's container */
 .clearfix:after {content:"."; width:0; height:0; line-height:0; font-size:0; display:block; clear:both; visibility:hidden; overflow:hidden;margin:0;}
 .clearfix {display:inline-block;}
@@ -74,8 +74,8 @@ a:hover{ color:#bd0000;}
 
 .bt{ border-bottom:1px solid #e2e2e2; margin-top:16px; line-height:36px; height:36px;}
 .bt h1,.bt strong{ float:left; font-size:18px; font-family:"微软雅黑"; color:#333; background:url(../images/bt_pic.jpg) no-repeat left center; padding-left:14px;}
-.bt .weizhi{ float:right; color:#666;}
-.bt .weizhi a{ color:#666;}
+.bt .weizhi_locations{ float:right; color:#666;}
+.bt .weizhi_locations a{ color:#666;}
 
 .content{ padding:10px 0; line-height:180%; font-size:14px;}
 
@@ -110,11 +110,11 @@ a:hover{ color:#bd0000;}
 .content_bt{ padding:20px 0 14px; border-bottom:1px dashed #e2e2e2; margin:0 20px;}
 .content_ly{ padding-top:14px; color:#999; text-align:center;}
 .content_bt h1{ text-align:center; font-size:24px; font-family:"微软雅黑"; color:#333;}
-.fenxiangdaima{ float:right;} 
+.fenxiangdaima{ float:right;}
 .content2{ padding:10px 20px 20px 20px; font-size:14px; line-height:200%; color:#333;}
 .content_bj{ text-align:right; color:#999; margin-top:14px;}
 
-.nr_biaoqian{ background-color:#e2e2e2; padding:0 14px; line-height:32px; margin-top:14px; font-size:12px; height:32px;} 
+.nr_biaoqian{ background-color:#e2e2e2; padding:0 14px; line-height:32px; margin-top:14px; font-size:12px; height:32px;}
 .nr_biaoqian strong{ float:left; background:url(../images/biaoqian.gif) no-repeat left center; padding-left:14px;}
 .nr_biaoqian a{ margin-right:14px; color:#333;}
 .shangxiapian{ line-height:30px; padding-top:10px;}

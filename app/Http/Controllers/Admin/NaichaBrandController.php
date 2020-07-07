@@ -19,8 +19,8 @@ class NaichaBrandController extends Controller
      */
     public function brandsImport()
     {
-        $brandtypes=BrandType::pluck('brandname','brandtype');
-        return view('admin.import_brands',compact('brandtypes'));
+        $brand_types_model=BrandType::pluck('brandname','brandtype');
+        return view('admin.import_brands',compact('brand_types_model'));
     }
 
     /**品牌数据导入处理 txt
@@ -51,13 +51,13 @@ class NaichaBrandController extends Controller
     public function brandListsView(Request $request)
     {
         $arguments=$request->all();
-        $brandtypes=BrandType::pluck('brandname','brandtype');
+        $brand_types_model=BrandType::pluck('brandname','brandtype');
         $datas=Brandcontainer::when($request->input('type'), function ($query) use ($request) {
             return $query->where('type', $request->input('type'));
         })->when($request->input('status') , function ($query) use ($request) {
             return $query->where('status', $request->input('status'));
         })->orderBy('id','asc')->paginate(50);
-        return view('admin.brands',compact('datas','arguments','brandtypes'));
+        return view('admin.brands',compact('datas','arguments','brand_types_model'));
     }
 
 

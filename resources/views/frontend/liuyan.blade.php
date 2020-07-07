@@ -1,11 +1,19 @@
 <div class="clearfix"></div>
-
 <div class="clear"></div>
 <div class="ny-khly ny-khly-b" id="div5">
     <h3>客服留言</h3>
     <ul id="textUL">
-        <li><span class="data">06-26 07:24</span>巴彦淖尔盟的<span class="red">王先生&nbsp;&nbsp;180******33</span>对该项目产生意向：你们的总部在哪里？</li><li><span class="data">06-26 11:42</span>万宁的<span class="red">王女士&nbsp;&nbsp;181******88</span>对该项目产生意向：你们的总部在哪里？</li><li><span class="data">06-27 04:15</span>吐鲁番的<span class="red">罗先生&nbsp;&nbsp;181******53</span>对该项目产生意向：你们的总部在哪里？</li><li><span class="data">06-27 08:35</span>马鞍山的<span class="red">李女士&nbsp;&nbsp;138******78</span>对该项目产生意向：我想加盟，请联系我。</li><li><span class="data">06-27 12:55</span>巴中的<span class="red">张先生&nbsp;&nbsp;150******23</span>对该项目产生意向：我想加盟，请来电告知加盟细节。</li><li><span class="data">06-27 05:16</span>驻马店的<span class="red">侯女士&nbsp;&nbsp;177******23</span>对该项目产生意向：你们的总部在哪里？</li><li><span class="data">06-27 09:55</span>海南的<span class="red">王先生&nbsp;&nbsp;186******75</span>对该项目产生意向：你们的总部在哪里？</li><li><span class="data">06-28 02:29</span>揭阳的<span class="red">王先生&nbsp;&nbsp;138******40</span>对该项目产生意向：你好！我想加盟代理你们的品牌，请联系我。</li><li><span class="data">06-28 06:51</span>阜阳的<span class="red">张先生&nbsp;&nbsp;186******14</span>对该项目产生意向：我想加盟，请来电告知加盟细节。</li><li><span class="data">06-28 11:08</span>惠州的<span class="red">陆女士&nbsp;&nbsp;156******70</span>对该项目产生意向：你们的总部在哪里？</li>                </ul>
-
+        <li><span class="data">06-26 07:24</span>巴彦淖尔盟的<span class="red">王先生&nbsp;&nbsp;180******33</span>对该项目产生意向：你们的总部在哪里？</li>
+        <li><span class="data">06-26 11:42</span>万宁的<span class="red">王女士&nbsp;&nbsp;181******88</span>对该项目产生意向：你们的总部在哪里？</li>
+        <li><span class="data">06-27 04:15</span>吐鲁番的<span class="red">罗先生&nbsp;&nbsp;181******53</span>对该项目产生意向：你们的总部在哪里？</li>
+        <li><span class="data">06-27 08:35</span>马鞍山的<span class="red">李女士&nbsp;&nbsp;138******78</span>对该项目产生意向：我想加盟，请联系我。</li>
+        <li><span class="data">06-27 12:55</span>巴中的<span class="red">张先生&nbsp;&nbsp;150******23</span>对该项目产生意向：我想加盟，请来电告知加盟细节。</li>
+        <li><span class="data">06-27 05:16</span>驻马店的<span class="red">侯女士&nbsp;&nbsp;177******23</span>对该项目产生意向：你们的总部在哪里？</li>
+        <li><span class="data">06-27 09:55</span>海南的<span class="red">王先生&nbsp;&nbsp;186******75</span>对该项目产生意向：你们的总部在哪里？</li>
+        <li><span class="data">06-28 02:29</span>揭阳的<span class="red">王先生&nbsp;&nbsp;138******40</span>对该项目产生意向：你好！我想加盟代理你们的品牌，请联系我。</li>
+        <li><span class="data">06-28 06:51</span>阜阳的<span class="red">张先生&nbsp;&nbsp;186******14</span>对该项目产生意向：我想加盟，请来电告知加盟细节。</li>
+        <li><span class="data">06-28 11:08</span>惠州的<span class="red">陆女士&nbsp;&nbsp;156******70</span>对该项目产生意向：你们的总部在哪里？</li>
+    </ul>
     <script>
         var Marquee1=new Marquee("textUL");Marquee1.Step=1; Marquee1.Start();
     </script>
@@ -41,31 +49,26 @@
         </div>
     </div>
     <div class="hy-mfdh-r">
-        <form method="post" action="https://i.u88.com/store"  id="dform" onsubmit="return check();" >
+        <form onsubmit="return false" id="dform" >
             <input type="hidden" name="realm" value="www.3198.com">
             <input type="hidden" name="job" value="guestbook">
-            <input type="hidden" name="title" value="柳螺香"/>
-            <input type="hidden" name="cla" value="小吃"/>
-            <input type="hidden" name="combrand" value="柳螺香"/>
+            <input type="hidden" name="project_id" id="project_id" value="{{$thisArticleInfos->id}}">
+            <input type="hidden" name="cid" id="cid" value="{{$thisArticleTopTypeInfo->typename}}">
+            <input type="hidden" name="title" id="fm_title" value="{{$thisArticleInfos->brandname}}"/>
+            <input type="hidden" name="cla" id="cla" value="{{$thisArticleTypeInfo->tyname}}"/>
+            <input type="hidden" name="combrand" id="combrand" value="{{$thisArticleTypeInfo->brandname}}"/>
             <input type="hidden" name="resolution" id="resolution"/>
-
             <ul class="ull">
                 <li>
-                                <span>
-                                    <i>*</i>姓名：
-                                </span>
+                    <span><i>*</i>姓名：</span>
                     <input id="truename" name="username" type="text" class="ny-xm" placeholder="您的真实姓名" value="" />
                 </li>
                 <li>
-                                <span>
-                                    <i>*</i>手机：
-                                </span>
+                    <span><i>*</i>手机：</span>
                     <input id="telephone" name="iphone" type="text" class="ny-xm" placeholder="电话是与您联系的重要方式" value="" />
                 </li>
                 <li>
-                                <span>
-                                    <i>*</i>金额：
-                                </span>
+                    <span><i>*</i>金额：</span>
                     <select name="jine" style="line-height:32px;height:32px;">
                         <option value="0">请选择金额</option>
                         <option value="1">1万元以下</option>
@@ -102,7 +105,7 @@
                     })
                 });
             </script>
-            <input name="" type="submit" class="ny-ly-anniu" value="提交留言" />
+            <input name="" type="submit" class="ny-ly-anniu" id="sub_btn" value="提交留言" />
         </form>
     </div>
     <div class="clearfix"></div>

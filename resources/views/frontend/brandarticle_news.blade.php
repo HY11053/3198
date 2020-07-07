@@ -16,7 +16,7 @@
 @section('main')
 <!--主体开始-->
 <div class="main">
-    <div class="bk weizhi" style="margin-top:4px;">
+    <div class="bk weizhi_locations" style="margin-top:4px;">
         <span><a href="/">{{config('app.indexname')}}</a>&gt;<a href="/{{$thisArticleTopTypeInfo->real_path}}/{{$thisArticleTypeInfo->id}}">{{$thisArticleTypeInfo->typename}}</a>&gt;<a href="/xm/{{$thisArticleInfos->id}}">{{$thisArticleInfos->brandname}}连锁</a>&gt;<a class="dq">新闻</a></span>
     </div>
     @include('frontend.brand_header')

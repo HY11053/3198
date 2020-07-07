@@ -14,7 +14,7 @@ class AddUrlToBrandarticlesTable extends Migration
     public function up()
     {
         Schema::table('brandarticles', function (Blueprint $table) {
-            $table->string('url')->nullable()->unique();
+            $table->string('url')->nullable();
         });
     }
 

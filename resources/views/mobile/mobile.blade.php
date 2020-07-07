@@ -71,28 +71,25 @@
     <div class="tabs-ctn">
         <ul class="content1 cy-item ">
             <li><a href="javascript:;">
-                    <p class="online-name1">1. 我方平台为信息发布平台，您的留言将在我方平台发布或提供给相应商家</p>
-                    <p class="online-name1">2. 如不需要发布信息，请勿在本平台留言</p>
-                    <p class="online-name1">3.
-                        公司对与任何包含、经由、或链接、下载或从任何与本网站有关服务所获得的资讯、内容或广告，不声明或保证其内容的正确性、真实性或可靠性；并且，对于您透过本网广告、资讯或要约而展示、购买或取得的任何产品、资讯或资料，本网站亦不负品质保证的责任。您与此接受并承认信赖任何信息所产生之风险应自行承担，本网对任何使用或提供本网站信息的商业活动及其风险不承担任何责任。</p>
-                    <p class="online-name1">4.
-                        本网站若因线路及非本公司控制范围外的硬件故障或其它不可抗力，以及黑客政击、计算机病毒侵入或发而造成的个人资料泄露、丢失、被盗用或被篡改等，本网站亦不负任何责任。</p>
-                    <p class="online-name1">5.
-                        当本网站以链接形式推荐其他网站内容时，本网站并不对这些网站或资源的真实性、可用性、合法性负责，且不保证从这些网站获取的任何内容、产品、服务或其他材料的真实性、合法性，对于任何因使用或信赖从此类网站上获取的内容、产品、资源、服务或其他材料而造成的任何直接或间接的损失均由您自行承担，本网站均不承担任何责任。</p>
-                </a></li>
+                    <p class="online-name1">1. 投资有风险，加盟需谨慎</p>
+                    <p class="online-name1">2.多打电话、多咨询、实地考察，可降低投资风险！</p>
+                    <p class="online-name1">3. 我方平台为信息发布平台，内容由用户自行提供，内容的真实性、准确性由用户自行负责，本平台对此不承担任何法律风险</p>
+                    <p class="online-name1">4. 网站信息如涉嫌违规或违反相关法律规定，请联系我们，我们删除</p>
+                </a>
+            </li>
         </ul>
     </div>
 </div>
 <footer>
     <div class="link-box ">
-        <a href="https://www.anxjm.com/" class="foot-link">电脑版</a><span class="v-line">|</span>
-        <a href="/search/" class="foot-link">品牌大全</a><span class="v-line">|</span>
-        <a href="/newsPage/1602/" class="foot-link">加盟费用</a><span class="v-line">|</span>
-        <a href="/newsPage/1604/" class="foot-link">选址筹备</a><span class="v-line">|</span>
-        <a href="/newsPage/16010/" class="foot-link">品牌动态</a>
+        <a href="{{config('app.url')}}" class="foot-link">电脑版</a><span class="v-line">|</span>
+        <a href="/xm/" class="foot-link">品牌大全</a><span class="v-line">|</span>
+        <a href="/about.html" class="foot-link" rel="nofollow">关于我们</a><span class="v-line">|</span>
+        <a href="/contact.html" class="foot-link"  rel="nofollow">联系我们</a><span class="v-line">|</span>
+        <a href="/copyright.html" class="foot-link"  rel="nofollow">法律声明</a>
     </div>
     <p class="firm clearfix">
-        <span class="foot-text mgr15">上海桥梓网络科技有限公司 	 版权所有</span>
+        <span class="foot-text mgr15">上海佐赛网络科技有限公司 	 版权所有</span>
     </p>
 </footer>
 <script type="text/javascript" src="/mobile/js/jquery.min.js"></script>

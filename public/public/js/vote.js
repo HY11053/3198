@@ -1,15 +1,8 @@
-$(function() { 
-    
-
-
-
-
+$(function() {
 
        var like=$("input[name='like']").val();
        var unlike=$("input[name='unlike']").val();
        var statusx=$("input[name='status']").val();
-
-
 	var htmlia='<div class="dingcai clearfix">';
 		    htmlia+='<a href="javascript:void(0);"   class="news_ding"><strong>顶</strong><span class="ding">'+like+'</span></a>';
         htmlia+='<a href="javascript:void(0);"   class="news_cai"><strong>顶</strong><span class="cai">'+unlike+'</span></a>';
@@ -28,7 +21,7 @@ $(function() {
                        htmlia+='<input type="text" placeholder="QQ/电话/邮件均可，以便我们与您取得必要的联系" class="pinta-text2" name="contact"></li>';
                        htmlia+='<li style="height:37px; padding-left:104px;">';
                        htmlia+='<input type="button" class="pinta-submit" value="提交留言" onClick="userCheck()"></li></ul>';
-             
+
                     htmlia+='</ul>'
 
                   htmlia+='</form>';
@@ -41,17 +34,17 @@ $(function() {
                    htmlia+='<li><strong>提交说明：</strong></li>';
                    htmlia+='<li>1.为了让我们提供更专业、更实用的内容，我们鼓励您提供尽量详细的反馈信息。</li>';
                    htmlia+='<li>2.我们建议您留下您的联系方式，以便我们能与您取得联系！</li>';
-                   
+
                htmlia+='</ul>'
 
           htmlia+='</div>';
 
         htmlia+='</div>';
-		    
-		
+
+
 $(".liuyan_wx").before(htmlia);
 
-  
+
 $('.news_cai').click(function(){
           var vid = $("input[name='vid']").val();
           var status=statusx;
@@ -68,20 +61,20 @@ $('.news_cai').click(function(){
            {
              $(".cai").html(cai);
               $('.tancbg').show();
-             $('.tanc').show();       
+             $('.tanc').show();
            }
       });
-                           
+
   });
   $('.tc_cai_close').click(function(){
     $('.tancbg').hide();
-    $('.tanc').hide();                              
+    $('.tanc').hide();
   });
   $('.tancbg').click(function(){
     $(this).hide();
-    $('.tanc').hide();                              
+    $('.tanc').hide();
   });
-      
+
     $('.news_ding').click(function(){
       var vid = $("input[name='vid']").val();
           var status=statusx;
@@ -97,11 +90,11 @@ $('.news_cai').click(function(){
            else if(data1.status=="done")
            {
               $(".ding").html(ding);
-              
+
            }
 
       });
-                         
+
   });
 
 

@@ -167,10 +167,10 @@ class BrandArticleCacheCreateEventListener
             Cache::forget('mobile_tongleibrands'.$thisArticleInfos->id);
             Cache::remember('mobile_tongleibrands'.$thisArticleInfos->id,  config('app.cachetime')+rand(3600,3600*24), function() use ($thisArticleInfos){
                 $brandarticlekey=array_search($thisArticleInfos->id,Brandarticle::where('typeid',$thisArticleInfos->typeid)->orderBy('id','asc')->pluck('id')->toArray());
-                $brandarticles=Brandarticle::where('typeid',$thisArticleInfos->typeid)->skip($brandarticlekey*4)->take(4)->get(['id','brandname','created_at','litpic','tzid']);
+                $brandarticles=Brandarticle::where('typeid',$thisArticleInfos->typeid)->skip($brandarticlekey*4)->take(4)->get(['id','brandname','created_at','litpic','tzid','created_at']);
                 if (!count($brandarticles))
                 {
-                    $brandarticles=Brandarticle::where('typeid',$thisArticleInfos->typeid)->skip($brandarticlekey-4)->orderBy('id','asc')->take(4)->get(['id','brandname','litpic','brandpay','tzid']);
+                    $brandarticles=Brandarticle::where('typeid',$thisArticleInfos->typeid)->skip($brandarticlekey-4)->orderBy('id','asc')->take(4)->get(['id','brandname','litpic','brandpay','tzid','created_at']);
                 }
                 return $brandarticles;
             });

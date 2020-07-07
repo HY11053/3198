@@ -16,7 +16,7 @@
     </ul>
 </div>
 <div class="search_jg">3198为您找到与<b style="color:red;">『{{$key}}』</b>相关结果约 {{$articles->total()}} 个</div>
-<div class="bk weizhi" style="margin-top:4px;">
+<div class="bk weizhi_locations" style="margin-top:4px;">
         <span>
         <a href="/" target="_blank">{{config('app.indexname')}}</a>
         >

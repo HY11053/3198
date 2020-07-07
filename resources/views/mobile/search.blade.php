@@ -1,7 +1,7 @@
 @extends('mobile.mobile')
 @section('main_content')
     @include('mobile.lunbo')
-    <div class="weizhi">
+    <div class="weizhi_locations">
         <span>3198为您找到与<b style="color:red;">『{{$key}}』</b>相关结果约 {{$articles->total()}} 个</span>
     </div>
     <div class="brand-filters">
@@ -44,8 +44,8 @@
         @endforeach
     </div>
     @else
-        <div class="list_middle">
-            <div class="text_centre">
+        <div class="list_middle_models">
+            <div class="list_middle_text_centre">
                 <ul>
                     @foreach($articles as $article)
                         <li>

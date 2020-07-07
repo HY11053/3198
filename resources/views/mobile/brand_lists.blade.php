@@ -14,7 +14,7 @@
 @endif
 @section('main_content')
     @include('mobile.lunbo')
-    <div class="weizhi">
+    <div class="weizhi_locations">
         <span><a href="/"><i class="iconfont icon-dingwei"></i>   首页</a> &gt;   <a href="https://m.anxjm.com/ms/">餐饮美食</a>&nbsp;&gt;&nbsp;列表：</span>
     </div>
     <div class="brand-filters">
@@ -83,13 +83,13 @@
         {{$brands->links()}}
         </div>
     </div>
-    <div id="newslist-model">
-        <div class="newslist-modelbox clearfix">
+    <div id="newslist-cmodels">
+        <div class="newslist-3198modelboxs clearfix">
             <i></i>
             <div class="title">{{$thisTypeinfos->typename}}资讯</div>
-            <div class="newslist-modelcontent">
+            <div class="newslist-3198_models">
                 @foreach($thisTypeNews as $thisTypeNew)
-                    <div class="newslist-modellist">
+                    <div class="newslist-cmodelslist">
                         <a href="/news/{{$thisTypeNew->id}}">
                             <div class="left fl">
                                 <div class="lefttitle">{{$thisTypeNew->title}}</div>
@@ -106,13 +106,13 @@
             </div>
         </div>
     </div>
-    <div id="newslist-model">
-        <div class="newslist-modelbox clearfix">
+    <div id="newslist-cmodels">
+        <div class="newslist-3198modelboxs clearfix">
             <i></i>
             <div class="title">{{$thisTypeinfos->typename}}知识</div>
-            <div class="newslist-modelcontent">
+            <div class="newslist-3198_models">
                 @foreach($thisTypeKnowledges as $thisTypeKnowledge)
-                    <div class="newslist-modellist">
+                    <div class="newslist-cmodelslist">
                         <a href="/zhishi/{{$thisTypeKnowledge->id}}">
                             <div class="left fl">
                                 <div class="lefttitle">{{$thisTypeKnowledge->title}}</div>

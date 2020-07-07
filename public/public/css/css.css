@@ -222,6 +222,11 @@ body, html { min-height:101%; }
 .ny_l-t{ height:40px; line-height:40px; padding-top:0px; border-bottom:1px solid #ececec; font-size:18px;}
 .ny_l-t strong{ float:left; line-height:39px; border-bottom:2px solid #f04336; background:url(../images/bj.jpg) no-repeat center left; padding:0 50px 0 15px; font-weight:bold;}
 .ny_l-body{ line-height:33px; height:auto; padding:10px 0; color:#404040; overflow:hidden; font-size:14px;}
+.ny_l-body br {
+    display: block; /* makes it have a width */
+    content: ""; /* clears default height */
+    margin-top: 10px; /* change this to whatever height you want it */
+}
 .ny_l-body  h2 { text-indent: 0;   position: relative;    color: #333 !important;    font-size: 18px;    font-weight: bold;    padding: 0 3px 0 0;    padding-left: 10px;    border-bottom: 2px solid #EDEDED;    height: 40px;    line-height: 40px;      margin-bottom: 10px;}
 .ny_l-body h2:after {    position: absolute;    left: 0px;    top: 12px;    width: 3px;    height: 18px;    background-color: #f04336;    content: '';}
 .ny_l-body p{ padding-bottom:15px;}
@@ -385,10 +390,10 @@ body, html { min-height:101%; }
 
 
 
-.weizhi{ height:24px; line-height:24px; margin-top:10px; font-size:12px;}
-.weizhi a.dq{ color:#f27c1a;}
-.weizhi span{ display:block; height:24px; background:url(../images/crumbs_pic.gif) no-repeat left center; padding-left:16px; display:block;}
-.weizhi a{ margin:0 8px;}
+.weizhi_locations{ height:24px; line-height:24px; margin-top:10px; font-size:12px;}
+.weizhi_locations a.dq{ color:#f27c1a;}
+.weizhi_locations span{ display:block; height:24px; background:url(../images/crumbs_pic.gif) no-repeat left center; padding-left:16px; display:block;}
+.weizhi_locations a{ margin:0 8px;}
 
 
 .box{margin: 0 auto;text-align: left;width: 990px;}

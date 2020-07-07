@@ -3,8 +3,8 @@
 @section('keywords')关于我们@stop
 @section('description')关于我们@stop
 @section('main_content')
-    <div class="weizhi"><span><a href="/"><i class="iconfont icon-dingwei"></i>   首页</a> > 法律声明</span> </div>
-    <div class="list_middle">
+    <div class="weizhi_locations"><span><a href="/"><i class="iconfont icon-dingwei"></i>   首页</a> > 法律声明</span> </div>
+    <div class="list_middle_models">
         <div class="a_content_brand">
             <div class="a_content">
                 <h1>法律声明</h1>

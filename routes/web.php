@@ -32,8 +32,11 @@ Route::group(['domain' => 'www.3198.net'], function () {
     Route::get('zhishi/{path}','Frontend\ListController@IndexArticleList')->where(['path'=>'[a-z]+']);
     Route::get('zhishi/{path}/{id}','Frontend\ListController@NewsArticleList')->where(['path'=>'[a-z]+','id'=>'[0-9]+']);
     Route::get('search','Frontend\SearchController@Search');
+    Route::post('feedback','Frontend\FeedController@Feedback');
+    Route::post('feedbac','Frontend\FeedController@Feedback');
     Route::get('{path}','Frontend\ListController@TopbrandList')->where(['path'=>'[a-z]+']);;
     Route::get('{path}/{id}','Frontend\ListController@BrandList')->where(['path'=>'[a-zA-Z]+','id'=>'[0-9]+']);
+
 });
 
 Route::get('/','Mobile\IndexController@Index');
@@ -57,3 +60,5 @@ Route::get('zhishi/{path}/{id}','Mobile\ListController@NewsArticleList')->where(
 Route::get('search','Mobile\SearchController@Search');
 Route::get('{path}','Mobile\ListController@TopbrandList')->where(['path'=>'[a-z]+']);;
 Route::get('{path}/{id}','Mobile\ListController@BrandList')->where(['path'=>'[a-zA-Z]+','id'=>'[0-9]+']);
+
+Route::post('phonecomplate','Frontend\PhoneController@PhoneComplate');

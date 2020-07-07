@@ -33,7 +33,7 @@ class PhoneEventListener
      */
     public function handle(PhoneEvent $event)
     {
-        preg_match('#\/news\/(\d+)\.shtml#',$event->phonemanage->host,$matches);
+        preg_match('#\/news\/(\d+)#',$event->phonemanage->host,$matches);
         if (isset($matches[1]))
         {
             $brandid=Archive::where('id',$matches[1])->value('brandid');
@@ -56,7 +56,7 @@ class PhoneEventListener
                 $project_id=$matches[1];
             }
         }else{
-            preg_match('#\/xm\/(\d+)\.shtml#',$event->phonemanage->host,$matches);
+            preg_match('#\/xm\/(\d+)#',$event->phonemanage->host,$matches);
             if (isset($matches[1])){
                 $brandarticle=Brandarticle::where('id',$matches[1])->first();
                 $brandname=$brandarticle->brandname;
@@ -69,10 +69,10 @@ class PhoneEventListener
             }
         }
         $post_data = array(
-            "realm" => 'www.icycn.com',
+            "realm" => 'www.3198.com',
             "job" => 'guestbook',
             "resolution" => 'resolution',
-            "title" => '世纪母婴网',
+            "title" => '3198创业致富网',
             "cla" => $cla,
             "combrand" => $brandname,
             "username" => $event->phonemanage->name,

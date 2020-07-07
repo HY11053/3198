@@ -18,7 +18,7 @@
                             <div class="input-group-addon">
                                 <i class="fa fa-location-arrow" style="width:10px;"></i>
                             </div>
-                            {{Form::select('type', $brandtypes, null,array('class'=>'form-control select2 pull-right','style'=>'width: 150px;','data-placeholder'=>"品牌分类",'multiple'=>"multiple"))}}
+                            {{Form::select('type', $brand_types_model, null,array('class'=>'form-control select2 pull-right','style'=>'width: 150px;','data-placeholder'=>"品牌分类",'multiple'=>"multiple"))}}
                         </div>
                     </div>
                     <div class="form-group">

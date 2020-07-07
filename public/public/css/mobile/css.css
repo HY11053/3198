@@ -148,9 +148,9 @@ a:hover {color:#c00;}
 .news_list ul li.fg{ border-top:1px dotted #e5e5e5; margin-top:6px; height:6px; overflow:hidden; background:none;}
 
 
-.weizhi{ height:40px; line-height:40px; padding-left:34px; background:url(../../images/mobile/weizhi.png) no-repeat 10px center; text-align:left; overflow:hidden;}
-.weizhi strong{ color:#f29600;}
-.weizhi span{margin-left:0px;}
+.weizhi_locations{ height:40px; line-height:40px; padding-left:34px; background:url(../../images/mobile/weizhi_locations.png) no-repeat 10px center; text-align:left; overflow:hidden;}
+.weizhi_locations strong{ color:#f29600;}
+.weizhi_locations span{margin-left:0px;}
 
 .h_20{height:20px;}
 

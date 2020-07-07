@@ -88,7 +88,7 @@ $(function(){
                 //提交数据的类型 POST GET
                 type:"POST",
                 //提交的网址
-                url:"/phonecomplate/",
+                url:"/phonecomplate",
                 //提交的数据
                 data:{"phoneno":phoneno,"host":host,"name":name,"note":note,"project_id":project_id,"cid":cid,"title":title,"cla":cla,"combrand":combrand},
                 //返回数据的格式

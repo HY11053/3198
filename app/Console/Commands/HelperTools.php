@@ -115,11 +115,22 @@ class HelperTools extends Command
                 $insertarticleinfo['updated_at'] = $article->updated_at;
                 $insertarticleinfo['flags'] = ($article->headline == 1) ? 'h' : '';
                 $extendnews = DB::connection('n3198')->select('select * from nx_news_extend where id = ?', [$article->id]);
-                $insertarticleinfo['litpic'] = $extendnews[0]->cover ? $extendnews[0]->cover : '';
+                $insertarticleinfo['litpic'] = $extendnews[0]->cover ? $extendnews[0]->cover : $this->getlitpic($extendnews[0]->content);
                 $insertarticleinfo['tags'] = $extendnews[0]->tag ? $extendnews[0]->tag : '';
                 $insertarticleinfo['body'] = $extendnews[0]->content;
-                $insertarticleinfo['keywords'] = str_limit($extendnews = DB::connection('n3198')->select('select * from nx_seos where tid = ? and `type`= ?', [$article->id, 2])[0]->keyw, 60, '');
-                $insertarticleinfo['description'] = str_limit($extendnews = DB::connection('n3198')->select('select * from nx_seos where tid = ? and `type`= ?', [$article->id, 2])[0]->des, 150, '');
+                $keywords = str_limit($extendnews = DB::connection('n3198')->select('select * from nx_seos where tid = ? and `type`= ?', [$article->id, 2])[0]->keyw, 60, '');
+                if (empty($keywords)){
+                    $insertarticleinfo['keywords']=$insertarticleinfo['title'];
+                }else{
+                    $insertarticleinfo['keywords']=$keywords;
+                }
+                $description= str_limit($extendnews = DB::connection('n3198')->select('select * from nx_seos where tid = ? and `type`= ?', [$article->id, 2])[0]->des, 150, '');
+                if (mb_strlen(strip_tags($description), 'utf-8') > 60 ){
+                    $insertarticleinfo['description'] =$description;
+                }else{
+                    $insertarticleinfo['description']=$this->getDescriptions($insertarticleinfo['body']);
+                }
+
                 Archive::create($insertarticleinfo);
             }
         }
@@ -155,7 +166,6 @@ class HelperTools extends Command
                 $insertarticleinfo['published_at'] = strtotime($article->created_at) > 0 ? $article->created_at : Carbon::now();
                 $insertarticleinfo['updated_at'] = $article->updated_at;
                 $extendbrands = DB::connection('n3198')->select('select * from nx_pro_extend where id = ?', [$article->id]);
-                $insertarticleinfo['litpic'] = $extendbrands[0]->cover ? $extendbrands[0]->cover : '';
                 $inserarticle['imagepic'] = \GuzzleHttp\json_decode($extendbrands[0]->pics);
                 $insertarticleinfo['imagepics'] = '';
                 for ($j = 0; $j < count($inserarticle['imagepic']); $j++) {
@@ -185,8 +195,20 @@ class HelperTools extends Command
                 $insertarticleinfo['body'] = $brandinfo . $tzhb . $tzfa . $cgal . $profit . $join_in;
                 $insertarticleinfo['title'] = str_limit($extendnews = DB::connection('n3198')->select('select * from nx_seos where tid = ? and `type`= ?', [$article->id, 1])[0]->title, 60, '');
                 $insertarticleinfo['title'] = $insertarticleinfo['title'] ? $insertarticleinfo['title'] : $insertarticleinfo['brandname'];
-                $insertarticleinfo['keywords'] = str_limit($extendnews = DB::connection('n3198')->select('select * from nx_seos where tid = ? and `type`= ?', [$article->id, 1])[0]->keyw, 60, '');
-                $insertarticleinfo['description'] = str_limit($extendnews = DB::connection('n3198')->select('select * from nx_seos where tid = ? and `type`= ?', [$article->id, 1])[0]->des, 150, '');
+                $insertarticleinfo['litpic'] = $extendbrands[0]->cover ? $extendbrands[0]->cover : $this->getlitpic($insertarticleinfo['body']);
+                $keywords = str_limit($extendnews = DB::connection('n3198')->select('select * from nx_seos where tid = ? and `type`= ?', [$article->id, 1])[0]->keyw, 60, '');
+                if (empty($keywords)){
+                    $insertarticleinfo['keywords']=$insertarticleinfo['title'];
+                }else{
+                    $insertarticleinfo['keywords']=$keywords;
+                }
+
+                $description = str_limit($extendnews = DB::connection('n3198')->select('select * from nx_seos where tid = ? and `type`= ?', [$article->id, 1])[0]->des, 150, '');
+                if (mb_strlen(strip_tags($description), 'utf-8') > 60 ){
+                    $insertarticleinfo['description'] =$description;
+                }else{
+                    $insertarticleinfo['description']=$this->getDescriptions($insertarticleinfo['body']);
+                }
                 //dd($insertarticleinfo);
                 Brandarticle::create($insertarticleinfo);
             }
@@ -221,11 +243,21 @@ class HelperTools extends Command
                 $insertarticleinfo['updated_at'] = $know->updated_at;
                 $insertarticleinfo['flags'] = ($know->headline == 1) ? 'h' : '';
                 $extendknows = DB::connection('n3198')->select('select * from nx_know_extend where id = ?', [$know->id]);
-                $insertarticleinfo['litpic'] = $extendknows[0]->cover ? $extendknows[0]->cover : '';
+                $insertarticleinfo['litpic'] = $extendknows[0]->cover ? $extendknows[0]->cover : $this->getlitpic($extendknows[0]->content);
                 $insertarticleinfo['tags'] = $extendknows[0]->tag ? str_limit($extendknows[0]->tag,80,'') : '';
                 $insertarticleinfo['body'] = $extendknows[0]->content;
-                $insertarticleinfo['description'] = str_limit($extendknows[0]->info,80,'');
-                $insertarticleinfo['keywords'] =$know->name;
+                $description = str_limit($extendknows[0]->info,80,'');
+                if (mb_strlen(strip_tags($description), 'utf-8') > 60 ){
+                    $insertarticleinfo['description'] =$description;
+                }else{
+                    $insertarticleinfo['description']=$this->getDescriptions($insertarticleinfo['body']);
+                }
+                $keywords =$know->name;
+                if (empty($keywords)){
+                    $insertarticleinfo['keywords']=$insertarticleinfo['title'];
+                }else{
+                    $insertarticleinfo['keywords']=$keywords;
+                }
                 KnowedgeNew::create($insertarticleinfo);
             }
 
@@ -265,4 +297,24 @@ class HelperTools extends Command
         //return $content;
     }
 
+    /**缩略图处理
+     * @param $content
+     * @return mixed|string
+     */
+    private function getlitpic($content){
+        if(preg_match('/<[img|IMG].*?src=[\' | \"](.*?(?:[\.jpg|\.jpeg|\.png|\.gif|\.bmp]))[\'|\"].*?[\/]?>/i',$content,$match)){
+            $litpic=$match[1];
+        }else{
+            $litpic='';
+        }
+        return $litpic;
+    }
+
+    /**文档描述处理
+     * @param $content
+     * @return string
+     */
+    private function getDescriptions($content){
+       return str_limit(str_replace(['&nbsp;',' ','　',PHP_EOL,"\t"],'',strip_tags(htmlspecialchars_decode($content))), $limit = 180, $end = '');
+    }
 }

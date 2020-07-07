@@ -1,9 +1,9 @@
 @charset "utf-8";
 /* CSS Document */
 
-.weizhi{ width:1000px; margin:0 auto 20px auto; }
+.weizhi_locations{ width:1000px; margin:0 auto 20px auto; }
 .bk {border-color: #d81f13 #e2e2e2 #e2e2e2;border-style: solid;border-width: 2px 1px 1px;}
-.weizhi span {    background: #f2f2f2 url(../images/crumbs_pic.gif) no-repeat scroll 14px center;border-left: 1px solid #fff;border-right: 1px solid #fff;display: block;height: 32px;line-height: 32px;padding-left: 35px;}
+.weizhi_locations span {    background: #f2f2f2 url(../images/crumbs_pic.gif) no-repeat scroll 14px center;border-left: 1px solid #fff;border-right: 1px solid #fff;display: block;height: 32px;line-height: 32px;padding-left: 35px;}
 
 .search_logo{ float:left; padding-top:38px}
 

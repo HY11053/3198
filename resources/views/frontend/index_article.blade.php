@@ -19,7 +19,7 @@
 @stop
 @section('main')
     <div class="box clearfix" style="position:relative;">
-        <div class="weizhi1"><span><a href="/">{{config('app.indexname')}}</a>&gt;<a>加盟资讯</a></span></div>
+        <div class="weizhi_locations1"><span><a href="/">{{config('app.indexname')}}</a>&gt;<a href="/{{$catepath}}">@if($catepath=='news')加盟资讯 @else 加盟知识 @endif</a></span></div>
         <div class="w720" style="overflow:hidden;">
             <div class="lb_huandeng">
                 <div class="h2">最新资讯</div>
@@ -58,7 +58,7 @@
 
             <div class="clearfix w7201">
                 @foreach($listcollections as $typename=>$listcollection)
-                <div class="zx_ullb1">
+                <div class="zx_3198ullb1">
                     <div class="h2"><a href="/{{$catepath}}/{{$thisTypeinfos->real_path}}/{{\App\AdminModel\Arctype::where('typename',$typename)->value('id')}}">{{$typename}}</a></div>
                     <ul>
                         @foreach($listcollection as $articlecollection)
@@ -74,7 +74,7 @@
                 @endforeach
                 <script type="text/javascript">
                     $(function(){
-                        $('.zx_ullb1 ul li:first-child').addClass('bold');
+                        $('.zx_3198ullb1 ul li:first-child').addClass('bold');
                     });
                 </script>
             </div>

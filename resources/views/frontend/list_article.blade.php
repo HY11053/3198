@@ -19,10 +19,10 @@
 @stop
 @section('main')
     <div class="box clearfix" style="position:relative;">
-        <div class="weizhi1">
+        <div class="weizhi_locations1">
 	<span>
 		<a href="/">{{config('app.indexname')}}</a>&gt;
-		<a href="/{{$catepath}}">加盟资讯</a>&gt;
+		<a href="/{{$catepath}}">@if($catepath=='news')加盟资讯 @else 加盟知识 @endif</a>&gt;
 		<a href="/{{$catepath}}/{{$thisTypeTopInfo->real_path}}">{{$thisTypeTopInfo->typename}}</a>&gt;
 		<a>{{$thisTypeinfos->typename}}</a>
 	</span></div>

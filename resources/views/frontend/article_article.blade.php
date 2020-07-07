@@ -25,7 +25,8 @@
     </style>
     <!--主体开始-->
     <div class="main">
-        <div class="weizhi1"><span><a href="/">{{config('app.indexname')}}</a>&gt;<a href="/{{$path}}">加盟资讯</a>&gt;@if($thisArticleTopTypeInfo) <a href="/news/{{$thisArticleTopTypeInfo->real_path}}">{{$thisArticleTopTypeInfo->typename}}</a> &gt; <a href="/{{$path}}/{{$thisArticleTopTypeInfo->real_path}}/{{$thisArticleTypeInfo->id}}">{{$thisArticleTypeInfo->typename}}</a> @endif &gt;<a>正文</a></span></div>
+        <div class="weizhi_locations1"><span>
+                <a href="/">{{config('app.indexname')}}</a>&gt;<a href="/{{$path}}">@if($path=='news')加盟资讯 @else 加盟知识 @endif</a>&gt;@if($thisArticleTopTypeInfo) <a href="/{{$path}}/{{$thisArticleTopTypeInfo->real_path}}">{{$thisArticleTopTypeInfo->typename}}</a> &gt; <a href="/{{$path}}/{{$thisArticleTopTypeInfo->real_path}}/{{$thisArticleTypeInfo->id}}">{{$thisArticleTypeInfo->typename}}</a> @endif &gt;</span></div>
         @if($thisBrandArticleInfos)
             <div class="ny-yop">
             <div class="ny-yop-l">
@@ -136,15 +137,44 @@
                     </div>
                 </div>
                 <div class="clearfix  nyxj-bady">
-                    {!! $thisArticleInfos->body !!}
+                    @php
+                        $content=preg_replace(["/style=.+?['|\"]/i","/width=.+?['|\"]/i","/height=.+?['|\"]/i"],'',$thisArticleInfos->body);
+                       $content=str_replace(PHP_EOL,'',$content);
+                       $content=str_replace(['<p >','<strong >','<br >','<br />'],['<p>','<strong>','<br>','<br/>'],$content);
+                       $content=str_replace(
+                       [
+                       '<p><strong><br/></strong></p>',
+                       '<p><strong><br></strong></p>',
+                       '<p><br></p>',
+                       '<p><br/></p>',
+                       '　　'
+                       ],'',$content
+                       );
+                        $content=str_replace(["\r","\t",'<span >　　</span>','&nbsp;','　','bgcolor="#FFFFFF"'],'',$content);
+                        $content=str_replace(["<br  /><br  />"],'<br/>',$content);
+                        $content=str_replace(["<br/><br/>"],'<br/>',$content);
+                        $content=str_replace(["<br/> <br/>"],'<br/>',$content);
+                        $content=str_replace(["<br />　　<br />"],'<br/>',$content);
+                        $content=str_replace(["<br/>　　<br/>"],'<br/>',$content);
+                        $content=str_replace(["<br /><br />"],'<br/>',$content);
+                       $pattens=array(
+                       "#<p>[\s| |　]?<strong>[\s| |　]?</strong></p>#",
+                       "#<p>[\s| |　]?<strong>[\s| |　]+</strong></p>#",
+                       "#<p>[\s| |　]+<strong>[\s| |　]+</strong></p>#",
+                       "#<p>[\s| |　]?</p>#",
+                       "#<p>[\s| |　]+</p>#"
+                       );
+                       $content=preg_replace($pattens,'',$content);
+                       echo $content;
+                    @endphp
                     <div class="dingcai clearfix">
                         <a class="news_ding" href="javascript:void(0);">
                             <strong>顶</strong>
-                            <span class="ding">0</span>
+                            <span class="ding">{{$thisArticleInfos->like}}</span>
                         </a>
                         <a class="news_cai" href="javascript:void(0);">
                             <strong>顶</strong>
-                            <span class="cai">0</span>
+                            <span class="cai">{{$thisArticleInfos->unlike}}</span>
                         </a>
                     </div>
                     @include('frontend.liuyan2')
@@ -154,7 +184,6 @@
             <link href="/public/css/vote.css" rel="stylesheet" type="text/css" />
             <div class="clear"></div>
             @include('frontend.liuyan3')
-
         </div>
         @if(!empty($thisBrandArticleInfos))
             @include('frontend.brand_right')
@@ -164,24 +193,7 @@
 
     </div>
     <div class="clearfix"></div>
-    <script>
-        function check() {
-            var truename = document.getElementById("truename").value;
-            var telephone = document.getElementById("telephone").value;
-            var content = document.getElementById("content").value;
-            if(truename.length
-                < 2) {
-                alert('请填写姓名');
-                document.getElementById("truename").focus();
-                return false;
-            }
-            if(telephone.length < 7) {
-                alert('请填写联系电话');
-                document.getElementById("telephone").focus();
-                return false;
-            }
-            var f;
-        }
-    </script>
+    <script type="text/javascript" src="/public/js/ceshi.js"></script>
+    <script type="text/javascript" src="/public/js/vote.js"></script>
 @stop
 
